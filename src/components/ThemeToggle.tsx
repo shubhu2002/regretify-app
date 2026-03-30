@@ -25,7 +25,7 @@ export default function ThemeToggle() {
 	return (
 		<button
 			onClick={toggleTheme}
-			className='relative p-2.5 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50/80 dark:bg-slate-900/80 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-500 dark:text-slate-400 transition-colors shadow-sm overflow-hidden'
+			className='relative p-2 sm:p-2.5 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50/80 dark:bg-slate-900/80 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-500 dark:text-slate-400 transition-colors shadow-sm overflow-hidden'
 			title={`Theme: ${resolvedTheme}`}
 		>
 			<AnimatePresence mode='wait'>

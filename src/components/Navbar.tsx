@@ -47,7 +47,7 @@ export default function Navbar() {
 		<>
 			<nav className='sticky top-0 z-50 w-full bg-white/70 dark:bg-slate-950/70 backdrop-blur-xl border-b border-slate-200 dark:border-slate-800'>
 				<div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8'>
-					<div className='flex justify-between items-center h-20'>
+					<div className='flex justify-between items-center h-14 sm:h-20'>
 						{/* Logo */}
 						<Link
 							href='/'
@@ -59,11 +59,11 @@ export default function Navbar() {
 								className='bg-white dark:bg-slate-800 p-2 border border-slate-200 dark:border-slate-700 rounded-xl shadow-sm text-violet-600 dark:text-violet-400'
 							>
 								<Ghost
-									size={24}
 									strokeWidth={2}
+									className='size-4 sm:size-6'
 								/>
 							</motion.div>
-							<span className='text-2xl font-extrabold text-slate-900 dark:text-white tracking-tight'>
+							<span className='text-xl sm:text-2xl font-extrabold text-slate-900 dark:text-white tracking-tight'>
 								Regretify
 							</span>
 						</Link>
@@ -103,7 +103,7 @@ export default function Navbar() {
 									{/* Profile pill */}
 									<Link
 										href='/profile'
-										className='flex items-center gap-2 p-1.5 pr-4 bg-violet-50/60 dark:bg-violet-900/20 border border-violet-100 dark:border-violet-800/30 rounded-full shadow-sm hover:bg-violet-100/60 dark:hover:bg-violet-800/30 transition-all'
+										className='flex items-center gap-2 p-1 sm:p-1.5 sm:pr-4 bg-violet-50/60 dark:bg-violet-900/20 border border-violet-100 dark:border-violet-800/30 rounded-full shadow-sm hover:bg-violet-100/60 dark:hover:bg-violet-800/30 transition-all'
 									>
 										{/* eslint-disable-next-line @next/next/no-img-element */}
 										<img

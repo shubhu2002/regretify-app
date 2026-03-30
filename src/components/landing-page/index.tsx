@@ -21,6 +21,7 @@ import {
 	FileText,
 	LucideProps,
 } from 'lucide-react';
+import { FaGithub, FaTwitter, FaLinkedin } from 'react-icons/fa';
 import {
 	useState,
 	useRef,
@@ -83,7 +84,7 @@ export default function LandingPage() {
 			</div>
 
 			{/* ─── Hero ─── */}
-			<section className='relative z-10 flex flex-col items-center justify-center text-center px-6 pt-24 pb-20'>
+			<section className='relative z-10 flex flex-col items-center justify-center text-center px-6 pt-16 sm:pt-24 pb-20 min-h-screen'>
 				<motion.div
 					initial={{ scale: 0.8, opacity: 0 }}
 					animate={{ scale: 1, opacity: 1 }}
@@ -103,7 +104,7 @@ export default function LandingPage() {
 					transition={{ duration: 0.8, ease: 'easeOut' }}
 					className='max-w-4xl mx-auto'
 				>
-					<h1 className='text-5xl md:text-7xl font-extrabold tracking-tight mb-6 text-slate-900 dark:text-white leading-[1.1]'>
+					<h1 className='text-4xl md:text-7xl font-extrabold tracking-tight mb-6 text-slate-900 dark:text-white leading-[1.1]'>
 						Track Every Terrible <br className='hidden md:block' />
 						<span className='bg-clip-text text-transparent bg-linear-to-r from-violet-600 to-fuchsia-600 dark:from-violet-400 dark:to-fuchsia-400'>
 							Financial Decision
@@ -125,7 +126,7 @@ export default function LandingPage() {
 									router.push('/dashboard')
 								:	setIsAuthOpen(true)
 							}
-							className='bg-violet-600 hover:bg-violet-700 text-white shadow-lg shadow-violet-600/30 px-8 py-4 rounded-xl font-semibold text-lg flex items-center gap-2 transition-all'
+							className='bg-violet-600 hover:bg-violet-700 text-white shadow-lg shadow-violet-600/30 px-6 py-3 rounded-xl font-semibold text-lg flex items-center gap-2 transition-all'
 						>
 							{session ? 'Go to Dashboard' : 'Start Regretting'}{' '}
 							<ArrowRight size={20} />
@@ -135,7 +136,7 @@ export default function LandingPage() {
 							whileTap={{ scale: 0.97 }}
 							href='#features'
 							onClick={(e) => handleSmooth(e, 'features')}
-							className='bg-white dark:bg-slate-900 text-slate-900 dark:text-white border border-slate-200 dark:border-slate-800 px-8 py-4 rounded-xl font-semibold text-lg flex items-center gap-2 shadow-sm hover:shadow-md transition-all'
+							className='bg-white dark:bg-slate-900 text-slate-900 dark:text-white border border-slate-200 dark:border-slate-800 px-6 py-3 rounded-xl font-semibold text-lg flex items-center gap-2 shadow-sm hover:shadow-md transition-all'
 						>
 							See Features
 						</motion.a>
@@ -171,7 +172,7 @@ export default function LandingPage() {
 						label='Regretful Users'
 						icon={
 							<Users
-								size={22}
+								size={32}
 								className='text-violet-500'
 							/>
 						}
@@ -182,7 +183,7 @@ export default function LandingPage() {
 						label='Transactions Saved'
 						icon={
 							<Receipt
-								size={22}
+								size={32}
 								className='text-fuchsia-500'
 							/>
 						}
@@ -193,7 +194,7 @@ export default function LandingPage() {
 						label='Users Cry Less'
 						icon={
 							<HeartCrack
-								size={22}
+								size={32}
 								className='text-rose-400'
 							/>
 						}
@@ -204,7 +205,7 @@ export default function LandingPage() {
 			{/* ─── Features ─── */}
 			<section
 				id='features'
-				className='relative z-10 py-24 px-6'
+				className='relative z-10 py-24 px-[4%] sm:px-6'
 			>
 				<div className='max-w-6xl mx-auto'>
 					<motion.div
@@ -301,7 +302,7 @@ export default function LandingPage() {
 			</section>
 
 			{/* ─── How it works ─── */}
-			<section className='relative z-10 py-20 px-6 bg-white/50 dark:bg-slate-900/50 backdrop-blur-xl border-y border-slate-200 dark:border-slate-800'>
+			<section className='relative z-10 py-20 px-[4%] sm:px-6 bg-white/50 dark:bg-slate-900/50 backdrop-blur-xl border-y border-slate-200 dark:border-slate-800'>
 				<div className='max-w-5xl mx-auto text-center'>
 					<motion.div
 						initial={{ opacity: 0, y: 20 }}
@@ -367,7 +368,7 @@ export default function LandingPage() {
 			</section>
 
 			{/* ─── Testimonials ─── */}
-			<section className='relative z-10 py-24 px-6'>
+			<section className='relative z-10 py-24 px-[4%] sm:px-6'>
 				<div className='max-w-6xl mx-auto'>
 					<motion.div
 						initial={{ opacity: 0, y: 20 }}
@@ -472,7 +473,7 @@ export default function LandingPage() {
 								router.push('/dashboard')
 							:	setIsAuthOpen(true)
 						}
-						className='bg-white text-violet-700 font-bold px-8 py-4 rounded-xl text-lg shadow-lg hover:shadow-xl transition-all flex items-center gap-2 mx-auto'
+						className='bg-white text-violet-700 font-bold px-6 py-3 rounded-xl text-lg shadow-lg hover:shadow-xl transition-all flex items-center gap-2 mx-auto'
 					>
 						{session ? 'Go to Dashboard' : 'Get Started Free'}{' '}
 						<ArrowRight size={20} />
@@ -481,32 +482,65 @@ export default function LandingPage() {
 			</section>
 
 			{/* ─── Footer ─── */}
-			<footer className='relative z-10 border-t border-slate-200 dark:border-slate-800 bg-white/60 dark:bg-slate-950/60 backdrop-blur-xl py-10 px-6'>
-				<div className='max-w-6xl mx-auto flex flex-col items-center gap-4 text-center'>
-					<div className='flex items-center gap-2'>
-						<div className='bg-white dark:bg-slate-800 p-2 border border-slate-200 dark:border-slate-700 rounded-xl shadow-sm text-violet-600 dark:text-violet-400'>
-							<Ghost size={20} />
+			<footer className='relative z-10 border-t border-slate-200 dark:border-slate-800 bg-white/60 dark:bg-slate-950/60 backdrop-blur-xl pt-10 pb-6 px-[4%] sm:px-6'>
+				<div className='max-w-6xl mx-auto flex flex-col sm:flex-row  sm:justify-between items-center sm:items-end gap-4 text-center'>
+					<div className='text-center sm:text-left flex flex-col items-center sm:items-start'>
+						<div className='flex items-center gap-2 mb-4'>
+							<div className='bg-white dark:bg-slate-800 p-2 border border-slate-200 dark:border-slate-700 rounded-xl shadow-sm text-violet-600 dark:text-violet-400'>
+								<Ghost size={20} />
+							</div>
+							<span className='text-xl font-extrabold text-slate-900 dark:text-white tracking-tight'>
+								Regretify
+							</span>
 						</div>
-						<span className='text-xl font-extrabold text-slate-900 dark:text-white tracking-tight'>
-							Regretify
-						</span>
+						<p className='text-slate-500 dark:text-slate-400 text-sm'>
+							Track regrets. Learn nothing. Repeat.
+							<br />
+							Your financial therapy, one dashboard at a time.
+						</p>
 					</div>
-					<p className='text-slate-500 dark:text-slate-400 text-sm'>
-						Track regrets. Learn nothing. Repeat.
-						<br />
-						Your financial therapy, one dashboard at a time.
-					</p>
-					<div className='w-16 h-px bg-slate-200 dark:bg-slate-700' />
-					<p className='text-slate-400 dark:text-slate-500 text-sm'>
-						&copy; {new Date().getFullYear()} Regretify. All rights
-						reserved.
-					</p>
-					<p className='text-slate-400 dark:text-slate-500 text-xs'>
-						Designed &amp; Developed with 💜 by{' '}
-						<span className='font-semibold text-violet-600 dark:text-violet-400'>
-							Shubhanshu Saxena
-						</span>
-					</p>
+					<div className='sm:hidden w-16 h-px bg-slate-200 dark:bg-slate-700 mt-2' />
+					<div>
+						<div className='flex items-center justify-center gap-3 mb-2'>
+							<div
+								// href='https://github.com/shubhu2002'
+								// target='_blank'
+								// rel='noopener noreferrer'
+								className='p-2 rounded-lg  text-slate-500 dark:text-slate-400 hover:text-violet-600 dark:hover:text-violet-400 hover:border-violet-400 transition-all'
+							>
+								<FaGithub size={16} />
+							</div>
+
+							<div
+								// href='https://twitter.com/your-username'
+								// target='_blank'
+								// rel='noopener noreferrer'
+								className='p-2 rounded-lg  text-slate-500 dark:text-slate-400 hover:text-violet-600 dark:hover:text-violet-400 hover:border-violet-400 transition-all'
+							>
+								<FaTwitter size={16} />
+							</div>
+
+							<div
+								// href='https://linkedin.com/in/your-username'
+								// target='_blank'
+								// rel='noopener noreferrer'
+								className='p-2 rounded-lg  text-slate-500 dark:text-slate-400 hover:text-violet-600 dark:hover:text-violet-400 hover:border-violet-400 transition-all'
+							>
+								<FaLinkedin size={16} />
+							</div>
+						</div>
+
+						<p className='text-slate-400 dark:text-slate-500 text-sm'>
+							&copy; {new Date().getFullYear()} Regretify. All
+							rights reserved.
+						</p>
+						<p className='text-slate-400 dark:text-slate-500 text-xs mt-1'>
+							Designed &amp; Developed with 💜 by{' '}
+							<span className='font-semibold text-violet-600 dark:text-violet-400'>
+								Shubhanshu Saxena
+							</span>
+						</p>
+					</div>
 				</div>
 			</footer>
 

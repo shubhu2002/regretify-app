@@ -161,8 +161,8 @@ export default function Dashboard({ session }: { session: Session }) {
 
 				{/* Charts Layout */}
 				<div className='grid grid-cols-1 lg:grid-cols-3 gap-6 relative z-10'>
-					<div className='lg:col-span-2 bg-violet-50/60 backdrop-blur-xl dark:bg-violet-900/20 border border-violet-100 dark:border-violet-800/30 rounded-3xl p-6 min-h-100 shadow-sm flex flex-col'>
-						<h3 className='text-lg font-semibold mb-6 text-slate-800 dark:text-slate-200'>
+					<div className='lg:col-span-2 bg-violet-50/60 backdrop-blur-xl dark:bg-violet-900/20 border border-violet-100 dark:border-violet-800/30 rounded-3xl px-2 py-4 sm:p-6 min-h-100 shadow-sm flex flex-col'>
+						<h3 className='text-lg font-semibold mb-6 text-slate-800 dark:text-slate-200 px-4'>
 							Expense Over Time
 						</h3>
 						<div className='flex-1 relative'>
@@ -172,7 +172,7 @@ export default function Dashboard({ session }: { session: Session }) {
 						</div>
 					</div>
 
-					<div className='bg-fuchsia-50/60 backdrop-blur-xl dark:bg-fuchsia-900/10 border border-fuchsia-100 dark:border-fuchsia-800/20 rounded-3xl p-6 min-h-100 shadow-sm flex flex-col'>
+					<div className='bg-fuchsia-50/60 backdrop-blur-xl dark:bg-fuchsia-900/10 border border-fuchsia-100 dark:border-fuchsia-800/20 rounded-3xl p-4 sm:p-6 min-h-100 shadow-sm flex flex-col'>
 						<h3 className='text-lg font-semibold mb-6 text-slate-800 dark:text-slate-200'>
 							Categories
 						</h3>
