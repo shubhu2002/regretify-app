@@ -232,7 +232,7 @@ export default function TransactionsTable({
 	return (
 		<motion.div
 			layout
-			className='bg-violet-50/60 backdrop-blur-xl dark:bg-violet-900/20 border border-violet-100 dark:border-violet-800/30 rounded-3xl p-6 shadow-sm mt-6 relative z-10'
+			className='bg-violet-50/60 backdrop-blur-xl dark:bg-violet-900/20 border border-violet-100 dark:border-violet-800/30 rounded-3xl p-4 sm:p-6 shadow-sm mt-6 relative z-10'
 		>
 			<div className='flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6'>
 				<h3 className='text-xl font-bold bg-clip-text text-transparent bg-linear-to-r from-violet-600 to-fuchsia-600 dark:from-violet-400 dark:to-fuchsia-400'>
@@ -257,10 +257,10 @@ export default function TransactionsTable({
 						/>
 					</div>
 
-					<div className='relative w-full sm:w-auto flex flex-wrap items-center gap-2'>
+					<div className='relative w-full sm:w-auto flex items-center gap-1 sm:gap-2'>
 						<Filter
 							size={16}
-							className='text-slate-400 hidden lg:block'
+							className='text-slate-400 hidden sm:block'
 						/>
 						<select
 							value={filterMonth}
@@ -268,7 +268,7 @@ export default function TransactionsTable({
 								setFilterMonth(e.target.value);
 								setCurrentPage(1);
 							}}
-							className='w-full sm:w-auto px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/50 text-slate-900 dark:text-white focus:ring-2 focus:ring-violet-500 outline-none text-sm appearance-none cursor-pointer relative'
+							className='w-full flex-1 sm:w-auto text-center items-center px-2 py-1.5 sm:px-3 sm:py-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/50 text-slate-900 dark:text-white focus:ring-2 focus:ring-violet-500 outline-none text-sm appearance-none cursor-pointer relative'
 						>
 							<option value='all'>All Months</option>
 							{[
@@ -305,7 +305,7 @@ export default function TransactionsTable({
 								);
 								setCurrentPage(1);
 							}}
-							className='w-full sm:w-auto px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/50 text-slate-900 dark:text-white focus:ring-2 focus:ring-violet-500 outline-none text-sm appearance-none cursor-pointer'
+							className='w-full flex-1 sm:w-auto text-center items-center px-2 py-1.5 sm:px-3 sm:py-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/50 text-slate-900 dark:text-white focus:ring-2 focus:ring-violet-500 outline-none text-sm appearance-none cursor-pointer'
 						>
 							<option value='all'>All Types</option>
 							<option value='income'>Incomes Only</option>
@@ -314,13 +314,13 @@ export default function TransactionsTable({
 
 						<button
 							onClick={exportToPDF}
-							className='w-full sm:w-auto flex items-center justify-center gap-2 group px-4 py-2 bg-indigo-50 dark:bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 border border-indigo-200 dark:border-indigo-500/20 hover:bg-indigo-100 dark:hover:bg-indigo-500/20 rounded-xl text-sm font-semibold transition-all active:scale-95'
+							className='w-full flex-1 sm:w-auto flex items-center justify-center gap-2 group px-2 py-1.5 sm:px-3 sm:py-2 bg-indigo-50 dark:bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 border border-indigo-200 dark:border-indigo-500/20 hover:bg-indigo-100 dark:hover:bg-indigo-500/20 rounded-xl text-sm font-semibold transition-all active:scale-95'
 						>
 							<Download
 								size={16}
 								className='group-hover:-translate-y-0.5 transition-transform'
 							/>
-							Export PDF
+							Export
 						</button>
 					</div>
 				</div>
