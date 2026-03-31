@@ -31,7 +31,7 @@ const EXPENSE_CATEGORIES = [
 	'Other',
 ];
 const PAYMENT_TYPES = ['Cash', 'Credit Card', 'UPI', 'Debit Card', 'Other'];
-const INCOME_SOURCES = ['Salary', 'Freelance', 'Gift', 'Investment', 'Other'];
+const INCOME_SOURCES = ['Salary', 'Gifts', 'Investment Return', 'Freelance'];
 
 export default function AddTransactionModal({
 	isOpen,
@@ -48,7 +48,14 @@ export default function AddTransactionModal({
 	const [categorySource, setCategorySource] = useState('');
 	const [otherCategory, setOtherCategory] = useState('');
 	const [paymentType, setPaymentType] = useState(PAYMENT_TYPES[0]);
-	const [date, setDate] = useState(new Date().toISOString().split('T')[0]);
+	const getLocalDateString = (d: Date = new Date()) => {
+		const year = d.getFullYear();
+		const month = String(d.getMonth() + 1).padStart(2, '0');
+		const day = String(d.getDate()).padStart(2, '0');
+		return `${year}-${month}-${day}`;
+	};
+
+	const [date, setDate] = useState(getLocalDateString());
 
 	const resetForm = () => {
 		setAmount('');
@@ -56,7 +63,7 @@ export default function AddTransactionModal({
 		setCategorySource('');
 		setOtherCategory('');
 		setPaymentType(PAYMENT_TYPES[0]);
-		setDate(new Date().toISOString().split('T')[0]);
+		setDate(getLocalDateString());
 	};
 
 	useEffect(() => {
@@ -76,13 +83,14 @@ export default function AddTransactionModal({
 					setCategorySource(isStandard ? editItem.title : 'Other');
 					if (!isStandard) setOtherCategory(editItem.title);
 				}
-				setDate(new Date(editItem.date).toISOString().split('T')[0]);
+				setDate(getLocalDateString(new Date(editItem.date)));
 			} else {
 				resetForm();
 			}
 		}
 	}, [isOpen, editItem, type]);
 
+	
 	const handleSubmit = async (e: React.FormEvent) => {
 		e.preventDefault();
 		if (!amount) return;
@@ -107,10 +115,10 @@ export default function AddTransactionModal({
 				(type === 'expense' ? EXPENSE_CATEGORIES[0] : INCOME_SOURCES[0])
 			);
 
-		// Mix selected date with current time
-		const [year, month, day] = date.split('-');
-		const finalDateObj = new Date();
-		finalDateObj.setFullYear(Number(year), Number(month) - 1, Number(day));
+		// Process date in local time to avoid UTC day-shift
+		const [year, month, day] = date.split('-').map(Number);
+		// Set to midnight local time
+		const finalDateObj = new Date(year, month - 1, day, 12, 0, 0); // Use 12:00 PM local to be very safe against shifts
 		const finalDateStr = finalDateObj.toISOString();
 
 		try {
@@ -198,6 +206,13 @@ export default function AddTransactionModal({
 			return null;
 		}
 	}, [amount]);
+
+	const isInvalid = useMemo(() => {
+		if (!amount || !date || !categorySource) return true;
+		if (categorySource === 'Other' && !otherCategory) return true;
+		if (type === 'expense' && !name) return true;
+		return false;
+	}, [amount, date, categorySource, otherCategory, type, name]);
 
 	const inputCls =
 		'w-full px-4 py-3 text-base md:text-sm bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-violet-500 focus:bg-slate-50 dark:focus:bg-slate-800 shadow-sm transition-shadow outline-none text-slate-900 dark:text-white';
@@ -329,7 +344,7 @@ export default function AddTransactionModal({
 									<label className={labelCls}>
 										{type === 'expense' ?
 											'Excuse'
-										:	'Source'}
+											: 'Source'}
 									</label>
 									<select
 										value={categorySource}
@@ -345,11 +360,11 @@ export default function AddTransactionModal({
 											Select{' '}
 											{type === 'expense' ?
 												'Category'
-											:	'Source'}
+												: 'Source'}
 										</option>
 										{(type === 'expense' ?
 											EXPENSE_CATEGORIES
-										:	INCOME_SOURCES
+											: INCOME_SOURCES
 										).map((opt) => (
 											<option
 												key={opt}
@@ -421,16 +436,15 @@ export default function AddTransactionModal({
 									<motion.button
 										whileTap={{ scale: 0.98 }}
 										type='submit'
-										disabled={loading}
-										className={`w-full py-3 text-white rounded-xl font-medium text-lg flex items-center justify-center gap-2 shadow-sm transition-all disabled:opacity-70 hover:shadow-md ${
-											type === 'expense' ?
+										disabled={loading || isInvalid}
+										className={`w-full py-3 text-white rounded-xl font-medium text-lg flex items-center justify-center gap-2 shadow-sm transition-all disabled:opacity-50 disabled:cursor-not-allowed hover:shadow-md ${type === 'expense' ?
 												'bg-fuchsia-600 dark:bg-fuchsia-500 hover:bg-fuchsia-700'
-											:	'bg-emerald-600 dark:bg-emerald-500 hover:bg-emerald-700'
-										}`}
+												: 'bg-emerald-600 dark:bg-emerald-500 hover:bg-emerald-700'
+											}`}
 									>
 										{loading ?
 											<div className='h-5 w-5 border-2 border-slate-200 border-t-transparent rounded-full animate-spin' />
-										:	<>
+											: <>
 												<CheckCircle2
 													size={20}
 													strokeWidth={2}
@@ -438,7 +452,7 @@ export default function AddTransactionModal({
 												Save{' '}
 												{type === 'expense' ?
 													'Regret'
-												:	'Income'}
+													: 'Income'}
 											</>
 										}
 									</motion.button>
