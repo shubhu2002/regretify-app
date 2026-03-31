@@ -16,8 +16,59 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-	title: 'Regretify | Track your poor decisions',
-	description: 'A funny way to track how much money you regret spending.',
+	metadataBase: new URL('https://regretify-app.vercel.app'),
+	title: {
+		default: 'Regretify | Track Your Poor Decisions',
+		template: '%s | Regretify',
+	},
+	description:
+		'Regretify is a fun expense tracker that helps you see exactly how much money you regret spending. Log your regrets, track your impulse buys, and maybe — just maybe — spend smarter.',
+	keywords: [
+		'expense tracker',
+		'spending tracker',
+		'budget app',
+		'regret tracker',
+		'personal finance',
+		'money management',
+		'impulse buys',
+	],
+	authors: [{ name: 'Regretify' }],
+	creator: 'Regretify',
+	openGraph: {
+		type: 'website',
+		locale: 'en_IN',
+		url: 'https://regretify-app.vercel.app',
+		siteName: 'Regretify',
+		title: 'Regretify | Track Your Poor Decisions',
+		description:
+			'Log your spending regrets, track impulse buys, and see where your money went. A fun take on personal finance.',
+		images: [
+			{
+				url: '/og-image.png',
+				width: 1200,
+				height: 630,
+				alt: 'Regretify — Track your poor decisions',
+			},
+		],
+	},
+	twitter: {
+		card: 'summary_large_image',
+		title: 'Regretify | Track Your Poor Decisions',
+		description:
+			'Log your spending regrets, track impulse buys, and see where your money went. A fun take on personal finance.',
+		images: ['/og-image.png'],
+		creator: '@regretify',
+	},
+	robots: {
+		index: true,
+		follow: true,
+		googleBot: {
+			index: true,
+			follow: true,
+			'max-image-preview': 'large',
+			'max-snippet': -1,
+		},
+	},
 };
 
 export default function RootLayout({

@@ -253,7 +253,7 @@ export default function TransactionsTable({
 								setSearchTerm(e.target.value);
 								setCurrentPage(1);
 							}}
-							className='w-full sm:w-64 pl-9 pr-3 py-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/50 text-slate-900 dark:text-white focus:ring-2 focus:ring-violet-500 outline-none text-sm transition-all'
+							className='w-full sm:w-64 pl-9 pr-3 py-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/50 text-slate-900 dark:text-white focus:ring-2 focus:ring-violet-500 outline-none text-base md:text-sm transition-all'
 						/>
 					</div>
 
@@ -268,7 +268,7 @@ export default function TransactionsTable({
 								setFilterMonth(e.target.value);
 								setCurrentPage(1);
 							}}
-							className='w-full flex-1 sm:w-auto text-center items-center px-2 py-1.5 sm:px-3 sm:py-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/50 text-slate-900 dark:text-white focus:ring-2 focus:ring-violet-500 outline-none text-sm appearance-none cursor-pointer relative'
+							className='w-full flex-1 sm:w-auto text-center items-center px-2 py-1.5 sm:px-3 sm:py-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/50 text-slate-900 dark:text-white focus:ring-2 focus:ring-violet-500 outline-none text-base md:text-sm appearance-none cursor-pointer relative'
 						>
 							<option value='all'>All Months</option>
 							{[
@@ -305,7 +305,7 @@ export default function TransactionsTable({
 								);
 								setCurrentPage(1);
 							}}
-							className='w-full flex-1 sm:w-auto text-center items-center px-2 py-1.5 sm:px-3 sm:py-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/50 text-slate-900 dark:text-white focus:ring-2 focus:ring-violet-500 outline-none text-sm appearance-none cursor-pointer'
+							className='w-full flex-1 sm:w-auto text-center items-center px-2 py-1.5 sm:px-3 sm:py-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/50 text-slate-900 dark:text-white focus:ring-2 focus:ring-violet-500 outline-none text-base md:text-sm appearance-none cursor-pointer'
 						>
 							<option value='all'>All Types</option>
 							<option value='income'>Incomes Only</option>
@@ -326,9 +326,98 @@ export default function TransactionsTable({
 				</div>
 			</div>
 
+			{/* ── Mobile: Card List ── */}
+			<div className='md:hidden'>
+				<AnimatePresence mode='wait'>
+					<motion.div
+						key={tableKey}
+						initial={{ opacity: 0, y: 5 }}
+						animate={{ opacity: 1, y: 0 }}
+						exit={{ opacity: 0, y: -5 }}
+						transition={{ duration: 0.15 }}
+						className='space-y-2 '
+					>
+						{currentData.length > 0 ?
+							currentData.map((item) => (
+								<div
+									key={`${item.type}-${item.id}`}
+									className='bg-white/70 dark:bg-slate-800/50 backdrop-blur-sm rounded-2xl p-3 border border-violet-100 dark:border-violet-800/30 shadow-sm'
+								>
+									{/* Row 1: dot + title + amount */}
+									<div className='flex items-center justify-between gap-2'>
+										<div className='flex items-center gap-2 flex-1 min-w-0 overflow-hidden'>
+											<span
+												className={`w-2.5 h-2.5 rounded-full flex-shrink-0 ${item.type === 'income' ? 'bg-emerald-500' : 'bg-fuchsia-500'}`}
+											/>
+											<span className='font-semibold text-sm text-slate-900 dark:text-white truncate min-w-0'>
+												{item.title}
+											</span>
+										</div>
+										<span
+											className={`font-bold text-sm flex-shrink-0 ${item.type === 'income' ? 'text-emerald-600 dark:text-emerald-400' : 'text-rose-500 dark:text-rose-400'}`}
+										>
+											{item.type === 'income' ?
+												'+'
+											:	'-'}
+											₹{item.amount.toLocaleString()}
+										</span>
+									</div>
+
+									{/* Row 2: badges + date + actions */}
+									<div className='mt-2 flex items-center justify-between gap-2'>
+										<div className='flex flex-wrap items-center gap-1.5 min-w-0'>
+											<span className='px-2 py-0.5 rounded-md bg-slate-100 dark:bg-slate-700/70 text-slate-600 dark:text-slate-300 text-xs font-medium'>
+												{item.category}
+											</span>
+											{item.type === 'expense' &&
+												item.payment_type && (
+													<span className='px-2 py-0.5 rounded-md bg-slate-100 dark:bg-slate-700/70 text-slate-500 dark:text-slate-400 text-xs'>
+														{item.payment_type}
+													</span>
+												)}
+											<span className='text-xs text-slate-400 dark:text-slate-500'>
+												{format(
+													new Date(item.date),
+													'MMM dd, yy',
+												)}
+											</span>
+										</div>
+										<div className='flex items-center gap-1 flex-shrink-0'>
+											<button
+												onClick={() => onEdit(item)}
+												className='p-1.5 text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400 hover:bg-indigo-50 dark:hover:bg-indigo-900/30 rounded-lg transition-colors'
+												title='Edit'
+											>
+												<Edit2 size={14} />
+											</button>
+											<button
+												onClick={() =>
+													onDelete(
+														item.id,
+														item.type as any,
+													)
+												}
+												className='p-1.5 text-slate-400 hover:text-rose-600 dark:hover:text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-900/30 rounded-lg transition-colors'
+												title='Delete'
+											>
+												<Trash2 size={14} />
+											</button>
+										</div>
+									</div>
+								</div>
+							))
+						:	<div className='py-12 text-center text-slate-500 dark:text-slate-400 text-sm'>
+								No transactions found. Look at you go.
+							</div>
+						}
+					</motion.div>
+				</AnimatePresence>
+			</div>
+
+			{/* ── Desktop: Full Table ── */}
 			<motion.div
 				layout
-				className='overflow-x-auto rounded-xl border border-violet-100 dark:border-violet-800/30 shadow-sm bg-white/40 dark:bg-slate-950/40'
+				className='hidden md:block overflow-x-auto w-full rounded-xl border border-violet-100 dark:border-violet-800/30 shadow-sm bg-white/40 dark:bg-slate-950/40'
 			>
 				<table className='w-full text-left text-sm whitespace-nowrap'>
 					<thead className='bg-violet-100/50 dark:bg-violet-800/30 border-b border-violet-100 dark:border-violet-800/30 text-slate-500 dark:text-slate-400 uppercase text-xs font-semibold'>
@@ -351,9 +440,7 @@ export default function TransactionsTable({
 								</div>
 							</th>
 							<th className='px-4 py-3'>Excuse</th>
-							<th className='px-4 py-3 hidden sm:table-cell'>
-								Method
-							</th>
+							<th className='px-4 py-3'>Method</th>
 							<th
 								className='px-4 py-3 cursor-pointer hover:bg-slate-100/50 dark:hover:bg-slate-800/50 transition-colors text-right'
 								onClick={() => handleSort('amount')}
@@ -399,7 +486,7 @@ export default function TransactionsTable({
 												{item.category}
 											</span>
 										</td>
-										<td className='px-4 py-3 hidden sm:table-cell text-slate-500 dark:text-slate-400 font-medium capitalize'>
+										<td className='px-4 py-3 text-slate-500 dark:text-slate-400 font-medium capitalize'>
 											{item.payment_type}
 										</td>
 										<td
@@ -447,6 +534,7 @@ export default function TransactionsTable({
 				</table>
 			</motion.div>
 
+			{/* ── Pagination ── */}
 			<motion.div
 				layout
 				className='flex items-center justify-between mt-6'

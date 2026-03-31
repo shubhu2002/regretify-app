@@ -200,7 +200,7 @@ export default function AddTransactionModal({
 	}, [amount]);
 
 	const inputCls =
-		'w-full px-4 py-3 text-sm bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-violet-500 focus:bg-slate-50 dark:focus:bg-slate-800 shadow-sm transition-shadow outline-none text-slate-900 dark:text-white';
+		'w-full px-4 py-3 text-base md:text-sm bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-violet-500 focus:bg-slate-50 dark:focus:bg-slate-800 shadow-sm transition-shadow outline-none text-slate-900 dark:text-white';
 	const selectCls = `${inputCls} appearance-none font-medium`;
 	const labelCls =
 		'block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-1.5';
@@ -223,7 +223,7 @@ export default function AddTransactionModal({
 							onClick={(e) => e.stopPropagation()}
 							className='bg-fuchsia-50/90 backdrop-blur-2xl dark:bg-fuchsia-950/30 w-full max-w-md border border-fuchsia-100 dark:border-fuchsia-800/30 overflow-hidden rounded-3xl shadow-2xl'
 						>
-							<div className='p-6 border-b border-fuchsia-100 dark:border-fuchsia-800/30 flex justify-between items-center bg-violet-50/50 dark:bg-violet-900/20'>
+							<div className='p-4 sm:p-6 border-b border-fuchsia-100 dark:border-fuchsia-800/30 flex justify-between items-center bg-violet-50/50 dark:bg-violet-900/20'>
 								<h2 className='text-xl font-bold text-slate-900 dark:text-white flex items-center gap-2'>
 									<span
 										className={`w-3 h-3 rounded-full shadow-sm ${type === 'expense' ? 'bg-fuchsia-500' : 'bg-emerald-500'}`}
@@ -244,7 +244,7 @@ export default function AddTransactionModal({
 
 							<form
 								onSubmit={handleSubmit}
-								className='p-6 space-y-5 overflow-y-auto max-h-[75vh]'
+								className='p-4 sm:p-6 space-y-5 overflow-y-auto overflow-x-hidden md:overflow-x-visible max-h-[75vh]'
 							>
 								<div>
 									<label className={labelCls}>Amount</label>
@@ -260,7 +260,7 @@ export default function AddTransactionModal({
 											onChange={(e) =>
 												setAmount(e.target.value)
 											}
-											className='w-full pl-9 pr-4 py-3 bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-violet-500 focus:bg-slate-50 dark:focus:bg-slate-800 shadow-sm font-semibold text-lg transition-shadow outline-none text-slate-900 dark:text-white'
+											className='w-full pl-9 pr-4 py-3 bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-violet-500 focus:bg-slate-50 dark:focus:bg-slate-800 shadow-sm font-semibold text-base md:text-lg transition-shadow outline-none text-slate-900 dark:text-white'
 											placeholder='e.g. 120+12'
 										/>
 									</div>
@@ -406,13 +406,14 @@ export default function AddTransactionModal({
 								<div>
 									<label className={labelCls}>Date</label>
 									<input
-										type='date'
+										type="date"
 										required
 										value={date}
 										onChange={(e) =>
 											setDate(e.target.value)
 										}
-										className={`${inputCls} font-medium`}
+										inputMode="text"
+										className={`font-medium ${inputCls}`}
 									/>
 								</div>
 
