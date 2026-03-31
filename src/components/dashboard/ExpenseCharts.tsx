@@ -87,16 +87,9 @@ export function CategoriesChart({ expenses }: ExpenseChartsProps) {
 	const options: ChartOptions<'doughnut'> = {
 		responsive: true,
 		maintainAspectRatio: false,
-		layout: { padding: 10 },
+		layout: { padding: 8 },
 		plugins: {
-			legend: {
-				position: 'bottom',
-				labels: {
-					padding: 16,
-					usePointStyle: true,
-					font: { family: "'Geist', sans-serif", size: 12 },
-				},
-			},
+			legend: { display: false },
 			tooltip: {
 				backgroundColor: 'rgba(15, 23, 42, 0.95)',
 				padding: 12,
@@ -117,10 +110,42 @@ export function CategoriesChart({ expenses }: ExpenseChartsProps) {
 	};
 
 	return (
-		<Doughnut
-			data={data}
-			options={options}
-		/>
+		<div className='flex flex-col h-full gap-3'>
+			{/* Doughnut */}
+			<div className='relative flex-1 min-h-0'>
+				<Doughnut
+					data={data}
+					options={options}
+				/>
+			</div>
+
+			{/* Custom legend with amounts */}
+			<div className='space-y-1.5 grid grid-cols-2 gap-x-5 overflow-y-auto max-h-36 pr-1'>
+				{sorted.map(([cat, amt], i) => (
+					<div
+						key={cat}
+						className='flex items-center justify-between gap-2'
+					>
+						<div className='flex items-center gap-2 min-w-0'>
+							<span
+								className='w-2.5 h-2.5 rounded-full flex-shrink-0'
+								style={{
+									backgroundColor: COLORS[
+										i % COLORS.length
+									].replace('0.9)', '1)'),
+								}}
+							/>
+							<span className='text-sm text-slate-600 dark:text-slate-300 truncate'>
+								{cat}
+							</span>
+						</div>
+						<span className='text-sm font-semibold text-slate-700 dark:text-slate-200 flex-shrink-0 tabular-nums'>
+							₹{amt.toLocaleString('en-IN')}
+						</span>
+					</div>
+				))}
+			</div>
+		</div>
 	);
 }
 
