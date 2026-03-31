@@ -34,7 +34,7 @@ import { useRouter } from 'next/navigation';
 
 import AuthModal from './AuthModal';
 
-function useCounter(target: number, duration = 2000, inView = false) {
+function useCounter(target: number, duration = 1000, inView = false) {
 	const [count, setCount] = useState(0);
 	useEffect(() => {
 		if (!inView) return;
@@ -70,9 +70,9 @@ export default function LandingPage() {
 	const statsRef = useRef(null);
 	const statsInView = useInView(statsRef, { once: true });
 
-	const users = useCounter(2400, 2000, statsInView);
-	const transactions = useCounter(18500, 2000, statsInView);
-	const saved = useCounter(94, 2000, statsInView);
+	const users = useCounter(2400, 1000, statsInView);
+	const transactions = useCounter(18500, 1000, statsInView);
+	const saved = useCounter(94, 1000, statsInView);
 
 	return (
 		<div className='flex-1 flex flex-col bg-slate-50 dark:bg-slate-950 overflow-x-hidden'>
@@ -85,10 +85,7 @@ export default function LandingPage() {
 
 			{/* ─── Hero ─── */}
 			<section className='relative z-10 flex flex-col items-center justify-center text-center px-6 pt-16 sm:pt-24 pb-20 min-h-screen'>
-				<motion.div
-					initial={{ scale: 0.8, opacity: 0 }}
-					animate={{ scale: 1, opacity: 1 }}
-					transition={{ delay: 0.1, duration: 0.5 }}
+				<div
 					className='inline-flex items-center gap-2 px-4 py-2 bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-300 font-medium text-sm mb-8 border border-slate-200 dark:border-slate-800 shadow-sm rounded-full'
 				>
 					<span className='relative flex h-2 w-2'>
@@ -96,12 +93,10 @@ export default function LandingPage() {
 						<span className='relative inline-flex h-2 w-2 bg-violet-500 rounded-full' />
 					</span>
 					Next-Generation Financial Regret Tracker
-				</motion.div>
+				</div>
 
-				<motion.div
-					initial={{ opacity: 0, y: 30 }}
-					animate={{ opacity: 1, y: 0 }}
-					transition={{ duration: 0.8, ease: 'easeOut' }}
+				<div
+
 					className='max-w-4xl mx-auto'
 				>
 					<h1 className='text-4xl md:text-7xl font-extrabold tracking-tight mb-6 text-slate-900 dark:text-white leading-[1.1]'>
@@ -124,7 +119,7 @@ export default function LandingPage() {
 							onClick={() =>
 								session ?
 									router.push('/dashboard')
-								:	setIsAuthOpen(true)
+									: setIsAuthOpen(true)
 							}
 							className='bg-violet-600 hover:bg-violet-700 text-white shadow-lg shadow-violet-600/30 px-6 py-3 rounded-xl font-semibold text-lg flex items-center gap-2 transition-all'
 						>
@@ -141,7 +136,7 @@ export default function LandingPage() {
 							See Features
 						</motion.a>
 					</div>
-				</motion.div>
+				</div>
 
 				{/* Floating ghost */}
 				<motion.div
@@ -208,11 +203,7 @@ export default function LandingPage() {
 				className='relative z-10 py-24 px-[4%] sm:px-6'
 			>
 				<div className='max-w-6xl mx-auto'>
-					<motion.div
-						initial={{ opacity: 0, y: 20 }}
-						whileInView={{ opacity: 1, y: 0 }}
-						viewport={{ once: true }}
-						transition={{ duration: 0.6 }}
+					<div
 						className='text-center mb-14'
 					>
 						<span className='text-sm font-semibold text-violet-600 dark:text-violet-400 bg-violet-100 dark:bg-violet-900/30 px-4 py-1.5 rounded-full'>
@@ -229,7 +220,7 @@ export default function LandingPage() {
 							track, visualize, and export your greatest money
 							mistakes.
 						</p>
-					</motion.div>
+					</div>
 
 					<div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6'>
 						{[
@@ -304,10 +295,7 @@ export default function LandingPage() {
 			{/* ─── How it works ─── */}
 			<section className='relative z-10 py-20 px-[4%] sm:px-6 bg-white/50 dark:bg-slate-900/50 backdrop-blur-xl border-y border-slate-200 dark:border-slate-800'>
 				<div className='max-w-5xl mx-auto text-center'>
-					<motion.div
-						initial={{ opacity: 0, y: 20 }}
-						whileInView={{ opacity: 1, y: 0 }}
-						viewport={{ once: true }}
+					<div
 						className='mb-14'
 					>
 						<span className='text-sm font-semibold text-fuchsia-600 dark:text-fuchsia-400 bg-fuchsia-100 dark:bg-fuchsia-900/30 px-4 py-1.5 rounded-full'>
@@ -319,7 +307,7 @@ export default function LandingPage() {
 								Self-Awareness
 							</span>
 						</h2>
-					</motion.div>
+					</div>
 					<div className='grid grid-cols-1 md:grid-cols-3 gap-8'>
 						{[
 							{
@@ -341,12 +329,8 @@ export default function LandingPage() {
 								desc: 'View charts, filter by month, and export a PDF of your misery to share or cry over.',
 							},
 						].map((s, i) => (
-							<motion.div
+							<div
 								key={i}
-								initial={{ opacity: 0, y: 30 }}
-								whileInView={{ opacity: 1, y: 0 }}
-								viewport={{ once: true }}
-								transition={{ delay: i * 0.15, duration: 0.5 }}
 								className='relative bg-violet-50/60 dark:bg-violet-900/20 border border-violet-100 dark:border-violet-800/30 backdrop-blur-xl rounded-3xl p-8 text-left group hover:-translate-y-1 transition-all'
 							>
 								<span className='absolute top-5 right-6 text-6xl font-black text-slate-100 dark:text-slate-800 select-none'>
@@ -361,7 +345,7 @@ export default function LandingPage() {
 								<p className='text-slate-500 dark:text-slate-400'>
 									{s.desc}
 								</p>
-							</motion.div>
+							</div>
 						))}
 					</div>
 				</div>
@@ -370,10 +354,7 @@ export default function LandingPage() {
 			{/* ─── Testimonials ─── */}
 			<section className='relative z-10 py-24 px-[4%] sm:px-6'>
 				<div className='max-w-6xl mx-auto'>
-					<motion.div
-						initial={{ opacity: 0, y: 20 }}
-						whileInView={{ opacity: 1, y: 0 }}
-						viewport={{ once: true }}
+					<div
 						className='text-center mb-14'
 					>
 						<span className='text-sm font-semibold text-rose-600 dark:text-rose-400 bg-rose-100 dark:bg-rose-900/30 px-4 py-1.5 rounded-full'>
@@ -386,7 +367,7 @@ export default function LandingPage() {
 							</span>{' '}
 							Everywhere
 						</h2>
-					</motion.div>
+					</div>
 
 					<div className='grid grid-cols-1 md:grid-cols-3 gap-6'>
 						{[
@@ -445,11 +426,8 @@ export default function LandingPage() {
 
 			{/* ─── CTA Banner ─── */}
 			<section className='relative z-10 py-20 px-6'>
-				<motion.div
-					initial={{ opacity: 0, scale: 0.95 }}
-					whileInView={{ opacity: 1, scale: 1 }}
-					viewport={{ once: true }}
-					transition={{ duration: 0.6 }}
+				<div
+
 					className='max-w-4xl mx-auto bg-linear-to-br from-violet-600 to-fuchsia-600 rounded-3xl p-12 text-center shadow-2xl shadow-violet-600/20 relative overflow-hidden'
 				>
 					<div className='absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(255,255,255,0.15),transparent)] pointer-events-none' />
@@ -471,14 +449,14 @@ export default function LandingPage() {
 						onClick={() =>
 							session ?
 								router.push('/dashboard')
-							:	setIsAuthOpen(true)
+								: setIsAuthOpen(true)
 						}
 						className='bg-white text-violet-700 font-bold px-6 py-3 rounded-xl text-lg shadow-lg hover:shadow-xl transition-all flex items-center gap-2 mx-auto'
 					>
 						{session ? 'Go to Dashboard' : 'Get Started Free'}{' '}
 						<ArrowRight size={20} />
 					</motion.button>
-				</motion.div>
+				</div>
 			</section>
 
 			{/* ─── Footer ─── */}
@@ -566,10 +544,8 @@ function StatItem({
 	icon: React.ReactNode;
 }) {
 	return (
-		<motion.div
-			initial={{ opacity: 0, y: 20 }}
-			whileInView={{ opacity: 1, y: 0 }}
-			viewport={{ once: true }}
+		<div
+
 			className='flex flex-col items-center gap-2'
 		>
 			<div className='mb-1'>{icon}</div>
@@ -580,7 +556,7 @@ function StatItem({
 			<div className='text-slate-500 dark:text-slate-400 font-medium text-sm uppercase tracking-wider'>
 				{label}
 			</div>
-		</motion.div>
+		</div>
 	);
 }
 
@@ -607,10 +583,8 @@ function FeatureCard({
 	};
 	return (
 		<motion.div
-			initial={{ opacity: 0, y: 30 }}
-			whileInView={{ opacity: 1, y: 0 }}
-			viewport={{ once: true }}
-			transition={{ delay: (index % 3) * 0.1, duration: 0.5 }}
+			initial={{ y: 30 }}
+			transition={{ duration: 0.5 }}
 			whileHover={{ y: -4 }}
 			className='bg-violet-50/60 dark:bg-violet-900/20 backdrop-blur-xl border border-violet-100 dark:border-violet-800/30 p-6 rounded-3xl shadow-sm hover:shadow-md transition-all group relative overflow-hidden'
 		>
@@ -646,11 +620,8 @@ function TestimonialCard({
 	index: number;
 }) {
 	return (
-		<motion.div
-			initial={{ opacity: 0, y: 30 }}
-			whileInView={{ opacity: 1, y: 0 }}
-			viewport={{ once: true }}
-			transition={{ delay: (index % 3) * 0.1, duration: 0.5 }}
+		<div
+
 			className='bg-violet-50/60 dark:bg-violet-900/20 backdrop-blur-xl border border-violet-100 dark:border-violet-800/30 rounded-3xl p-6 shadow-sm flex flex-col gap-4 hover:-translate-y-1 transition-all'
 		>
 			<div className='flex items-center gap-1'>
@@ -682,6 +653,6 @@ function TestimonialCard({
 					</p>
 				</div>
 			</div>
-		</motion.div>
+		</div>
 	);
 }
