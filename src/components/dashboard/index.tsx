@@ -220,6 +220,7 @@ export default function Dashboard({ session }: { session: Session }) {
 					</div>
 				</header>
 
+				{loading ? <DashboardSkeleton /> : <>
 				{/* Stats Cards */}
 				<div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8 relative z-10'>
 					<StatCard
@@ -227,7 +228,7 @@ export default function Dashboard({ session }: { session: Session }) {
 						amount={`₹${totalIncome.toLocaleString()}`}
 						type='income'
 						icon={
-							<ArrowUpRight
+							<ArrowDownRight
 								size={20}
 								className='text-emerald-500'
 							/>
@@ -238,9 +239,9 @@ export default function Dashboard({ session }: { session: Session }) {
 						amount={`₹${totalExpense.toLocaleString()}`}
 						type='expense'
 						icon={
-							<ArrowDownRight
+							<ArrowUpRight
 								size={20}
-								className='text-fuchsia-500'
+								className='text-rose-500'
 							/>
 						}
 					/>
@@ -263,9 +264,7 @@ export default function Dashboard({ session }: { session: Session }) {
 							Expense Over Time
 						</h3>
 						<div className='flex-1 relative'>
-							{loading ?
-								<ChartSkeleton />
-							:	<TrendChart expenses={expenses} />}
+							<TrendChart expenses={expenses} />
 						</div>
 					</div>
 
@@ -274,9 +273,7 @@ export default function Dashboard({ session }: { session: Session }) {
 							Categories
 						</h3>
 						<div className='flex-1 relative'>
-							{loading ?
-								<ChartSkeleton />
-							:	<CategoriesChart expenses={expenses} />}
+							<CategoriesChart expenses={expenses} />
 						</div>
 					</div>
 				</div>
@@ -291,6 +288,7 @@ export default function Dashboard({ session }: { session: Session }) {
 				/>
 
 				<MonthlyBreakdown data={monthlyBreakdown} />
+				</>}
 
 				<AddTransactionModal
 					isOpen={modalOpen}
@@ -330,7 +328,7 @@ function StatCard({
 }) {
 	const colorClass =
 		type === 'income' ? 'text-emerald-600 dark:text-emerald-400'
-		: type === 'expense' ? 'text-fuchsia-600 dark:text-fuchsia-400'
+		: type === 'expense' ? 'text-rose-600 dark:text-rose-400'
 		: 'text-slate-900 dark:text-white';
 
 	return (
@@ -352,10 +350,88 @@ function StatCard({
 	);
 }
 
-function ChartSkeleton() {
+function DashboardSkeleton() {
+	const shimmer = 'animate-pulse bg-slate-200/80 dark:bg-slate-700/50 rounded-xl';
 	return (
-		<div className='w-full h-full flex items-center justify-center'>
-			<div className='w-8 h-8 rounded-full border-2 border-rose-500 border-t-transparent animate-spin' />
+		<div className='space-y-8'>
+			{/* Stat Cards Skeleton */}
+			<div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6'>
+				{[...Array(4)].map((_, i) => (
+					<div key={i} className='bg-violet-50/60 dark:bg-violet-900/20 border border-violet-100 dark:border-violet-800/30 p-6 rounded-3xl shadow-sm'>
+						<div className='flex items-center justify-between mb-3'>
+							<div className={`${shimmer} h-4 w-24`} />
+							<div className={`${shimmer} h-5 w-5 rounded-full`} />
+						</div>
+						<div className={`${shimmer} h-9 w-32`} />
+					</div>
+				))}
+			</div>
+
+			{/* Charts Skeleton */}
+			<div className='grid grid-cols-1 lg:grid-cols-3 gap-6'>
+				<div className='lg:col-span-2 bg-violet-50/60 dark:bg-violet-900/20 border border-violet-100 dark:border-violet-800/30 rounded-3xl p-6 min-h-100 shadow-sm'>
+					<div className={`${shimmer} h-5 w-40 mb-6`} />
+					<div className='flex items-end gap-3 h-52'>
+						{[40, 65, 45, 80, 55, 70, 35, 60, 75, 50, 85, 45].map((h, i) => (
+							<div key={i} className={`${shimmer} flex-1 rounded-t-lg`} style={{ height: `${h}%` }} />
+						))}
+					</div>
+				</div>
+				<div className='bg-fuchsia-50/60 dark:bg-fuchsia-900/10 border border-fuchsia-100 dark:border-fuchsia-800/20 rounded-3xl p-6 min-h-100 shadow-sm'>
+					<div className={`${shimmer} h-5 w-28 mb-6`} />
+					<div className='flex items-center justify-center py-8'>
+						<div className={`${shimmer} w-40 h-40 rounded-full`} />
+					</div>
+					<div className='space-y-2 mt-4'>
+						{[...Array(4)].map((_, i) => (
+							<div key={i} className='flex items-center gap-2'>
+								<div className={`${shimmer} w-3 h-3 rounded-full`} />
+								<div className={`${shimmer} h-3 flex-1`} />
+								<div className={`${shimmer} h-3 w-10`} />
+							</div>
+						))}
+					</div>
+				</div>
+			</div>
+
+			{/* Transactions Table Skeleton */}
+			<div className='bg-violet-50/60 dark:bg-violet-900/20 border border-violet-100 dark:border-violet-800/30 rounded-3xl p-4 sm:p-6 shadow-sm'>
+				<div className='flex items-center justify-between mb-6'>
+					<div className={`${shimmer} h-6 w-40`} />
+					<div className='flex gap-3'>
+						<div className={`${shimmer} h-10 w-48`} />
+						<div className={`${shimmer} h-10 w-24`} />
+					</div>
+				</div>
+				<div className='space-y-3'>
+					{[...Array(5)].map((_, i) => (
+						<div key={i} className='flex items-center gap-4 p-4 bg-white/50 dark:bg-slate-900/30 rounded-2xl'>
+							<div className={`${shimmer} h-8 w-16 rounded-lg`} />
+							<div className={`${shimmer} h-4 w-32`} />
+							<div className='flex-1' />
+							<div className={`${shimmer} h-4 w-24`} />
+							<div className={`${shimmer} h-4 w-20`} />
+						</div>
+					))}
+				</div>
+			</div>
+
+			{/* Monthly Breakdown Skeleton */}
+			<div className='bg-violet-50/60 dark:bg-violet-900/20 border border-violet-100 dark:border-violet-800/30 rounded-3xl p-4 sm:p-6 shadow-sm'>
+				<div className={`${shimmer} h-6 w-56 mb-6`} />
+				<div className='space-y-3'>
+					{[...Array(4)].map((_, i) => (
+						<div key={i} className='flex items-center gap-4 p-4 bg-white/50 dark:bg-slate-900/30 rounded-2xl'>
+							<div className={`${shimmer} h-4 w-28`} />
+							<div className='flex-1' />
+							<div className={`${shimmer} h-4 w-20`} />
+							<div className={`${shimmer} h-4 w-20`} />
+							<div className={`${shimmer} h-4 w-20`} />
+							<div className={`${shimmer} h-2 w-24 rounded-full`} />
+						</div>
+					))}
+				</div>
+			</div>
 		</div>
 	);
 }
