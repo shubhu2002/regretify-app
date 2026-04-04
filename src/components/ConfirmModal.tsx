@@ -32,7 +32,6 @@ export default function ConfirmModal({
 						initial={{ opacity: 0 }}
 						animate={{ opacity: 1 }}
 						exit={{ opacity: 0 }}
-						onClick={onClose}
 						className='fixed inset-0 bg-slate-900/40 backdrop-blur-md z-110 flex items-center justify-center p-4'
 					>
 						<motion.div

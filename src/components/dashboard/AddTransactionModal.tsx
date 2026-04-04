@@ -55,7 +55,14 @@ export default function AddTransactionModal({
 		return `${year}-${month}-${day}`;
 	};
 
+	const getLocalTimeString = (d: Date = new Date()) => {
+		const hours = String(d.getHours()).padStart(2, '0');
+		const minutes = String(d.getMinutes()).padStart(2, '0');
+		return `${hours}:${minutes}`;
+	};
+
 	const [date, setDate] = useState(getLocalDateString());
+	const [time, setTime] = useState(getLocalTimeString());
 
 	const resetForm = () => {
 		setAmount('');
@@ -64,6 +71,7 @@ export default function AddTransactionModal({
 		setOtherCategory('');
 		setPaymentType(PAYMENT_TYPES[0]);
 		setDate(getLocalDateString());
+		setTime(getLocalTimeString());
 	};
 
 	useEffect(() => {
@@ -83,14 +91,15 @@ export default function AddTransactionModal({
 					setCategorySource(isStandard ? editItem.title : 'Other');
 					if (!isStandard) setOtherCategory(editItem.title);
 				}
-				setDate(getLocalDateString(new Date(editItem.date)));
+				const entryDate = new Date(editItem.date);
+				setDate(getLocalDateString(entryDate));
+				setTime(getLocalTimeString(entryDate));
 			} else {
 				resetForm();
 			}
 		}
 	}, [isOpen, editItem, type]);
 
-	
 	const handleSubmit = async (e: React.FormEvent) => {
 		e.preventDefault();
 		if (!amount) return;
@@ -115,10 +124,9 @@ export default function AddTransactionModal({
 				(type === 'expense' ? EXPENSE_CATEGORIES[0] : INCOME_SOURCES[0])
 			);
 
-		// Process date in local time to avoid UTC day-shift
 		const [year, month, day] = date.split('-').map(Number);
-		// Set to midnight local time
-		const finalDateObj = new Date(year, month - 1, day, 12, 0, 0); // Use 12:00 PM local to be very safe against shifts
+		const [hours, minutes] = time.split(':').map(Number);
+		const finalDateObj = new Date(year, month - 1, day, hours, minutes, 0);
 		const finalDateStr = finalDateObj.toISOString();
 
 		try {
@@ -228,7 +236,6 @@ export default function AddTransactionModal({
 						initial={{ opacity: 0 }}
 						animate={{ opacity: 1 }}
 						exit={{ opacity: 0 }}
-						onClick={onClose}
 						className='fixed inset-0 bg-slate-900/60 backdrop-blur-md z-100 flex items-center justify-center h-full p-4'
 					>
 						<motion.div
@@ -344,7 +351,7 @@ export default function AddTransactionModal({
 									<label className={labelCls}>
 										{type === 'expense' ?
 											'Excuse'
-											: 'Source'}
+										:	'Source'}
 									</label>
 									<select
 										value={categorySource}
@@ -360,11 +367,11 @@ export default function AddTransactionModal({
 											Select{' '}
 											{type === 'expense' ?
 												'Category'
-												: 'Source'}
+											:	'Source'}
 										</option>
 										{(type === 'expense' ?
 											EXPENSE_CATEGORIES
-											: INCOME_SOURCES
+										:	INCOME_SOURCES
 										).map((opt) => (
 											<option
 												key={opt}
@@ -418,18 +425,32 @@ export default function AddTransactionModal({
 									</div>
 								)}
 
-								<div>
-									<label className={labelCls}>Date</label>
-									<input
-										type="date"
-										required
-										value={date}
-										onChange={(e) =>
-											setDate(e.target.value)
-										}
-										inputMode="text"
-										className={`font-medium ${inputCls}`}
-									/>
+								<div className='grid grid-cols-2 gap-3'>
+									<div>
+										<label className={labelCls}>Date</label>
+										<input
+											type='date'
+											required
+											value={date}
+											onChange={(e) =>
+												setDate(e.target.value)
+											}
+											inputMode='text'
+											className={`font-medium ${inputCls}`}
+										/>
+									</div>
+									<div>
+										<label className={labelCls}>Time</label>
+										<input
+											type='time'
+											required
+											value={time}
+											onChange={(e) =>
+												setTime(e.target.value)
+											}
+											className={`font-medium ${inputCls}`}
+										/>
+									</div>
 								</div>
 
 								<div className='pt-2'>
@@ -437,14 +458,15 @@ export default function AddTransactionModal({
 										whileTap={{ scale: 0.98 }}
 										type='submit'
 										disabled={loading || isInvalid}
-										className={`w-full py-3 text-white rounded-xl font-medium text-lg flex items-center justify-center gap-2 shadow-sm transition-all disabled:opacity-50 disabled:cursor-not-allowed hover:shadow-md ${type === 'expense' ?
+										className={`w-full py-3 text-white rounded-xl font-medium text-lg flex items-center justify-center gap-2 shadow-sm transition-all disabled:opacity-50 disabled:cursor-not-allowed hover:shadow-md ${
+											type === 'expense' ?
 												'bg-fuchsia-600 dark:bg-fuchsia-500 hover:bg-fuchsia-700'
-												: 'bg-emerald-600 dark:bg-emerald-500 hover:bg-emerald-700'
-											}`}
+											:	'bg-emerald-600 dark:bg-emerald-500 hover:bg-emerald-700'
+										}`}
 									>
 										{loading ?
 											<div className='h-5 w-5 border-2 border-slate-200 border-t-transparent rounded-full animate-spin' />
-											: <>
+										:	<>
 												<CheckCircle2
 													size={20}
 													strokeWidth={2}
@@ -452,7 +474,7 @@ export default function AddTransactionModal({
 												Save{' '}
 												{type === 'expense' ?
 													'Regret'
-													: 'Income'}
+												:	'Income'}
 											</>
 										}
 									</motion.button>

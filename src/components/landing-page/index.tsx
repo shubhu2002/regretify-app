@@ -19,6 +19,9 @@ import {
 	HeartCrack,
 	CalendarDays,
 	FileText,
+	BookOpen,
+	ArrowUpRight,
+	ArrowDownLeft,
 	LucideProps,
 } from 'lucide-react';
 import { FaGithub, FaTwitter, FaLinkedin } from 'react-icons/fa';
@@ -72,6 +75,7 @@ export default function LandingPage() {
 
 	const users = useCounter(2400, 1000, statsInView);
 	const transactions = useCounter(18500, 1000, statsInView);
+	const ledgerEntries = useCounter(6200, 1000, statsInView);
 	const saved = useCounter(94, 1000, statsInView);
 
 	return (
@@ -92,7 +96,7 @@ export default function LandingPage() {
 						<span className='animate-ping absolute inline-flex h-full w-full bg-violet-400 opacity-75 rounded-full' />
 						<span className='relative inline-flex h-2 w-2 bg-violet-500 rounded-full' />
 					</span>
-					Next-Generation Financial Regret Tracker
+					Expense Tracker & Personal Ledger
 				</div>
 
 				<div
@@ -107,9 +111,9 @@ export default function LandingPage() {
 					</h1>
 
 					<p className='text-lg md:text-xl text-slate-600 dark:text-slate-400 mb-10 max-w-2xl mx-auto leading-relaxed'>
-						Log your regrets, visualize your despair, and export
-						your financial trauma — all in one beautifully designed,
-						painfully honest dashboard.
+						Log your regrets, track who owes you (and who you owe),
+						visualize your despair, and export your financial trauma
+						— all in one beautifully designed, painfully honest app.
 					</p>
 
 					<div className='flex flex-col sm:flex-row items-center justify-center gap-4'>
@@ -123,7 +127,7 @@ export default function LandingPage() {
 							}
 							className='bg-violet-600 hover:bg-violet-700 text-white shadow-lg shadow-violet-600/30 px-6 py-3 rounded-xl font-semibold text-lg flex items-center gap-2 transition-all'
 						>
-							{session ? 'Go to Dashboard' : 'Start Regretting'}{' '}
+							{session ? 'View My Regrets' : 'Start Regretting'}{' '}
 							<ArrowRight size={20} />
 						</motion.button>
 						<motion.a
@@ -160,7 +164,7 @@ export default function LandingPage() {
 				ref={statsRef}
 				className='relative z-10 bg-white/70 dark:bg-slate-900/70 backdrop-blur-xl border-y border-slate-200 dark:border-slate-800 py-14'
 			>
-				<div className='max-w-5xl mx-auto px-6 grid grid-cols-1 sm:grid-cols-3 gap-10 text-center'>
+				<div className='max-w-6xl mx-auto px-6 grid grid-cols-2 sm:grid-cols-4 gap-10 text-center'>
 					<StatItem
 						value={users}
 						suffix='+'
@@ -180,6 +184,17 @@ export default function LandingPage() {
 							<Receipt
 								size={32}
 								className='text-fuchsia-500'
+							/>
+						}
+					/>
+					<StatItem
+						value={ledgerEntries}
+						suffix='+'
+						label='Ledger Entries'
+						icon={
+							<BookOpen
+								size={32}
+								className='text-indigo-500'
 							/>
 						}
 					/>
@@ -216,9 +231,9 @@ export default function LandingPage() {
 							</span>
 						</h2>
 						<p className='text-slate-500 dark:text-slate-400 text-lg max-w-xl mx-auto'>
-							A full financial dashboard packed with every tool to
-							track, visualize, and export your greatest money
-							mistakes.
+							A full financial dashboard and personal ledger packed
+							with every tool to track, visualize, and settle your
+							greatest money mistakes.
 						</p>
 					</div>
 
@@ -261,21 +276,21 @@ export default function LandingPage() {
 								color: 'indigo',
 							},
 							{
-								icon: ShieldCheck,
-								title: 'Secure Auth',
-								desc: 'Powered by Google OAuth via NextAuth. Your financial misery is protected at the highest level.',
+								icon: BookOpen,
+								title: 'Personal Ledger',
+								desc: 'Add accounts for friends, family, or anyone. Track money you give and take with a dedicated ledger page.',
 								color: 'violet',
 							},
 							{
-								icon: FileText,
-								title: 'Category Insights',
-								desc: 'Track spending by category: Food, Bills, Vehicle, Entertainment, and more. Know whats eating you.',
+								icon: ArrowUpRight,
+								title: 'Give & Take Tracking',
+								desc: 'Log every "I\'ll pay you back" with amounts, dates, and descriptions. Red for given, green for received — no more guessing.',
 								color: 'fuchsia',
 							},
 							{
 								icon: Zap,
-								title: 'Instant Updates',
-								desc: 'TanStack Query keeps your dashboard blazing fast. Add a transaction, see it appear instantly everywhere.',
+								title: 'Instant Sync',
+								desc: 'TanStack Query keeps everything blazing fast. Add an entry, see balances update instantly across the app.',
 								color: 'indigo',
 							},
 						].map((f, i) => (
@@ -294,7 +309,7 @@ export default function LandingPage() {
 
 			{/* ─── How it works ─── */}
 			<section className='relative z-10 py-20 px-[4%] sm:px-6 bg-white/50 dark:bg-slate-900/50 backdrop-blur-xl border-y border-slate-200 dark:border-slate-800'>
-				<div className='max-w-5xl mx-auto text-center'>
+				<div className='max-w-6xl mx-auto text-center'>
 					<div
 						className='mb-14'
 					>
@@ -302,13 +317,13 @@ export default function LandingPage() {
 							How It Works
 						</span>
 						<h2 className='text-4xl font-extrabold mt-4 text-slate-900 dark:text-white'>
-							3 Steps to Financial{' '}
+							4 Steps to Financial{' '}
 							<span className='bg-clip-text text-transparent bg-linear-to-r from-fuchsia-600 to-violet-600 dark:from-fuchsia-400 dark:to-violet-400'>
 								Self-Awareness
 							</span>
 						</h2>
 					</div>
-					<div className='grid grid-cols-1 md:grid-cols-3 gap-8'>
+					<div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6'>
 						{[
 							{
 								step: '01',
@@ -324,9 +339,15 @@ export default function LandingPage() {
 							},
 							{
 								step: '03',
+								icon: BookOpen,
+								title: 'Track Who Owes Who',
+								desc: 'Add people to your ledger. Log every give & take with amounts, dates, and running balances.',
+							},
+							{
+								step: '04',
 								icon: PiggyBank,
 								title: 'Face the Truth',
-								desc: 'View charts, filter by month, and export a PDF of your misery to share or cry over.',
+								desc: 'View charts, settle debts, filter by month, and export a PDF of your misery.',
 							},
 						].map((s, i) => (
 							<div
@@ -394,17 +415,17 @@ export default function LandingPage() {
 							},
 							{
 								name: 'Sneha Patel',
-								role: 'Designer & Impulse Shopper',
+								role: 'Designer & Group Trip Organizer',
 								avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Sneha',
-								stars: 4,
-								text: 'The dark mode + glassmorphism aesthetic actually makes me feel better about my poor decisions. The ghost icon is my spirit animal at this point.',
+								stars: 5,
+								text: 'The Ledger feature is a lifesaver. I added all my flatmates and now I know exactly who owes me for groceries. No more awkward "bro, transfer karna" texts.',
 							},
 							{
 								name: 'Karan Singh',
 								role: 'Data Analyst & Part-time Petrol Buyer',
 								avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Karan',
 								stars: 5,
-								text: "Filtering by category showed me I spend more on Entertainment than rent. The charts don't lie. Regretify changed my financial consciousness.",
+								text: "I track every give & take with my friends in the Ledger. The running balance per person is *chef's kiss*. Regretify turned me into the group accountant nobody asked for.",
 							},
 							{
 								name: 'Ananya Roy',
@@ -440,8 +461,8 @@ export default function LandingPage() {
 					</h2>
 					<p className='text-violet-100 text-lg mb-8 max-w-xl mx-auto'>
 						Join thousands of users who track every questionable
-						purchase with style. Your wallet has feelings. Document
-						them.
+						purchase and settle debts with style. Your wallet has
+						feelings. Document them.
 					</p>
 					<motion.button
 						whileHover={{ scale: 1.04 }}
@@ -453,7 +474,7 @@ export default function LandingPage() {
 						}
 						className='bg-white text-violet-700 font-bold px-6 py-3 rounded-xl text-lg shadow-lg hover:shadow-xl transition-all flex items-center gap-2 mx-auto'
 					>
-						{session ? 'Go to Dashboard' : 'Get Started Free'}{' '}
+						{session ? 'Open My Wall of Regret' : 'Get Started Free'}{' '}
 						<ArrowRight size={20} />
 					</motion.button>
 				</div>
@@ -472,7 +493,7 @@ export default function LandingPage() {
 							</span>
 						</div>
 						<p className='text-slate-500 dark:text-slate-400 text-sm'>
-							Track regrets. Learn nothing. Repeat.
+							Track regrets. Settle debts. Learn nothing. Repeat.
 							<br />
 							Your financial therapy, one dashboard at a time.
 						</p>
