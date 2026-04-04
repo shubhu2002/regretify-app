@@ -260,7 +260,7 @@ export default function Ledger({ session }: { session: Session }) {
 						</motion.div>
 					:	<div className='grid grid-cols-1 lg:grid-cols-3 gap-6 relative z-10'>
 							{/* Accounts Panel */}
-							<div className='lg:col-span-1 bg-violet-50/60 backdrop-blur-xl dark:bg-violet-900/20 border border-violet-100 dark:border-violet-800/30 rounded-3xl p-4 sm:p-5 shadow-sm h-[70vh] flex flex-col'>
+							<div className='lg:col-span-1 bg-violet-50/60 backdrop-blur-xl dark:bg-violet-900/20 border border-violet-100 dark:border-violet-800/30 rounded-3xl p-4 sm:p-5 shadow-sm h-[42vh] sm:h-[70vh] flex flex-col'>
 								<h3 className='text-sm font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wide mb-4 px-1 shrink-0'>
 									Accounts ({accounts.length})
 								</h3>
