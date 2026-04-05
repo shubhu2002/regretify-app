@@ -3,7 +3,7 @@ import { authOptions } from '@/lib/auth';
 import { redirect } from 'next/navigation';
 import Profile from '@/components/profile';
 
-export default async function DashboardPage() {
+export default async function ProfilePage() {
 	const session = await getServerSession(authOptions);
 
 	if (!session) {

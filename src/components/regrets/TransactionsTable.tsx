@@ -11,9 +11,11 @@ import {
 	Trash2,
 	Download,
 } from 'lucide-react';
-import { Expense, Income, Transaction } from '@/types';
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
+
+import { Expense, Income, Transaction } from '@/types';
+import { MONTHS } from '@/constants';
 
 export default function TransactionsTable({
 	incomes,
@@ -271,20 +273,7 @@ export default function TransactionsTable({
 							className='w-full flex-1 sm:w-auto text-center items-center px-2 py-1.5 sm:px-3 sm:py-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/50 text-slate-900 dark:text-white focus:ring-2 focus:ring-violet-500 outline-none text-base md:text-sm appearance-none cursor-pointer relative'
 						>
 							<option value='all'>All Months</option>
-							{[
-								'January',
-								'February',
-								'March',
-								'April',
-								'May',
-								'June',
-								'July',
-								'August',
-								'September',
-								'October',
-								'November',
-								'December',
-							].map((m, i) => (
+							{MONTHS.map((m, i) => (
 								<option
 									key={i}
 									value={i.toString()}
@@ -347,18 +336,16 @@ export default function TransactionsTable({
 									<div className='flex items-center justify-between gap-2'>
 										<div className='flex items-center gap-2 flex-1 min-w-0 overflow-hidden'>
 											<span
-												className={`w-2.5 h-2.5 rounded-full flex-shrink-0 ${item.type === 'income' ? 'bg-emerald-500' : 'bg-fuchsia-500'}`}
+												className={`w-2.5 h-2.5 rounded-full shrink-0 ${item.type === 'income' ? 'bg-emerald-500' : 'bg-fuchsia-500'}`}
 											/>
 											<span className='font-semibold text-sm text-slate-900 dark:text-white truncate min-w-0'>
 												{item.title}
 											</span>
 										</div>
 										<span
-											className={`font-bold text-sm flex-shrink-0 ${item.type === 'income' ? 'text-emerald-600 dark:text-emerald-400' : 'text-rose-500 dark:text-rose-400'}`}
+											className={`font-bold text-sm shrink-0 ${item.type === 'income' ? 'text-emerald-600 dark:text-emerald-400' : 'text-rose-500 dark:text-rose-400'}`}
 										>
-											{item.type === 'income' ?
-												'+'
-											:	'-'}
+											{item.type === 'income' ? '+' : '-'}
 											₹{item.amount.toLocaleString()}
 										</span>
 									</div>
@@ -382,7 +369,7 @@ export default function TransactionsTable({
 												)}
 											</span>
 										</div>
-										<div className='flex items-center gap-1 flex-shrink-0'>
+										<div className='flex items-center gap-1 shrink-0'>
 											<button
 												onClick={() => onEdit(item)}
 												className='p-1.5 text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400 hover:bg-indigo-50 dark:hover:bg-indigo-900/30 rounded-lg transition-colors'

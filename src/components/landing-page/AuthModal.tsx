@@ -81,7 +81,7 @@ export default function AuthModal({
 		} else {
 			toast.success('Welcome back! Redirecting...', { id: toastId });
 			onClose();
-			window.location.href = '/dashboard';
+			window.location.href = '/regrets';
 		}
 	};
 
@@ -176,7 +176,7 @@ export default function AuthModal({
 			} else {
 				toast.success('Welcome to Regretify! 🎉', { id: toastId });
 				onClose();
-				window.location.href = '/dashboard';
+				window.location.href = '/regrets';
 			}
 		} catch (err: unknown) {
 			toast.error(
@@ -256,7 +256,7 @@ export default function AuthModal({
 									<button
 										onClick={() =>
 											signIn('google', {
-												callbackUrl: '/dashboard',
+												callbackUrl: '/regrets',
 											})
 										}
 										className='w-full flex items-center justify-center gap-2 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 px-4 py-2.5 rounded-xl hover:bg-slate-50 dark:hover:bg-slate-700 transition-all font-medium text-sm shadow-sm'

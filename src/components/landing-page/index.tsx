@@ -1,74 +1,36 @@
 'use client';
 
-import { motion, useInView } from 'framer-motion';
-import {
-	ArrowRight,
-	Ghost,
-	BarChart3,
-	ShieldCheck,
-	Download,
-	Filter,
-	Calculator,
-	Moon,
-	Star,
-	TrendingDown,
-	PiggyBank,
-	Zap,
-	Users,
-	Receipt,
-	HeartCrack,
-	CalendarDays,
-	FileText,
-	BookOpen,
-	ArrowUpRight,
-	ArrowDownLeft,
-	LucideProps,
-} from 'lucide-react';
-import { FaGithub, FaTwitter, FaLinkedin } from 'react-icons/fa';
 import {
 	useState,
 	useRef,
-	useEffect,
 	ForwardRefExoticComponent,
 	RefAttributes,
 } from 'react';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
+import { motion, useInView } from 'framer-motion';
+import {
+	ArrowRight,
+	Ghost,
+	Star,
+	Users,
+	Receipt,
+	HeartCrack,
+	BookOpen,
+	LucideProps,
+} from 'lucide-react';
+import { FaGithub, FaTwitter, FaLinkedin } from 'react-icons/fa';
 
 import AuthModal from './AuthModal';
 
-function useCounter(target: number, duration = 1000, inView = false) {
-	const [count, setCount] = useState(0);
-	useEffect(() => {
-		if (!inView) return;
-		let start = 0;
-		const step = target / (duration / 16);
-		const timer = setInterval(() => {
-			start += step;
-			if (start >= target) {
-				setCount(target);
-				clearInterval(timer);
-			} else setCount(Math.floor(start));
-		}, 16);
-		return () => clearInterval(timer);
-	}, [target, duration, inView]);
-	return count;
-}
+import { HOW_IT_WORKS, PLATFORM_FEATURES, TESTIMONIALS } from '@/constants';
+import { useCounter } from '@/hooks/useCounter';
+import { handleSmooth } from '@/utils';
 
 export default function LandingPage() {
 	const [isAuthOpen, setIsAuthOpen] = useState(false);
 	const { data: session } = useSession();
 	const router = useRouter();
-
-	const handleSmooth = (
-		e: React.MouseEvent<HTMLAnchorElement>,
-		id: string,
-	) => {
-		e.preventDefault();
-		document
-			.getElementById(id)
-			?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-	};
 
 	const statsRef = useRef(null);
 	const statsInView = useInView(statsRef, { once: true });
@@ -89,9 +51,7 @@ export default function LandingPage() {
 
 			{/* ─── Hero ─── */}
 			<section className='relative z-10 flex flex-col items-center justify-center text-center px-6 pt-16 sm:pt-24 pb-20 min-h-screen'>
-				<div
-					className='inline-flex items-center gap-2 px-4 py-2 bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-300 font-medium text-sm mb-8 border border-slate-200 dark:border-slate-800 shadow-sm rounded-full'
-				>
+				<div className='inline-flex items-center gap-2 px-4 py-2 bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-300 font-medium text-sm mb-8 border border-slate-200 dark:border-slate-800 shadow-sm rounded-full'>
 					<span className='relative flex h-2 w-2'>
 						<span className='animate-ping absolute inline-flex h-full w-full bg-violet-400 opacity-75 rounded-full' />
 						<span className='relative inline-flex h-2 w-2 bg-violet-500 rounded-full' />
@@ -99,10 +59,7 @@ export default function LandingPage() {
 					Expense Tracker & Personal Ledger
 				</div>
 
-				<div
-
-					className='max-w-4xl mx-auto'
-				>
+				<div className='max-w-4xl mx-auto'>
 					<h1 className='text-4xl md:text-7xl font-extrabold tracking-tight mb-6 text-slate-900 dark:text-white leading-[1.1]'>
 						Track Every Terrible <br className='hidden md:block' />
 						<span className='bg-clip-text text-transparent bg-linear-to-r from-violet-600 to-fuchsia-600 dark:from-violet-400 dark:to-fuchsia-400'>
@@ -122,8 +79,8 @@ export default function LandingPage() {
 							whileTap={{ scale: 0.97 }}
 							onClick={() =>
 								session ?
-									router.push('/dashboard')
-									: setIsAuthOpen(true)
+									router.push('/regrets')
+								:	setIsAuthOpen(true)
 							}
 							className='bg-violet-600 hover:bg-violet-700 text-white shadow-lg shadow-violet-600/30 px-6 py-3 rounded-xl font-semibold text-lg flex items-center gap-2 transition-all'
 						>
@@ -218,9 +175,7 @@ export default function LandingPage() {
 				className='relative z-10 py-24 px-[4%] sm:px-6'
 			>
 				<div className='max-w-6xl mx-auto'>
-					<div
-						className='text-center mb-14'
-					>
+					<div className='text-center mb-14'>
 						<span className='text-sm font-semibold text-violet-600 dark:text-violet-400 bg-violet-100 dark:bg-violet-900/30 px-4 py-1.5 rounded-full'>
 							Platform Features
 						</span>
@@ -231,69 +186,14 @@ export default function LandingPage() {
 							</span>
 						</h2>
 						<p className='text-slate-500 dark:text-slate-400 text-lg max-w-xl mx-auto'>
-							A full financial dashboard and personal ledger packed
-							with every tool to track, visualize, and settle your
-							greatest money mistakes.
+							A full financial regrets dashboard and personal
+							ledger packed with every tool to track, visualize,
+							and settle your greatest money mistakes.
 						</p>
 					</div>
 
 					<div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6'>
-						{[
-							{
-								icon: BarChart3,
-								title: 'Live Charts & Trends',
-								desc: 'Beautiful glassmorphism charts that update in real-time as you log your latest terrible decisions.',
-								color: 'violet',
-							},
-							{
-								icon: Filter,
-								title: 'Month-Wise Filtering',
-								desc: 'Filter transactions by any month of the year. See exactly how bad January really was.',
-								color: 'fuchsia',
-							},
-							{
-								icon: Download,
-								title: 'Export to PDF',
-								desc: 'Generate a polished PDF report of filtered transactions with color-coded amounts and a financial summary box.',
-								color: 'indigo',
-							},
-							{
-								icon: Calculator,
-								title: 'Built-in Calculator',
-								desc: 'Type expressions like 120+50 directly in the amount field. Perfect for splitting that Swiggy-binge guilt.',
-								color: 'violet',
-							},
-							{
-								icon: CalendarDays,
-								title: 'Exact Timestamps',
-								desc: 'Every transaction is saved with the current time down to the second — no more missing 00:00 times.',
-								color: 'fuchsia',
-							},
-							{
-								icon: Moon,
-								title: 'Dark & Light Mode',
-								desc: 'Because your financial regret should look good in any lighting. Polished theme toggle, no system default hassle.',
-								color: 'indigo',
-							},
-							{
-								icon: BookOpen,
-								title: 'Personal Ledger',
-								desc: 'Add accounts for friends, family, or anyone. Track money you give and take with a dedicated ledger page.',
-								color: 'violet',
-							},
-							{
-								icon: ArrowUpRight,
-								title: 'Give & Take Tracking',
-								desc: 'Log every "I\'ll pay you back" with amounts, dates, and descriptions. Red for given, green for received — no more guessing.',
-								color: 'fuchsia',
-							},
-							{
-								icon: Zap,
-								title: 'Instant Sync',
-								desc: 'TanStack Query keeps everything blazing fast. Add an entry, see balances update instantly across the app.',
-								color: 'indigo',
-							},
-						].map((f, i) => (
+						{PLATFORM_FEATURES.map((f, i) => (
 							<FeatureCard
 								key={i}
 								index={i}
@@ -310,9 +210,7 @@ export default function LandingPage() {
 			{/* ─── How it works ─── */}
 			<section className='relative z-10 py-20 px-[4%] sm:px-6 bg-white/50 dark:bg-slate-900/50 backdrop-blur-xl border-y border-slate-200 dark:border-slate-800'>
 				<div className='max-w-6xl mx-auto text-center'>
-					<div
-						className='mb-14'
-					>
+					<div className='mb-14'>
 						<span className='text-sm font-semibold text-fuchsia-600 dark:text-fuchsia-400 bg-fuchsia-100 dark:bg-fuchsia-900/30 px-4 py-1.5 rounded-full'>
 							How It Works
 						</span>
@@ -324,32 +222,7 @@ export default function LandingPage() {
 						</h2>
 					</div>
 					<div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6'>
-						{[
-							{
-								step: '01',
-								icon: ShieldCheck,
-								title: 'Sign In Securely',
-								desc: 'Login instantly using your Google account. No passwords, no fuss, no excuses.',
-							},
-							{
-								step: '02',
-								icon: TrendingDown,
-								title: 'Log Your Regrets',
-								desc: 'Add income and expenses with categories, payment methods, and the built-in calculator.',
-							},
-							{
-								step: '03',
-								icon: BookOpen,
-								title: 'Track Who Owes Who',
-								desc: 'Add people to your ledger. Log every give & take with amounts, dates, and running balances.',
-							},
-							{
-								step: '04',
-								icon: PiggyBank,
-								title: 'Face the Truth',
-								desc: 'View charts, settle debts, filter by month, and export a PDF of your misery.',
-							},
-						].map((s, i) => (
+						{HOW_IT_WORKS.map((s, i) => (
 							<div
 								key={i}
 								className='relative bg-violet-50/60 dark:bg-violet-900/20 border border-violet-100 dark:border-violet-800/30 backdrop-blur-xl rounded-3xl p-8 text-left group hover:-translate-y-1 transition-all'
@@ -375,9 +248,7 @@ export default function LandingPage() {
 			{/* ─── Testimonials ─── */}
 			<section className='relative z-10 py-24 px-[4%] sm:px-6'>
 				<div className='max-w-6xl mx-auto'>
-					<div
-						className='text-center mb-14'
-					>
+					<div className='text-center mb-14'>
 						<span className='text-sm font-semibold text-rose-600 dark:text-rose-400 bg-rose-100 dark:bg-rose-900/30 px-4 py-1.5 rounded-full'>
 							Testimonials
 						</span>
@@ -391,50 +262,7 @@ export default function LandingPage() {
 					</div>
 
 					<div className='grid grid-cols-1 md:grid-cols-3 gap-6'>
-						{[
-							{
-								name: 'Aarav Mehta',
-								role: 'Startup Founder & Impulsive Buyer',
-								avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Aarav',
-								stars: 5,
-								text: 'I cried when I saw 37% of my income went to Swiggy. But at least the chart was beautiful. Regretify is painfully honest and I love it.',
-							},
-							{
-								name: 'Priya Sharma',
-								role: 'Software Engineer & Coffee Addict',
-								avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Priya',
-								stars: 5,
-								text: 'The PDF export is insanely good. I sent it to my CA and she was impressed. She also told me to stop buying so many courses I never finish.',
-							},
-							{
-								name: 'Rahul Verma',
-								role: 'Freelancer & Netflix Subscriber (5 accounts)',
-								avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Rahul',
-								stars: 5,
-								text: 'Month filter saved me. I filter by January to see my post-holiday damage. It screams louder than my mom. 10/10 regret tracking.',
-							},
-							{
-								name: 'Sneha Patel',
-								role: 'Designer & Group Trip Organizer',
-								avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Sneha',
-								stars: 5,
-								text: 'The Ledger feature is a lifesaver. I added all my flatmates and now I know exactly who owes me for groceries. No more awkward "bro, transfer karna" texts.',
-							},
-							{
-								name: 'Karan Singh',
-								role: 'Data Analyst & Part-time Petrol Buyer',
-								avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Karan',
-								stars: 5,
-								text: "I track every give & take with my friends in the Ledger. The running balance per person is *chef's kiss*. Regretify turned me into the group accountant nobody asked for.",
-							},
-							{
-								name: 'Ananya Roy',
-								role: 'Student & Future CTO (after saving money)',
-								avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Ananya',
-								stars: 5,
-								text: "The built-in calculator in the add modal is chef's kiss. I split bills instantly. The transitions are so smooth I keep adding expenses just to watch the table animate.",
-							},
-						].map((t, i) => (
+						{TESTIMONIALS.map((t, i) => (
 							<TestimonialCard
 								key={i}
 								index={i}
@@ -447,10 +275,7 @@ export default function LandingPage() {
 
 			{/* ─── CTA Banner ─── */}
 			<section className='relative z-10 py-20 px-6'>
-				<div
-
-					className='max-w-4xl mx-auto bg-linear-to-br from-violet-600 to-fuchsia-600 rounded-3xl p-12 text-center shadow-2xl shadow-violet-600/20 relative overflow-hidden'
-				>
+				<div className='max-w-4xl mx-auto bg-linear-to-br from-violet-600 to-fuchsia-600 rounded-3xl p-12 text-center shadow-2xl shadow-violet-600/20 relative overflow-hidden'>
 					<div className='absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(255,255,255,0.15),transparent)] pointer-events-none' />
 					<Ghost
 						size={40}
@@ -469,12 +294,14 @@ export default function LandingPage() {
 						whileTap={{ scale: 0.96 }}
 						onClick={() =>
 							session ?
-								router.push('/dashboard')
-								: setIsAuthOpen(true)
+								router.push('/regrets')
+							:	setIsAuthOpen(true)
 						}
 						className='bg-white text-violet-700 font-bold px-6 py-3 rounded-xl text-lg shadow-lg hover:shadow-xl transition-all flex items-center gap-2 mx-auto'
 					>
-						{session ? 'Open My Wall of Regret' : 'Get Started Free'}{' '}
+						{session ?
+							'Open My Wall of Regret'
+						:	'Get Started Free'}{' '}
 						<ArrowRight size={20} />
 					</motion.button>
 				</div>
@@ -565,10 +392,7 @@ function StatItem({
 	icon: React.ReactNode;
 }) {
 	return (
-		<div
-
-			className='flex flex-col items-center gap-2'
-		>
+		<div className='flex flex-col items-center gap-2'>
 			<div className='mb-1'>{icon}</div>
 			<div className='text-4xl md:text-5xl font-black text-slate-900 dark:text-white tabular-nums'>
 				{value.toLocaleString()}
@@ -586,7 +410,6 @@ function FeatureCard({
 	title,
 	desc,
 	color,
-	index,
 }: {
 	icon: ForwardRefExoticComponent<
 		Omit<LucideProps, 'ref'> & RefAttributes<SVGSVGElement>
@@ -631,7 +454,6 @@ function TestimonialCard({
 	avatar,
 	stars,
 	text,
-	index,
 }: {
 	name: string;
 	role: string;
@@ -641,10 +463,7 @@ function TestimonialCard({
 	index: number;
 }) {
 	return (
-		<div
-
-			className='bg-violet-50/60 dark:bg-violet-900/20 backdrop-blur-xl border border-violet-100 dark:border-violet-800/30 rounded-3xl p-6 shadow-sm flex flex-col gap-4 hover:-translate-y-1 transition-all'
-		>
+		<div className='bg-violet-50/60 dark:bg-violet-900/20 backdrop-blur-xl border border-violet-100 dark:border-violet-800/30 rounded-3xl p-6 shadow-sm flex flex-col gap-4 hover:-translate-y-1 transition-all'>
 			<div className='flex items-center gap-1'>
 				{Array.from({ length: stars }).map((_, i) => (
 					<Star

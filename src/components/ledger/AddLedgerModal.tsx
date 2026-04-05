@@ -2,61 +2,57 @@
 
 import { useState, useEffect, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, CheckCircle2, UserPlus, Pencil } from 'lucide-react';
+import { X, CheckCircle2, BookOpen, Pencil } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { useQueryClient } from '@tanstack/react-query';
+import { LedgerBook } from '@/types';
 
-import { LedgerAccount } from '@/types';
-
-interface AddAccountModalProps {
+interface AddLedgerModalProps {
 	isOpen: boolean;
 	onClose: () => void;
-	editAccount?: LedgerAccount | null;
-	ledgerBookId: number;
+	editLedger?: LedgerBook | null;
 }
 
-export default function AddAccountModal({ isOpen, onClose, editAccount, ledgerBookId }: AddAccountModalProps) {
+export default function AddLedgerModal({ isOpen, onClose, editLedger }: AddLedgerModalProps) {
 	const queryClient = useQueryClient();
 	const [loading, setLoading] = useState(false);
 	const [name, setName] = useState('');
-	const [contactNumber, setContactNumber] = useState('');
+	const [description, setDescription] = useState('');
 
-	const isEdit = !!editAccount;
+	const isEdit = !!editLedger;
 
 	const resetForm = () => {
 		setName('');
-		setContactNumber('');
+		setDescription('');
 	};
 
 	useEffect(() => {
 		if (isOpen) {
-			if (editAccount) {
-				setName(editAccount.name);
-				setContactNumber(editAccount.contact_number || '');
+			if (editLedger) {
+				setName(editLedger.name);
+				setDescription(editLedger.description || '');
 			} else {
 				resetForm();
 			}
 		}
-	}, [isOpen, editAccount]);
+	}, [isOpen, editLedger]);
 
 	const isDisabled = useMemo(() => {
-		// Required field missing
 		if (!name.trim()) return true;
-		// In edit mode, disabled if nothing changed
-		if (isEdit && editAccount) {
-			const nameUnchanged = name.trim() === editAccount.name;
-			const contactUnchanged = (contactNumber.trim() || '') === (editAccount.contact_number || '');
-			if (nameUnchanged && contactUnchanged) return true;
+		if (isEdit && editLedger) {
+			const nameUnchanged = name.trim() === editLedger.name;
+			const descUnchanged = (description.trim() || '') === (editLedger.description || '');
+			if (nameUnchanged && descUnchanged) return true;
 		}
 		return false;
-	}, [name, contactNumber, isEdit, editAccount]);
+	}, [name, description, isEdit, editLedger]);
 
 	const handleSubmit = async (e: React.FormEvent) => {
 		e.preventDefault();
 		if (isDisabled) return;
 
 		setLoading(true);
-		const toastId = toast.loading(isEdit ? 'Updating account...' : 'Adding account...');
+		const toastId = toast.loading(isEdit ? 'Updating ledger...' : 'Creating ledger...');
 
 		try {
 			if (isEdit) {
@@ -64,27 +60,26 @@ export default function AddAccountModal({ isOpen, onClose, editAccount, ledgerBo
 					method: 'PATCH',
 					headers: { 'Content-Type': 'application/json' },
 					body: JSON.stringify({
-						action: 'update_account',
-						id: editAccount!.id,
+						action: 'update_book',
+						id: editLedger!.id,
 						name: name.trim(),
-						contact_number: contactNumber.trim() || null,
+						description: description.trim() || null,
 					}),
 				});
-				if (!res.ok) throw new Error('Failed to update account');
-				toast.success('Account updated!', { id: toastId });
+				if (!res.ok) throw new Error('Failed to update ledger');
+				toast.success('Ledger updated!', { id: toastId });
 			} else {
 				const res = await fetch('/api/ledger', {
 					method: 'POST',
 					headers: { 'Content-Type': 'application/json' },
 					body: JSON.stringify({
-						action: 'create_account',
+						action: 'create_book',
 						name: name.trim(),
-						contact_number: contactNumber.trim() || null,
-						ledger_book_id: ledgerBookId,
+						description: description.trim() || null,
 					}),
 				});
-				if (!res.ok) throw new Error('Failed to create account');
-				toast.success('Account added!', { id: toastId });
+				if (!res.ok) throw new Error('Failed to create ledger');
+				toast.success('Ledger created!', { id: toastId });
 			}
 
 			queryClient.invalidateQueries({ queryKey: ['ledger'] });
@@ -123,9 +118,9 @@ export default function AddAccountModal({ isOpen, onClose, editAccount, ledgerBo
 								{isEdit ? (
 									<Pencil size={20} className='text-violet-500' />
 								) : (
-									<UserPlus size={20} className='text-violet-500' />
+									<BookOpen size={20} className='text-violet-500' />
 								)}
-								{isEdit ? 'Edit Account' : 'Add Account'}
+								{isEdit ? 'Edit Ledger' : 'New Ledger'}
 							</h2>
 							<button
 								onClick={onClose}
@@ -144,18 +139,18 @@ export default function AddAccountModal({ isOpen, onClose, editAccount, ledgerBo
 									value={name}
 									onChange={(e) => setName(e.target.value)}
 									className={inputCls}
-									placeholder='e.g. John Doe'
+									placeholder='e.g. Business, Personal, Family'
 								/>
 							</div>
 
 							<div>
-								<label className={labelCls}>Contact Number (optional)</label>
+								<label className={labelCls}>Description (optional)</label>
 								<input
-									type='tel'
-									value={contactNumber}
-									onChange={(e) => setContactNumber(e.target.value)}
+									type='text'
+									value={description}
+									onChange={(e) => setDescription(e.target.value)}
 									className={inputCls}
-									placeholder='e.g. +91 9876543210'
+									placeholder='e.g. Track all business transactions'
 								/>
 							</div>
 
@@ -175,7 +170,7 @@ export default function AddAccountModal({ isOpen, onClose, editAccount, ledgerBo
 									) : (
 										<>
 											<CheckCircle2 size={20} strokeWidth={2} />
-											{isEdit ? 'Update Account' : 'Add Account'}
+											{isEdit ? 'Update Ledger' : 'Create Ledger'}
 										</>
 									)}
 								</motion.button>

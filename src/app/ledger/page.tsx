@@ -9,5 +9,5 @@ export default async function LedgerPage() {
 		redirect('/');
 	}
 
-	return <Ledger session={session} />;
+	return <Ledger />;
 }

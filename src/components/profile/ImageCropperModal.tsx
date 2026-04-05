@@ -2,6 +2,7 @@ import { useState, useCallback } from 'react';
 import Cropper from 'react-easy-crop';
 import { motion } from 'framer-motion';
 import { X, Check } from 'lucide-react';
+
 import { getCroppedImg } from '@/lib/cropImage';
 
 interface Props {
