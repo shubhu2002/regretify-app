@@ -4,16 +4,16 @@ import { useState } from 'react';
 import { useSession } from 'next-auth/react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Ghost, LogIn, Plus, BookOpen, Flame, User } from 'lucide-react';
+import { Ghost, LogIn, BookOpen, Flame, User } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { useQuery } from '@tanstack/react-query';
 
 import AuthModal from './landing-page/AuthModal';
 import ThemeToggle from './ThemeToggle';
-import AddTransactionModal from './dashboard/AddTransactionModal';
+import AddTransactionModal from './regrets/AddTransactionModal';
 
 const NAV_LINKS = [
-	{ href: '/dashboard', label: 'Regrets', icon: Flame },
+	{ href: '/regrets', label: 'Regrets', icon: Flame },
 	{ href: '/ledger', label: 'Ledger', icon: BookOpen },
 	{ href: '/profile', label: 'Profile', icon: User },
 ];

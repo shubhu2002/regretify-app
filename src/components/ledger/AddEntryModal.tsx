@@ -6,6 +6,7 @@ import { X, CheckCircle2, ArrowUpRight, ArrowDownLeft } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { useQueryClient } from '@tanstack/react-query';
 import { LedgerAccount, LedgerEntry } from '@/types';
+import { getLocalDateString, getLocalTimeString } from '@/utils';
 
 interface AddEntryModalProps {
 	isOpen: boolean;
@@ -14,7 +15,12 @@ interface AddEntryModalProps {
 	editEntry?: LedgerEntry | null;
 }
 
-export default function AddEntryModal({ isOpen, onClose, account, editEntry }: AddEntryModalProps) {
+export default function AddEntryModal({
+	isOpen,
+	onClose,
+	account,
+	editEntry,
+}: AddEntryModalProps) {
 	const queryClient = useQueryClient();
 	const [loading, setLoading] = useState(false);
 	const [amount, setAmount] = useState('');
@@ -22,19 +28,6 @@ export default function AddEntryModal({ isOpen, onClose, account, editEntry }: A
 	const [type, setType] = useState<'give' | 'take'>('give');
 
 	const isEdit = !!editEntry;
-
-	const getLocalDateString = (d: Date = new Date()) => {
-		const year = d.getFullYear();
-		const month = String(d.getMonth() + 1).padStart(2, '0');
-		const day = String(d.getDate()).padStart(2, '0');
-		return `${year}-${month}-${day}`;
-	};
-
-	const getLocalTimeString = (d: Date = new Date()) => {
-		const hours = String(d.getHours()).padStart(2, '0');
-		const minutes = String(d.getMinutes()).padStart(2, '0');
-		return `${hours}:${minutes}`;
-	};
 
 	const [date, setDate] = useState(getLocalDateString());
 	const [time, setTime] = useState(getLocalTimeString());
@@ -118,7 +111,9 @@ export default function AddEntryModal({ isOpen, onClose, account, editEntry }: A
 		if (!finalAmount || finalAmount <= 0) return;
 
 		setLoading(true);
-		const toastId = toast.loading(isEdit ? 'Updating entry...' : 'Saving entry...');
+		const toastId = toast.loading(
+			isEdit ? 'Updating entry...' : 'Saving entry...',
+		);
 
 		const [year, month, day] = date.split('-').map(Number);
 		const [hours, minutes] = time.split(':').map(Number);
@@ -159,6 +154,7 @@ export default function AddEntryModal({ isOpen, onClose, account, editEntry }: A
 			}
 
 			queryClient.invalidateQueries({ queryKey: ['ledger'] });
+			queryClient.invalidateQueries({ queryKey: ['ledger-entries'] });
 			resetForm();
 			onClose();
 		} catch {
@@ -180,31 +176,37 @@ export default function AddEntryModal({ isOpen, onClose, account, editEntry }: A
 					initial={{ opacity: 0 }}
 					animate={{ opacity: 1 }}
 					exit={{ opacity: 0 }}
-					className='fixed inset-0 bg-slate-900/60 backdrop-blur-md z-100 flex items-center justify-center h-full p-4'
+					className='fixed inset-0 bg-slate-900/60 backdrop-blur-md transform-gpu z-100 flex items-center justify-center min-h-dvh p-4 overflow-hidden'
 				>
 					<motion.div
 						initial={{ scale: 0.95, opacity: 0, y: 20 }}
 						animate={{ scale: 1, opacity: 1, y: 0 }}
 						exit={{ scale: 0.95, opacity: 0, y: 20 }}
 						onClick={(e) => e.stopPropagation()}
-						className='bg-fuchsia-50/90 backdrop-blur-2xl dark:bg-fuchsia-950/30 w-full max-w-md border border-fuchsia-100 dark:border-fuchsia-800/30 overflow-hidden rounded-3xl shadow-2xl'
+						className='bg-fuchsia-50/90 backdrop-blur-2xl transform-gpu dark:bg-fuchsia-950/30 w-full max-w-md border border-fuchsia-100 dark:border-fuchsia-800/30 overflow-hidden rounded-3xl shadow-2xl'
 					>
 						<div className='p-4 sm:p-6 border-b border-fuchsia-100 dark:border-fuchsia-800/30 flex justify-between items-center bg-violet-50/50 dark:bg-violet-900/20'>
 							<h2 className='text-xl font-bold text-slate-900 dark:text-white flex items-center gap-2'>
-								<span className={`w-3 h-3 rounded-full shadow-sm ${type === 'give' ? 'bg-rose-500' : 'bg-emerald-500'}`} />
-								{isEdit ? 'Edit' : 'Add'} Entry for {account.name}
+								<span
+									className={`w-3 h-3 rounded-full shadow-sm ${type === 'give' ? 'bg-rose-500' : 'bg-emerald-500'}`}
+								/>
+								{isEdit ? 'Edit' : 'Add'} Entry for{' '}
+								{account.name}
 							</h2>
 							<button
 								onClick={onClose}
 								className='cursor-pointer p-2 text-slate-400 border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700 shadow-sm rounded-full transition-colors hover:-translate-y-0.5 active:translate-y-0'
 							>
-								<X size={18} strokeWidth={2} />
+								<X
+									size={18}
+									strokeWidth={2}
+								/>
 							</button>
 						</div>
 
 						<form
 							onSubmit={handleSubmit}
-							className='p-4 sm:p-6 space-y-5 overflow-y-auto overflow-x-hidden max-h-[75vh]'
+							className='p-4 sm:p-6 space-y-5 overflow-y-auto overflow-x-hidden max-h-[75dvh]'
 						>
 							{/* Type Toggle */}
 							<div>
@@ -214,24 +216,30 @@ export default function AddEntryModal({ isOpen, onClose, account, editEntry }: A
 										type='button'
 										onClick={() => setType('give')}
 										className={`cursor-pointer flex items-center justify-center gap-2 py-3 rounded-xl font-semibold text-sm border transition-all ${
-											type === 'give'
-												? 'bg-rose-500 text-white border-rose-500 shadow-md shadow-rose-500/20'
-												: 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 border-slate-200 dark:border-slate-700 hover:bg-slate-200 dark:hover:bg-slate-700'
+											type === 'give' ?
+												'bg-rose-500 text-white border-rose-500 shadow-md shadow-rose-500/20'
+											:	'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 border-slate-200 dark:border-slate-700 hover:bg-slate-200 dark:hover:bg-slate-700'
 										}`}
 									>
-										<ArrowUpRight size={16} strokeWidth={2.5} />
+										<ArrowUpRight
+											size={16}
+											strokeWidth={2.5}
+										/>
 										You Gave
 									</button>
 									<button
 										type='button'
 										onClick={() => setType('take')}
 										className={`cursor-pointer flex items-center justify-center gap-2 py-3 rounded-xl font-semibold text-sm border transition-all ${
-											type === 'take'
-												? 'bg-emerald-500 text-white border-emerald-500 shadow-md shadow-emerald-500/20'
-												: 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 border-slate-200 dark:border-slate-700 hover:bg-slate-200 dark:hover:bg-slate-700'
+											type === 'take' ?
+												'bg-emerald-500 text-white border-emerald-500 shadow-md shadow-emerald-500/20'
+											:	'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 border-slate-200 dark:border-slate-700 hover:bg-slate-200 dark:hover:bg-slate-700'
 										}`}
 									>
-										<ArrowDownLeft size={16} strokeWidth={2.5} />
+										<ArrowDownLeft
+											size={16}
+											strokeWidth={2.5}
+										/>
 										You Got
 									</button>
 								</div>
@@ -249,7 +257,9 @@ export default function AddEntryModal({ isOpen, onClose, account, editEntry }: A
 										inputMode='decimal'
 										required
 										value={amount}
-										onChange={(e) => setAmount(e.target.value)}
+										onChange={(e) =>
+											setAmount(e.target.value)
+										}
 										className='w-full pl-9 pr-4 py-3 bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-violet-500 focus:bg-slate-50 dark:focus:bg-slate-800 shadow-sm font-semibold text-base md:text-lg transition-shadow outline-none text-slate-900 dark:text-white'
 										placeholder='e.g. 120+12'
 									/>
@@ -257,18 +267,37 @@ export default function AddEntryModal({ isOpen, onClose, account, editEntry }: A
 								<AnimatePresence>
 									{calculatedAmount !== null && (
 										<motion.div
-											initial={{ opacity: 0, y: -5, height: 0 }}
-											animate={{ opacity: 1, y: 0, height: 'auto' }}
-											exit={{ opacity: 0, y: -5, height: 0 }}
+											initial={{
+												opacity: 0,
+												y: -5,
+												height: 0,
+											}}
+											animate={{
+												opacity: 1,
+												y: 0,
+												height: 'auto',
+											}}
+											exit={{
+												opacity: 0,
+												y: -5,
+												height: 0,
+											}}
 											className='mt-2 flex items-center justify-between bg-violet-50/50 dark:bg-violet-900/20 px-4 py-2.5 rounded-xl border border-violet-100 dark:border-violet-800/30 overflow-hidden'
 										>
 											<span className='text-sm text-slate-700 dark:text-slate-200 font-semibold flex items-center gap-2'>
-												<span className='text-violet-500 dark:text-violet-400 font-bold'>=</span>
-												&#8377; {calculatedAmount.toLocaleString()}
+												<span className='text-violet-500 dark:text-violet-400 font-bold'>
+													=
+												</span>
+												&#8377;{' '}
+												{calculatedAmount.toLocaleString()}
 											</span>
 											<button
 												type='button'
-												onClick={() => setAmount(calculatedAmount.toString())}
+												onClick={() =>
+													setAmount(
+														calculatedAmount.toString(),
+													)
+												}
 												className='cursor-pointer text-xs px-3 py-1.5 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-700 shadow-sm font-medium transition-all active:scale-95'
 											>
 												Use Value
@@ -280,11 +309,15 @@ export default function AddEntryModal({ isOpen, onClose, account, editEntry }: A
 
 							{/* Description */}
 							<div>
-								<label className={labelCls}>Description (optional)</label>
+								<label className={labelCls}>
+									Description (optional)
+								</label>
 								<input
 									type='text'
 									value={description}
-									onChange={(e) => setDescription(e.target.value)}
+									onChange={(e) =>
+										setDescription(e.target.value)
+									}
 									className={inputCls}
 									placeholder='e.g. Lunch money'
 								/>
@@ -298,7 +331,9 @@ export default function AddEntryModal({ isOpen, onClose, account, editEntry }: A
 										type='date'
 										required
 										value={date}
-										onChange={(e) => setDate(e.target.value)}
+										onChange={(e) =>
+											setDate(e.target.value)
+										}
 										inputMode='text'
 										className={`font-medium ${inputCls}`}
 									/>
@@ -309,7 +344,9 @@ export default function AddEntryModal({ isOpen, onClose, account, editEntry }: A
 										type='time'
 										required
 										value={time}
-										onChange={(e) => setTime(e.target.value)}
+										onChange={(e) =>
+											setTime(e.target.value)
+										}
 										className={`font-medium ${inputCls}`}
 									/>
 								</div>
@@ -317,27 +354,35 @@ export default function AddEntryModal({ isOpen, onClose, account, editEntry }: A
 
 							<div className='pt-2'>
 								<motion.button
-									whileTap={!isDisabled && !loading ? { scale: 0.98 } : undefined}
+									whileTap={
+										!isDisabled && !loading ?
+											{ scale: 0.98 }
+										:	undefined
+									}
 									type='submit'
 									disabled={loading || isDisabled}
 									className={`w-full py-3 text-white rounded-xl font-medium text-lg flex items-center justify-center gap-2 shadow-sm transition-all hover:shadow-md ${
-										type === 'give'
-											? 'bg-rose-600 dark:bg-rose-500 hover:bg-rose-700'
-											: 'bg-emerald-600 dark:bg-emerald-500 hover:bg-emerald-700'
+										type === 'give' ?
+											'bg-rose-600 dark:bg-rose-500 hover:bg-rose-700'
+										:	'bg-emerald-600 dark:bg-emerald-500 hover:bg-emerald-700'
 									} ${
-										loading || isDisabled
-											? 'opacity-50 cursor-not-allowed'
-											: 'cursor-pointer'
+										loading || isDisabled ?
+											'opacity-50 cursor-not-allowed'
+										:	'cursor-pointer'
 									}`}
 								>
-									{loading ? (
+									{loading ?
 										<div className='h-5 w-5 border-2 border-slate-200 border-t-transparent rounded-full animate-spin' />
-									) : (
-										<>
-											<CheckCircle2 size={20} strokeWidth={2} />
-											{isEdit ? 'Update Entry' : 'Save Entry'}
+									:	<>
+											<CheckCircle2
+												size={20}
+												strokeWidth={2}
+											/>
+											{isEdit ?
+												'Update Entry'
+											:	'Save Entry'}
 										</>
-									)}
+									}
 								</motion.button>
 							</div>
 						</form>

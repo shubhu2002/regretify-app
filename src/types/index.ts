@@ -26,9 +26,18 @@ export type Expense = {
 	date: string;
 };
 
+export type LedgerBook = {
+	id: number;
+	user_id: string;
+	name: string;
+	description: string | null;
+	created_at: string;
+};
+
 export type LedgerAccount = {
 	id: number;
 	user_id: string;
+	ledger_book_id: number;
 	name: string;
 	contact_number: string | null;
 	created_at: string;

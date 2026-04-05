@@ -128,7 +128,7 @@ export function CategoriesChart({ expenses }: ExpenseChartsProps) {
 					>
 						<div className='flex items-center gap-2 min-w-0'>
 							<span
-								className='w-2.5 h-2.5 rounded-full flex-shrink-0'
+								className='w-2.5 h-2.5 rounded-full shrink-0'
 								style={{
 									backgroundColor: COLORS[
 										i % COLORS.length
@@ -139,7 +139,7 @@ export function CategoriesChart({ expenses }: ExpenseChartsProps) {
 								{cat}
 							</span>
 						</div>
-						<span className='text-sm font-semibold text-slate-700 dark:text-slate-200 flex-shrink-0 tabular-nums'>
+						<span className='text-sm font-semibold text-slate-700 dark:text-slate-200 shrink-0 tabular-nums'>
 							₹{amt.toLocaleString('en-IN')}
 						</span>
 					</div>

@@ -18,38 +18,72 @@ async function getUserId() {
 	return user.id as string;
 }
 
-// GET /api/ledger — list accounts + their entries
-export async function GET() {
+// GET /api/ledger — list books, accounts + their entries
+export async function GET(req: NextRequest) {
 	try {
 		const userId = await getUserId();
 		if (!userId) {
 			return NextResponse.json({ message: 'Unauthorized' }, { status: 401 });
 		}
 
-		const { data: accounts, error: accErr } = await supabase
-			.from('regretify-ledger')
+		const { searchParams } = new URL(req.url);
+		const bookId = searchParams.get('book_id');
+
+		// Always fetch books
+		const { data: books, error: bookErr } = await supabase
+			.from('regretify-ledger-books')
 			.select('*')
 			.eq('user_id', userId)
 			.order('created_at', { ascending: false });
 
-		if (accErr) throw accErr;
+		if (bookErr) throw bookErr;
 
-		const { data: entries, error: entErr } = await supabase
-			.from('regretify-ledger-entries')
-			.select('*')
-			.eq('user_id', userId)
-			.order('date', { ascending: false });
+		// If a specific book is requested, fetch its accounts + per-account balances
+		if (bookId) {
+			const { data: accounts, error: accErr } = await supabase
+				.from('regretify-ledger')
+				.select('*')
+				.eq('user_id', userId)
+				.eq('ledger_book_id', bookId)
+				.order('created_at', { ascending: false });
 
-		if (entErr) throw entErr;
+			if (accErr) throw accErr;
 
-		return NextResponse.json({ accounts: accounts || [], entries: entries || [] });
+			const accountIds = (accounts || []).map((a: any) => a.id);
+
+			// Compute balances per account from entries (amount + type only)
+			const balances: Record<number, number> = {};
+			if (accountIds.length > 0) {
+				const { data: entryData, error: entErr } = await supabase
+					.from('regretify-ledger-entries')
+					.select('ledger_id, amount, type')
+					.eq('user_id', userId)
+					.in('ledger_id', accountIds);
+
+				if (entErr) throw entErr;
+
+				for (const e of entryData || []) {
+					if (!balances[e.ledger_id]) balances[e.ledger_id] = 0;
+					if (e.type === 'give') balances[e.ledger_id] -= Number(e.amount);
+					else balances[e.ledger_id] += Number(e.amount);
+				}
+			}
+
+			return NextResponse.json({
+				books: books || [],
+				accounts: accounts || [],
+				balances,
+			});
+		}
+
+		return NextResponse.json({ books: books || [], accounts: [], balances: {} });
 	} catch (error: any) {
 		console.error('GET /api/ledger error:', error);
 		return NextResponse.json({ message: error.message || 'Internal Server Error' }, { status: 500 });
 	}
 }
 
-// POST /api/ledger  { action: 'create_account' | 'create_entry', ...payload }
+// POST /api/ledger  { action: 'create_book' | 'create_account' | 'create_entry', ...payload }
 export async function POST(req: NextRequest) {
 	try {
 		const userId = await getUserId();
@@ -60,15 +94,34 @@ export async function POST(req: NextRequest) {
 		const body = await req.json();
 		const { action, ...payload } = body;
 
-		if (action === 'create_account') {
-			const { name, contact_number } = payload;
+		if (action === 'create_book') {
+			const { name, description } = payload;
 			if (!name) {
 				return NextResponse.json({ message: 'Name is required' }, { status: 400 });
 			}
 
 			const { data, error } = await supabase
+				.from('regretify-ledger-books')
+				.insert({ user_id: userId, name, description: description || null })
+				.select()
+				.single();
+
+			if (error) throw error;
+			return NextResponse.json({ book: data }, { status: 201 });
+		}
+
+		if (action === 'create_account') {
+			const { name, contact_number, ledger_book_id } = payload;
+			if (!name) {
+				return NextResponse.json({ message: 'Name is required' }, { status: 400 });
+			}
+			if (!ledger_book_id) {
+				return NextResponse.json({ message: 'Ledger book is required' }, { status: 400 });
+			}
+
+			const { data, error } = await supabase
 				.from('regretify-ledger')
-				.insert({ user_id: userId, name, contact_number: contact_number || null })
+				.insert({ user_id: userId, name, contact_number: contact_number || null, ledger_book_id })
 				.select()
 				.single();
 
@@ -102,7 +155,7 @@ export async function POST(req: NextRequest) {
 	}
 }
 
-// PATCH /api/ledger  { action: 'update_account' | 'update_entry', id, ...payload }
+// PATCH /api/ledger  { action: 'update_book' | 'update_account' | 'update_entry' | 'toggle_star', id, ...payload }
 export async function PATCH(req: NextRequest) {
 	try {
 		const userId = await getUserId();
@@ -115,6 +168,22 @@ export async function PATCH(req: NextRequest) {
 
 		if (!id) {
 			return NextResponse.json({ message: 'Missing id' }, { status: 400 });
+		}
+
+		if (action === 'update_book') {
+			const { name, description } = payload;
+			if (!name) {
+				return NextResponse.json({ message: 'Name is required' }, { status: 400 });
+			}
+
+			const { error } = await supabase
+				.from('regretify-ledger-books')
+				.update({ name, description: description || null })
+				.eq('id', id)
+				.eq('user_id', userId);
+
+			if (error) throw error;
+			return NextResponse.json({ message: 'Ledger updated' });
 		}
 
 		if (action === 'update_account') {
@@ -134,7 +203,6 @@ export async function PATCH(req: NextRequest) {
 		}
 
 		if (action === 'toggle_star') {
-			// Check current state
 			const { data: entry, error: fetchErr } = await supabase
 				.from('regretify-ledger-entries')
 				.select('starred, ledger_id')
@@ -146,7 +214,6 @@ export async function PATCH(req: NextRequest) {
 				return NextResponse.json({ message: 'Entry not found' }, { status: 404 });
 			}
 
-			// If unstarring, just do it
 			if (entry.starred) {
 				const { error } = await supabase
 					.from('regretify-ledger-entries')
@@ -158,7 +225,6 @@ export async function PATCH(req: NextRequest) {
 				return NextResponse.json({ message: 'Unstarred' });
 			}
 
-			// If starring, check max 3 per account
 			const { count, error: countErr } = await supabase
 				.from('regretify-ledger-entries')
 				.select('id', { count: 'exact', head: true })
@@ -208,7 +274,7 @@ export async function PATCH(req: NextRequest) {
 	}
 }
 
-// DELETE /api/ledger?id=xxx&type=account|entry
+// DELETE /api/ledger?id=xxx&type=book|account|entry
 export async function DELETE(req: NextRequest) {
 	try {
 		const userId = await getUserId();
@@ -224,7 +290,17 @@ export async function DELETE(req: NextRequest) {
 			return NextResponse.json({ message: 'Missing id or type' }, { status: 400 });
 		}
 
-		const table = type === 'account' ? 'regretify-ledger' : 'regretify-ledger-entries';
+		const tableMap: Record<string, string> = {
+			book: 'regretify-ledger-books',
+			account: 'regretify-ledger',
+			entry: 'regretify-ledger-entries',
+		};
+
+		const table = tableMap[type];
+		if (!table) {
+			return NextResponse.json({ message: 'Invalid type' }, { status: 400 });
+		}
+
 		const { error } = await supabase.from(table).delete().eq('id', id).eq('user_id', userId);
 
 		if (error) throw error;

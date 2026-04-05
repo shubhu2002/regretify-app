@@ -5,7 +5,10 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { X, CheckCircle2 } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { useQueryClient } from '@tanstack/react-query';
+
 import { Transaction } from '@/types';
+import { PAYMENT_TYPES, EXPENSE_CATEGORIES, INCOME_SOURCES } from '@/constants';
+import { getLocalDateString, getLocalTimeString } from '@/utils';
 
 type Type = 'income' | 'expense';
 
@@ -17,21 +20,6 @@ interface AddTransactionModalProps {
 	onSuccess: () => void;
 	editItem?: Transaction;
 }
-
-const EXPENSE_CATEGORIES = [
-	'Food',
-	'Clothes/Fashion',
-	'Electronics',
-	'Bills',
-	'Travel',
-	'Devotional',
-	'Vehicle',
-	'Misc.',
-	'Entertainment',
-	'Other',
-];
-const PAYMENT_TYPES = ['Cash', 'Credit Card', 'UPI', 'Debit Card', 'Other'];
-const INCOME_SOURCES = ['Salary', 'Gifts', 'Investment Return', 'Freelance'];
 
 export default function AddTransactionModal({
 	isOpen,
@@ -48,18 +36,6 @@ export default function AddTransactionModal({
 	const [categorySource, setCategorySource] = useState('');
 	const [otherCategory, setOtherCategory] = useState('');
 	const [paymentType, setPaymentType] = useState(PAYMENT_TYPES[0]);
-	const getLocalDateString = (d: Date = new Date()) => {
-		const year = d.getFullYear();
-		const month = String(d.getMonth() + 1).padStart(2, '0');
-		const day = String(d.getDate()).padStart(2, '0');
-		return `${year}-${month}-${day}`;
-	};
-
-	const getLocalTimeString = (d: Date = new Date()) => {
-		const hours = String(d.getHours()).padStart(2, '0');
-		const minutes = String(d.getMinutes()).padStart(2, '0');
-		return `${hours}:${minutes}`;
-	};
 
 	const [date, setDate] = useState(getLocalDateString());
 	const [time, setTime] = useState(getLocalTimeString());
