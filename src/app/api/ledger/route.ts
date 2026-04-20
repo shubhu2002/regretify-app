@@ -69,9 +69,14 @@ export async function GET(req: NextRequest) {
 				}
 			}
 
+			const accountsWithBalance = (accounts || []).map((acc: any) => ({
+				...acc,
+				balance: balances[acc.id] || 0,
+			}));
+
 			return NextResponse.json({
 				books: books || [],
-				accounts: accounts || [],
+				accounts: accountsWithBalance || [],
 				balances,
 			});
 		}

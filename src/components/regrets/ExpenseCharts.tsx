@@ -120,7 +120,7 @@ export function CategoriesChart({ expenses }: ExpenseChartsProps) {
 			</div>
 
 			{/* Custom legend with amounts */}
-			<div className='space-y-1.5 grid grid-cols-2 gap-x-5 overflow-y-auto max-h-36 pr-1'>
+			<div className='space-y-1.5 grid grid-cols-2 gap-x-5 overflow-y-auto max-h-36 pr-1 mt-4 sm:mt-0'>
 				{sorted.map(([cat, amt], i) => (
 					<div
 						key={cat}

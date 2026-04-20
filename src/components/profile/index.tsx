@@ -263,7 +263,7 @@ export default function Profile() {
 
 				<div className='flex flex-col md:flex-row gap-8'>
 					{/* Profile Edit Section */}
-					<div className='flex-1 bg-violet-50/60 backdrop-blur-xl dark:bg-violet-900/20 border border-violet-100 dark:border-violet-800/30 rounded-3xl p-6 sm:p-8 shadow-sm h-fit'>
+					<div className='flex-1 bg-violet-50/60 backdrop-blur-xl dark:bg-violet-900/20 border border-violet-100 dark:border-violet-800/30 rounded-3xl p-4 sm:p-6 shadow-sm h-fit'>
 						<div className='flex items-center gap-4 mb-8'>
 							{/* Avatar */}
 							<div
@@ -458,8 +458,8 @@ export default function Profile() {
 					</div>
 
 					{/* Danger & Logout Actions Section */}
-					<div className='md:w-80 flex flex-col gap-6'>
-						<div className='bg-rose-50 dark:bg-rose-950/20 border border-rose-200 dark:border-rose-900/50 rounded-3xl p-6 shadow-sm'>
+					<div className='md:w-80 flex-[0.4] flex flex-col gap-6'>
+						<div className='bg-rose-50 dark:bg-rose-950/20 border border-rose-200 dark:border-rose-900/50 rounded-3xl p-4 sm:p-6 shadow-sm'>
 							<div className='flex items-center gap-3 text-rose-600 dark:text-rose-400 mb-2'>
 								<Trash2 size={20} />
 								<h2 className='font-semibold text-lg'>
@@ -481,7 +481,7 @@ export default function Profile() {
 							</button>
 						</div>
 
-						<div className='bg-fuchsia-50/60 backdrop-blur-xl dark:bg-fuchsia-900/10 border border-fuchsia-100 dark:border-fuchsia-800/20 rounded-3xl p-6 shadow-sm flex-1'>
+						<div className='bg-fuchsia-50/60 backdrop-blur-xl dark:bg-fuchsia-900/10 border border-fuchsia-100 dark:border-fuchsia-800/20 rounded-3xl p-4 sm:p-6 shadow-sm flex-1'>
 							<h2 className='font-semibold text-lg text-slate-800 dark:text-slate-200 mb-6 flex items-center gap-2'>
 								<LogOut
 									size={20}
