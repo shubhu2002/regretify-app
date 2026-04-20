@@ -29,7 +29,8 @@ import { handleSmooth } from '@/utils';
 
 export default function LandingPage() {
 	const [isAuthOpen, setIsAuthOpen] = useState(false);
-	const { data: session } = useSession();
+	const { data: session, status } = useSession();
+
 	const router = useRouter();
 
 	const statsRef = useRef(null);
@@ -78,13 +79,14 @@ export default function LandingPage() {
 							whileHover={{ scale: 1.03 }}
 							whileTap={{ scale: 0.97 }}
 							onClick={() =>
-								session ?
+								session  ?
 									router.push('/regrets')
 								:	setIsAuthOpen(true)
 							}
-							className='bg-violet-600 hover:bg-violet-700 text-white shadow-lg shadow-violet-600/30 px-6 py-3 rounded-xl font-semibold text-lg flex items-center gap-2 transition-all'
+							disabled={status === "loading"}
+							className='bg-violet-600 hover:bg-violet-700 text-white shadow-lg shadow-violet-600/30 px-6 py-3 rounded-xl font-semibold text-lg flex items-center gap-2 transition-all disabled:opacity-70 disabled:cursor-not-allowed'
 						>
-							{session ? 'View My Regrets' : 'Start Regretting'}{' '}
+							{session ? 'View My Regrets' : status=== "loading" ? "Loading...." :  'Start Regretting'}{' '}
 							<ArrowRight size={20} />
 						</motion.button>
 						<motion.a
