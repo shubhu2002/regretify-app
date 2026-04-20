@@ -526,6 +526,24 @@ export default function Ledger() {
 															</p>
 														)}
 													</div>
+													<p
+														className={`text-sm font-bold ${
+															(
+																account.balance >=
+																0
+															) ?
+																'text-emerald-600 dark:text-emerald-400'
+															:	'text-rose-600 dark:text-rose-400'
+														}`}
+													>
+														{account.balance >= 0 ?
+															'+'
+														:	'-'}
+														₹
+														{Math.abs(
+															account.balance,
+														).toLocaleString()}
+													</p>
 												</div>
 											</motion.div>
 										);

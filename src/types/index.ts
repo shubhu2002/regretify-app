@@ -41,6 +41,7 @@ export type LedgerAccount = {
 	name: string;
 	contact_number: string | null;
 	created_at: string;
+	balance: number
 };
 
 export type LedgerEntry = {

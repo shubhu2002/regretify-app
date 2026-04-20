@@ -1,23 +1,16 @@
 import {
-	ArrowRight,
-	Ghost,
 	BarChart3,
 	ShieldCheck,
 	Download,
 	Filter,
 	Calculator,
 	Moon,
-	Star,
 	TrendingDown,
 	PiggyBank,
 	Zap,
-	Users,
-	Receipt,
-	HeartCrack,
 	CalendarDays,
 	BookOpen,
 	ArrowUpRight,
-	LucideProps,
 } from 'lucide-react';
 
 export const PLATFORM_FEATURES = [

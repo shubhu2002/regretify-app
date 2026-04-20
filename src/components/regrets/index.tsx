@@ -13,6 +13,7 @@ import { CategoriesChart, TrendChart } from './ExpenseCharts';
 import TransactionsTable from './TransactionsTable';
 import ConfirmModal from '../ConfirmModal';
 import { Expense, Income, Transaction } from '@/types';
+import { MONTHS } from '@/constants';
 
 export default function Regrets({ session }: { session: Session }) {
 	const [modalOpen, setModalOpen] = useState(false);
@@ -27,20 +28,6 @@ export default function Regrets({ session }: { session: Session }) {
 		new Date().getMonth().toString(),
 	);
 
-	const MONTHS = [
-		'January',
-		'February',
-		'March',
-		'April',
-		'May',
-		'June',
-		'July',
-		'August',
-		'September',
-		'October',
-		'November',
-		'December',
-	];
 	const monthLabel =
 		filterMonth === 'all' ? 'All Time' : (
 			`${MONTHS[parseInt(filterMonth)]} ${new Date().getFullYear()}`
@@ -190,7 +177,7 @@ export default function Regrets({ session }: { session: Session }) {
 							Welcome back, {session.user?.name}
 						</p>
 					</div>
-					<div className='flex flex-wrap items-center gap-3'>
+					<div className='flex flex-col sm:flex-row items-start sm:items-center gap-3'>
 						{/* Month filter */}
 						<div className='flex items-center gap-2 px-3 py-2 rounded-xl bg-white/80 dark:bg-slate-900/80 border border-slate-200 dark:border-slate-700 shadow-sm'>
 							<CalendarDays
@@ -217,7 +204,8 @@ export default function Regrets({ session }: { session: Session }) {
 							</select>
 						</div>
 
-						<button
+						<div className='flex items-center gap-1.5 sm:gap-3'>
+							<button
 							onClick={() => {
 								setModalType('income');
 								setEditItem(null);
@@ -242,6 +230,7 @@ export default function Regrets({ session }: { session: Session }) {
 							<Plus size={18} />
 							<span>Add Regret</span>
 						</button>
+						</div>
 					</div>
 				</header>
 
@@ -249,7 +238,7 @@ export default function Regrets({ session }: { session: Session }) {
 					<RegretsSkeleton />
 				:	<>
 						{/* Stats Cards */}
-						<div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8 relative z-10'>
+						<div className='grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8 relative z-10'>
 							<StatCard
 								title='Brief Joy (Income)'
 								amount={`₹${totalIncome.toLocaleString()}`}
@@ -364,7 +353,7 @@ function StatCard({
 			initial={{ opacity: 0, scale: 0.9 }}
 			animate={{ opacity: 1, scale: 1 }}
 			whileHover={{ y: -4 }}
-			className='bg-violet-50/60 backdrop-blur-xl dark:bg-violet-900/20 border border-violet-100 dark:border-violet-800/30 p-6 rounded-3xl shadow-sm transition-all hover:shadow-md hover:-translate-y-1 relative overflow-hidden group'
+			className='bg-violet-50/60 backdrop-blur-xl dark:bg-violet-900/20 border border-violet-100 dark:border-violet-800/30 p-4 sm:p-6 rounded-3xl shadow-sm transition-all hover:shadow-md hover:-translate-y-1 relative overflow-hidden group'
 		>
 			<div className='absolute -inset-2 bg-linear-to-r from-transparent via-white/40 to-transparent dark:via-white/5 skew-x-12 translate-x-[-150%] group-hover:translate-x-[150%] transition-transform duration-700 pointer-events-none' />
 			<div className='flex items-center justify-between mb-2 relative z-10'>
