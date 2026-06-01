@@ -8,6 +8,7 @@ import { useQueryClient } from '@tanstack/react-query';
 
 import { Transaction } from '@/types';
 import { PAYMENT_TYPES, EXPENSE_CATEGORIES, INCOME_SOURCES } from '@/constants';
+import CustomSelect from '@/components/ui/CustomSelect';
 import { getLocalDateString, getLocalTimeString } from '@/utils';
 
 type Type = 'income' | 'expense';
@@ -329,34 +330,15 @@ export default function AddTransactionModal({
 											'Excuse'
 										:	'Source'}
 									</label>
-									<select
+									<CustomSelect
 										value={categorySource}
-										onChange={(e) =>
-											setCategorySource(e.target.value)
-										}
-										className={selectCls}
-									>
-										<option
-											value=''
-											disabled
-										>
-											Select{' '}
-											{type === 'expense' ?
-												'Category'
-											:	'Source'}
-										</option>
-										{(type === 'expense' ?
-											EXPENSE_CATEGORIES
-										:	INCOME_SOURCES
-										).map((opt) => (
-											<option
-												key={opt}
-												value={opt}
-											>
-												{opt}
-											</option>
-										))}
-									</select>
+										onChange={setCategorySource}
+										placeholder={`Select ${type === 'expense' ? 'Category' : 'Source'}`}
+										options={(type === 'expense' ? EXPENSE_CATEGORIES : INCOME_SOURCES).map((opt) => ({
+											value: opt,
+											label: opt,
+										}))}
+									/>
 								</div>
 
 								{categorySource === 'Other' && (
@@ -382,22 +364,14 @@ export default function AddTransactionModal({
 										<label className={labelCls}>
 											Payment Method
 										</label>
-										<select
+										<CustomSelect
 											value={paymentType}
-											onChange={(e) =>
-												setPaymentType(e.target.value)
-											}
-											className={selectCls}
-										>
-											{PAYMENT_TYPES.map((opt) => (
-												<option
-													key={opt}
-													value={opt}
-												>
-													{opt}
-												</option>
-											))}
-										</select>
+											onChange={setPaymentType}
+											options={PAYMENT_TYPES.map((opt) => ({
+												value: opt,
+												label: opt,
+											}))}
+										/>
 									</div>
 								)}
 

@@ -7,6 +7,7 @@ import { useQuery } from '@tanstack/react-query';
 import toast from 'react-hot-toast';
 import axios from 'axios';
 import { Plus, ArrowDownRight, ArrowUpRight, CalendarDays } from 'lucide-react';
+import CustomSelect from '@/components/ui/CustomSelect';
 
 import AddTransactionModal from './AddTransactionModal';
 import { CategoriesChart, TrendChart } from './ExpenseCharts';
@@ -179,30 +180,16 @@ export default function Regrets({ session }: { session: Session }) {
 					</div>
 					<div className='flex flex-col sm:flex-row items-start sm:items-center gap-3'>
 						{/* Month filter */}
-						<div className='flex items-center gap-2 px-3 py-2 rounded-xl bg-white/80 dark:bg-slate-900/80 border border-slate-200 dark:border-slate-700 shadow-sm'>
-							<CalendarDays
-								size={15}
-								className='text-violet-500 shrink-0'
-							/>
-							<span className='text-xs font-medium text-slate-500 dark:text-slate-400 hidden sm:inline'>
-								{monthLabel}
-							</span>
-							<select
-								value={filterMonth}
-								onChange={(e) => setFilterMonth(e.target.value)}
-								className='text-base md:text-sm font-medium text-slate-700 dark:text-slate-200 bg-transparent outline-none cursor-pointer appearance-none pr-1'
-							>
-								<option value='all'>All Time</option>
-								{MONTHS.map((m, i) => (
-									<option
-										key={i}
-										value={i.toString()}
-									>
-										{m}
-									</option>
-								))}
-							</select>
-						</div>
+						<CustomSelect
+							value={filterMonth}
+							onChange={setFilterMonth}
+							icon={<CalendarDays size={15} className='text-violet-500' />}
+							options={[
+								{ value: 'all', label: 'All Time' },
+								...MONTHS.map((m, i) => ({ value: i.toString(), label: m })),
+							]}
+							className='w-auto'
+						/>
 
 						<div className='flex items-center gap-1.5 sm:gap-3'>
 							<button
@@ -394,16 +381,42 @@ function RegretsSkeleton() {
 			<div className='grid grid-cols-1 lg:grid-cols-3 gap-6'>
 				<div className='lg:col-span-2 bg-violet-50/60 dark:bg-violet-900/20 border border-violet-100 dark:border-violet-800/30 rounded-3xl p-6 min-h-100 shadow-sm'>
 					<div className={`${shimmer} h-5 w-40 mb-6`} />
-					<div className='flex items-end gap-3 h-52'>
-						{[40, 65, 45, 80, 55, 70, 35, 60, 75, 50, 85, 45].map(
-							(h, i) => (
-								<div
-									key={i}
-									className={`${shimmer} flex-1 rounded-t-lg`}
-									style={{ height: `${h}%` }}
-								/>
-							),
-						)}
+					<div className='relative h-52'>
+						{/* Y-axis ticks */}
+						<div className='absolute left-0 top-0 bottom-6 flex flex-col justify-between'>
+							{[...Array(5)].map((_, i) => (
+								<div key={i} className={`${shimmer} h-2.5 w-8`} />
+							))}
+						</div>
+						{/* Grid lines */}
+						<div className='absolute left-12 right-0 top-0 bottom-6 flex flex-col justify-between'>
+							{[...Array(5)].map((_, i) => (
+								<div key={i} className='h-px bg-slate-200/50 dark:bg-slate-700/30' />
+							))}
+						</div>
+						{/* Area curve */}
+						<svg className='absolute left-12 right-0 top-0 bottom-6 w-[calc(100%-3rem)] h-[calc(100%-1.5rem)]' viewBox='0 0 400 180' preserveAspectRatio='none'>
+							<defs>
+								<linearGradient id='skelGrad' x1='0' y1='0' x2='0' y2='1'>
+									<stop offset='0%' className='[stop-color:theme(colors.violet.300)] dark:[stop-color:theme(colors.violet.600)]' stopOpacity='0.3' />
+									<stop offset='100%' className='[stop-color:theme(colors.violet.300)] dark:[stop-color:theme(colors.violet.600)]' stopOpacity='0' />
+								</linearGradient>
+							</defs>
+							<path d='M0,140 C30,135 60,120 100,100 C140,80 160,30 200,50 C240,70 280,90 320,85 C360,80 380,75 400,80 L400,180 L0,180 Z' fill='url(#skelGrad)' className='animate-pulse' />
+							<path d='M0,140 C30,135 60,120 100,100 C140,80 160,30 200,50 C240,70 280,90 320,85 C360,80 380,75 400,80' fill='none' className='stroke-slate-300/60 dark:stroke-slate-600/40 animate-pulse' strokeWidth='2.5' />
+						</svg>
+						{/* X-axis ticks */}
+						<div className='absolute left-12 right-0 bottom-0 flex justify-between'>
+							{[...Array(6)].map((_, i) => (
+								<div key={i} className={`${shimmer} h-2.5 w-5`} />
+							))}
+						</div>
+					</div>
+					{/* Footer */}
+					<div className='flex items-center gap-2 mt-2 pl-12'>
+						<div className={`${shimmer} h-3 w-20`} />
+						<div className={`${shimmer} h-3 w-px`} />
+						<div className={`${shimmer} h-3 w-8`} />
 					</div>
 				</div>
 				<div className='bg-fuchsia-50/60 dark:bg-fuchsia-900/10 border border-fuchsia-100 dark:border-fuchsia-800/20 rounded-3xl p-6 min-h-100 shadow-sm'>

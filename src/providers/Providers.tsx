@@ -5,6 +5,7 @@ import React, { useState } from 'react';
 import { ThemeProvider } from 'next-themes';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { Toaster } from 'react-hot-toast';
+import { AppLockProvider } from '@/providers/AppLockProvider';
 
 export function Providers({ children }: { children: React.ReactNode }) {
 	const [queryClient] = useState(
@@ -25,7 +26,11 @@ export function Providers({ children }: { children: React.ReactNode }) {
 			enableSystem
 		>
 			<QueryClientProvider client={queryClient}>
-				<SessionProvider>{children}</SessionProvider>
+				<SessionProvider>
+						<AppLockProvider>
+							{children}
+						</AppLockProvider>
+					</SessionProvider>
 				<Toaster
 					position='top-right'
 					toastOptions={{

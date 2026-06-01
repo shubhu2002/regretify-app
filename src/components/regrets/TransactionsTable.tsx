@@ -11,6 +11,7 @@ import {
 	Trash2,
 	Download,
 } from 'lucide-react';
+import CustomSelect from '@/components/ui/CustomSelect';
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
 
@@ -264,42 +265,26 @@ export default function TransactionsTable({
 							size={16}
 							className='text-slate-400 hidden sm:block'
 						/>
-						<select
+						<CustomSelect
 							value={filterMonth}
-							onChange={(e) => {
-								setFilterMonth(e.target.value);
-								setCurrentPage(1);
-							}}
-							className='w-full flex-1 sm:w-auto text-center items-center px-2 py-1.5 sm:px-3 sm:py-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/50 text-slate-900 dark:text-white focus:ring-2 focus:ring-violet-500 outline-none text-base md:text-sm appearance-none cursor-pointer relative'
-						>
-							<option value='all'>All Months</option>
-							{MONTHS.map((m, i) => (
-								<option
-									key={i}
-									value={i.toString()}
-								>
-									{m}
-								</option>
-							))}
-						</select>
+							onChange={(v) => { setFilterMonth(v); setCurrentPage(1); }}
+							options={[
+								{ value: 'all', label: 'All Months' },
+								...MONTHS.map((m, i) => ({ value: i.toString(), label: m })),
+							]}
+							className='w-full flex-1 sm:w-auto'
+						/>
 
-						<select
+						<CustomSelect
 							value={filterType}
-							onChange={(e) => {
-								setFilterType(
-									e.target.value as
-										| 'all'
-										| 'income'
-										| 'expense',
-								);
-								setCurrentPage(1);
-							}}
-							className='w-full flex-1 sm:w-auto text-center items-center px-2 py-1.5 sm:px-3 sm:py-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/50 text-slate-900 dark:text-white focus:ring-2 focus:ring-violet-500 outline-none text-base md:text-sm appearance-none cursor-pointer'
-						>
-							<option value='all'>All Types</option>
-							<option value='income'>Incomes Only</option>
-							<option value='expense'>Expenses Only</option>
-						</select>
+							onChange={(v) => { setFilterType(v as 'all' | 'income' | 'expense'); setCurrentPage(1); }}
+							options={[
+								{ value: 'all', label: 'All Types' },
+								{ value: 'income', label: 'Incomes Only' },
+								{ value: 'expense', label: 'Expenses Only' },
+							]}
+							className='w-full flex-1 sm:w-auto'
+						/>
 
 						<button
 							onClick={exportToPDF}

@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
+import { useState, useRef } from 'react';
 import { signIn } from 'next-auth/react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, Mail, Lock, User, Calendar, Camera, Ghost } from 'lucide-react';
@@ -8,6 +8,7 @@ import toast from 'react-hot-toast';
 import PhoneInput, { Country } from 'react-phone-number-input';
 
 import 'react-phone-number-input/style.css';
+import CustomSelect from '@/components/ui/CustomSelect';
 
 type AuthMode = 'signin' | 'signup';
 
@@ -42,18 +43,8 @@ export default function AuthModal({
 	// The actual File object, uploaded lazily on form submit
 	const [avatarFile, setAvatarFile] = useState<File | null>(null);
 
-	const [defaultCountry, setDefaultCountry] = useState<Country>('IN');
+	const defaultCountry: Country = 'IN';
 	const fileInputRef = useRef<HTMLInputElement>(null);
-
-	// Auto-detect country for PhoneInput
-	useEffect(() => {
-		fetch('https://ipapi.co/json/')
-			.then((r) => r.json())
-			.then((d) => {
-				if (d?.country_code) setDefaultCountry(d.country_code);
-			})
-			.catch(() => {});
-	}, []);
 
 	if (!isOpen) return null;
 
@@ -456,19 +447,16 @@ export default function AuthModal({
 										<label className={labelCls}>
 											Gender
 										</label>
-										<select
-											name='gender'
+										<CustomSelect
 											value={formData.gender}
-											onChange={handleChange}
-											className={selectCls}
-										>
-											<option value=''>Select...</option>
-											<option value='male'>Male</option>
-											<option value='female'>
-												Female
-											</option>
-											<option value='other'>Other</option>
-										</select>
+											onChange={(v) => setFormData((prev) => ({ ...prev, gender: v }))}
+											placeholder='Select...'
+											options={[
+												{ value: 'male', label: 'Male' },
+												{ value: 'female', label: 'Female' },
+												{ value: 'other', label: 'Other' },
+											]}
+										/>
 									</div>
 
 									{/* Phone with country flag */}

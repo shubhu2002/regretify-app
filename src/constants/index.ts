@@ -2,7 +2,6 @@ import {
 	BarChart3,
 	ShieldCheck,
 	Download,
-	Filter,
 	Calculator,
 	Moon,
 	TrendingDown,
@@ -11,6 +10,7 @@ import {
 	CalendarDays,
 	BookOpen,
 	ArrowUpRight,
+	LockKeyhole,
 } from 'lucide-react';
 
 export const PLATFORM_FEATURES = [
@@ -19,12 +19,6 @@ export const PLATFORM_FEATURES = [
 		title: 'Live Charts & Trends',
 		desc: 'Beautiful glassmorphism charts that update in real-time as you log your latest terrible decisions.',
 		color: 'violet',
-	},
-	{
-		icon: Filter,
-		title: 'Month-Wise Filtering',
-		desc: 'Filter transactions by any month of the year. See exactly how bad January really was.',
-		color: 'fuchsia',
 	},
 	{
 		icon: Download,
@@ -63,10 +57,16 @@ export const PLATFORM_FEATURES = [
 		color: 'fuchsia',
 	},
 	{
+		icon: LockKeyhole,
+		title: 'App Lock / Passcode',
+		desc: 'Protect your data with a 4 or 6-digit passcode. Every session starts locked — no one peeks at your regrets.',
+		color: 'indigo',
+	},
+	{
 		icon: Zap,
 		title: 'Instant Sync',
 		desc: 'TanStack Query keeps everything blazing fast. Add an entry, see balances update instantly across the app.',
-		color: 'indigo',
+		color: 'violet',
 	},
 ];
 
@@ -75,7 +75,7 @@ export const HOW_IT_WORKS = [
 		step: '01',
 		icon: ShieldCheck,
 		title: 'Sign In Securely',
-		desc: 'Login instantly using your Google account. No passwords, no fuss, no excuses.',
+		desc: 'Login with Google or email. Set a 4/6-digit passcode to lock the app between sessions.',
 	},
 	{
 		step: '02',

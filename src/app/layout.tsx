@@ -80,6 +80,7 @@ export default function RootLayout({
 		<html
 			lang='en'
 			className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+			suppressHydrationWarning
 		>
 			<body className='relative min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-50 flex flex-col mb-0'>
 				<Providers>
