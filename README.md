@@ -1,36 +1,102 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Regretify
+
+Track every terrible financial decision — beautifully.
+
+Regretify is a full-stack expense tracker and personal ledger that helps you log regrets, track who owes you (and who you owe), visualize your spending despair, and export your financial trauma as a polished PDF.
+
+## Features
+
+- **Live Charts & Trends** — Gradient line/area charts that update in real-time as you log expenses
+- **App Lock / Passcode** — Protect your data with a 4 or 6-digit numerical passcode
+- **Export to PDF** — Generate color-coded PDF reports with financial summaries
+- **Built-in Calculator** — Type expressions like `120+50` directly in the amount field
+- **Personal Ledger** — Track money given and received per person with running balances
+- **Give & Take Tracking** — Log every transaction with amounts, dates, and descriptions
+- **Dark & Light Mode** — Polished theme toggle with system-aware defaults
+- **Exact Timestamps** — Every transaction saved down to the second
+- **Instant Sync** — TanStack Query keeps everything blazing fast across the app
+
+## Tech Stack
+
+- **Framework** — Next.js (App Router)
+- **Auth** — NextAuth.js (Google OAuth + Credentials) with 7-day session expiration
+- **Database** — Supabase (PostgreSQL)
+- **Styling** — Tailwind CSS with violet/fuchsia theme
+- **Charts** — Chart.js + react-chartjs-2
+- **Animations** — Framer Motion
+- **State** — TanStack React Query
+- **Security** — bcryptjs for password & passcode hashing
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+- Node.js 18+
+- pnpm (recommended) or npm
+
+### Setup
+
+1. Clone the repo:
+
+   ```bash
+   git clone https://github.com/shubhu2002/regretify-app.git
+   cd regretify-app
+   ```
+
+2. Install dependencies:
+
+   ```bash
+   pnpm install
+   ```
+
+3. Create your `.env` file from the example:
+
+   ```bash
+   cp .env.example .env
+   ```
+
+4. Fill in your environment variables in `.env`:
+
+   ```
+   NEXTAUTH_URL=http://localhost:3000
+   NEXTAUTH_SECRET=your-secret
+   GOOGLE_CLIENT_ID=your-google-client-id
+   GOOGLE_CLIENT_SECRET=your-google-client-secret
+   NEXT_PUBLIC_SUPABASE_URL=https://your-project.supabase.co
+   NEXT_PUBLIC_SUPABASE_ANON_KEY=your-supabase-anon-key
+   ```
+
+5. Run the development server:
+
+   ```bash
+   pnpm dev
+   ```
+
+6. Open [http://localhost:3000](http://localhost:3000)
+
+## Project Structure
+
+```
+src/
+  app/              # Next.js App Router pages & API routes
+  components/       # UI components (landing page, regrets, profile, etc.)
+  constants/        # App-wide constants (categories, features, etc.)
+  hooks/            # Custom React hooks
+  lib/              # Auth config, utilities
+  providers/        # Context providers (theme, session, app lock)
+  supabase/         # Supabase client setup
+  types/            # TypeScript types
+  utils/            # Helper functions
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Deployment
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Deploy on [Vercel](https://vercel.com) — add all environment variables from `.env.example` to your Vercel project settings.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Author
 
-## Learn More
+Designed & developed by **Shubhanshu Saxena**
 
-To learn more about Next.js, take a look at the following resources:
+## License
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+This project is open source and available under the [MIT License](LICENSE).
