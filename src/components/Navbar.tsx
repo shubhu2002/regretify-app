@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { useSession } from 'next-auth/react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Ghost, LogIn, BookOpen, Flame, User } from 'lucide-react';
+import { Ghost, LogIn, BookOpen, Flame, StickyNote, User } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { useQuery } from '@tanstack/react-query';
 
@@ -15,6 +15,7 @@ import AddTransactionModal from './regrets/AddTransactionModal';
 const NAV_LINKS = [
 	{ href: '/regrets', label: 'Regrets', icon: Flame },
 	{ href: '/ledger', label: 'Ledger', icon: BookOpen },
+	{ href: '/notes', label: 'Notes', icon: StickyNote },
 	{ href: '/profile', label: 'Profile', icon: User },
 ];
 
