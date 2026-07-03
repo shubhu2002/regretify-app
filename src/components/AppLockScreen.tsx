@@ -86,7 +86,7 @@ export default function AppLockScreen({ onUnlock, passcodeLength }: AppLockScree
 		<motion.div
 			initial={{ opacity: 0 }}
 			animate={{ opacity: 1 }}
-			className='fixed inset-0 z-[200] flex flex-col items-center justify-center bg-slate-50 dark:bg-slate-950'
+			className='fixed inset-0 z-200 flex flex-col items-center justify-center bg-slate-50 dark:bg-slate-950'
 		>
 			<div className='absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(139,92,246,0.08),transparent_70%)]' />
 

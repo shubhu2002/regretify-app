@@ -244,7 +244,7 @@ export default function Profile() {
 				<motion.div
 					initial={{ opacity: 0, y: 12 }}
 					animate={{ opacity: 1, y: 0 }}
-					className='relative overflow-hidden rounded-3xl bg-gradient-to-br from-violet-600 via-violet-700 to-indigo-800 p-4 sm:p-6 mb-6'
+					className='relative overflow-hidden rounded-3xl bg-linear-to-br from-violet-600 via-violet-700 to-indigo-800 p-4 sm:p-6 mb-6'
 				>
 					<div className='absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(255,255,255,0.1),transparent_60%)]' />
 					<div className='relative flex items-center gap-5'>

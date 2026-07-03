@@ -29,11 +29,6 @@ export default function Regrets({ session }: { session: Session }) {
 		new Date().getMonth().toString(),
 	);
 
-	const monthLabel =
-		filterMonth === 'all' ? 'All Time' : (
-			`${MONTHS[parseInt(filterMonth)]} ${new Date().getFullYear()}`
-		);
-
 	const userId = session?.user?.id || session?.user?.email;
 
 	const {
@@ -398,8 +393,8 @@ function RegretsSkeleton() {
 						<svg className='absolute left-12 right-0 top-0 bottom-6 w-[calc(100%-3rem)] h-[calc(100%-1.5rem)]' viewBox='0 0 400 180' preserveAspectRatio='none'>
 							<defs>
 								<linearGradient id='skelGrad' x1='0' y1='0' x2='0' y2='1'>
-									<stop offset='0%' className='[stop-color:theme(colors.violet.300)] dark:[stop-color:theme(colors.violet.600)]' stopOpacity='0.3' />
-									<stop offset='100%' className='[stop-color:theme(colors.violet.300)] dark:[stop-color:theme(colors.violet.600)]' stopOpacity='0' />
+									<stop offset='0%' className='[stop-color:var(--color-violet-300)] dark:[stop-color:var(--color-violet-600)]' stopOpacity='0.3' />
+									<stop offset='100%' className='[stop-color:var(--color-violet-300)] dark:[stop-color:var(--color-violet-600)]' stopOpacity='0' />
 								</linearGradient>
 							</defs>
 							<path d='M0,140 C30,135 60,120 100,100 C140,80 160,30 200,50 C240,70 280,90 320,85 C360,80 380,75 400,80 L400,180 L0,180 Z' fill='url(#skelGrad)' className='animate-pulse' />
@@ -649,7 +644,7 @@ function MonthlyBreakdown({ data }: { data: MonthRow[] }) {
 			</div>
 
 			{/* Desktop table — fixed height, scrollable, header + aggregate pinned */}
-			<div className='hidden md:block overflow-x-auto overflow-y-auto max-h-[23rem] rounded-xl border border-violet-100 dark:border-violet-800/30 bg-white/40 dark:bg-slate-950/40'>
+			<div className='hidden md:block overflow-x-auto overflow-y-auto max-h-92 rounded-xl border border-violet-100 dark:border-violet-800/30 bg-white/40 dark:bg-slate-950/40'>
 				<table className='w-full text-sm text-left table-auto'>
 					<thead className='sticky top-0 z-20 bg-white dark:bg-slate-950 bg-linear-to-b from-violet-100/80 to-violet-100/80 dark:from-violet-800/40 dark:to-violet-800/40 text-slate-500 dark:text-slate-400 uppercase text-xs font-bold'>
 						<tr>

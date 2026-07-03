@@ -201,7 +201,7 @@ export default function AddTransactionModal({
 
 	const inputCls =
 		'w-full px-4 py-3 text-base md:text-sm bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-violet-500 focus:bg-slate-50 dark:focus:bg-slate-800 shadow-sm transition-shadow outline-none text-slate-900 dark:text-white';
-	const selectCls = `${inputCls} appearance-none font-medium`;
+
 	const labelCls =
 		'block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-1.5';
 
