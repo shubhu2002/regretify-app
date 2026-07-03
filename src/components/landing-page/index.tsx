@@ -57,7 +57,7 @@ export default function LandingPage() {
 						<span className='animate-ping absolute inline-flex h-full w-full bg-violet-400 opacity-75 rounded-full' />
 						<span className='relative inline-flex h-2 w-2 bg-violet-500 rounded-full' />
 					</span>
-					Expense Tracker & Personal Ledger
+					Expense Tracker, Ledger & Notes
 				</div>
 
 				<div className='max-w-4xl mx-auto'>
@@ -70,8 +70,9 @@ export default function LandingPage() {
 
 					<p className='text-lg md:text-xl text-slate-600 dark:text-slate-400 mb-10 max-w-2xl mx-auto leading-relaxed'>
 						Log your regrets, track who owes you (and who you owe),
-						visualize your despair, and export your financial trauma
-						— all in one beautifully designed, painfully honest app.
+						scribble notes & checklists, visualize your despair, and
+						export your financial trauma — all in one beautifully
+						designed, painfully honest app.
 					</p>
 
 					<div className='flex flex-col sm:flex-row items-center justify-center gap-4'>
@@ -188,9 +189,9 @@ export default function LandingPage() {
 							</span>
 						</h2>
 						<p className='text-slate-500 dark:text-slate-400 text-lg max-w-xl mx-auto'>
-							A full financial regrets dashboard and personal
-							ledger packed with every tool to track, visualize,
-							and settle your greatest money mistakes.
+							A full financial regrets dashboard, personal ledger,
+							and notes app — packed with every tool to track,
+							visualize, and settle your greatest money mistakes.
 						</p>
 					</div>
 

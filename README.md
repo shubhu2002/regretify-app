@@ -2,7 +2,7 @@
 
 Track every terrible financial decision — beautifully.
 
-Regretify is a full-stack expense tracker and personal ledger that helps you log regrets, track who owes you (and who you owe), visualize your spending despair, and export your financial trauma as a polished PDF.
+Regretify is a full-stack expense tracker, personal ledger, and notes app that helps you log regrets, track who owes you (and who you owe), scribble notes & checklists, visualize your spending despair, and export your financial trauma as a polished PDF.
 
 ## Features
 
@@ -12,6 +12,7 @@ Regretify is a full-stack expense tracker and personal ledger that helps you log
 - **Built-in Calculator** — Type expressions like `120+50` directly in the amount field
 - **Personal Ledger** — Track money given and received per person with running balances
 - **Give & Take Tracking** — Log every transaction with amounts, dates, and descriptions
+- **Notes & Checklists** — Apple Notes-style editor with pinning, search, and auto-save; type `- ` or `1. ` for instant lists and tick off to-do items
 - **Dark & Light Mode** — Polished theme toggle with system-aware defaults
 - **Exact Timestamps** — Every transaction saved down to the second
 - **Instant Sync** — TanStack Query keeps everything blazing fast across the app
@@ -23,6 +24,7 @@ Regretify is a full-stack expense tracker and personal ledger that helps you log
 - **Database** — Supabase (PostgreSQL)
 - **Styling** — Tailwind CSS with violet/fuchsia theme
 - **Charts** — Chart.js + react-chartjs-2
+- **Rich Text** — TipTap editor (lists, checklists, markdown-style shortcuts)
 - **Animations** — Framer Motion
 - **State** — TanStack React Query
 - **Security** — bcryptjs for password & passcode hashing

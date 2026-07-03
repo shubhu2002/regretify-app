@@ -9,7 +9,7 @@ import {
 	Zap,
 	CalendarDays,
 	BookOpen,
-	ArrowUpRight,
+	StickyNote,
 	LockKeyhole,
 } from 'lucide-react';
 
@@ -47,13 +47,13 @@ export const PLATFORM_FEATURES = [
 	{
 		icon: BookOpen,
 		title: 'Personal Ledger',
-		desc: 'Add accounts for friends, family, or anyone. Track money you give and take with a dedicated ledger page.',
+		desc: 'Add accounts for friends & family and log every "I\'ll pay you back" — give & take entries with dates, descriptions, and running balances.',
 		color: 'violet',
 	},
 	{
-		icon: ArrowUpRight,
-		title: 'Give & Take Tracking',
-		desc: 'Log every "I\'ll pay you back" with amounts, dates, and descriptions. Red for given, green for received — no more guessing.',
+		icon: StickyNote,
+		title: 'Notes & Checklists',
+		desc: 'An Apple Notes-style editor with pins, search, and auto-save. Type "- " or "1. " for instant lists, and tick off to-dos as you go.',
 		color: 'fuchsia',
 	},
 	{
@@ -93,7 +93,7 @@ export const HOW_IT_WORKS = [
 		step: '04',
 		icon: PiggyBank,
 		title: 'Face the Truth',
-		desc: 'View charts, settle debts, filter by month, and export a PDF of your misery.',
+		desc: 'View charts, settle debts, scribble notes & to-dos, and export a PDF of your misery.',
 	},
 ];
 
@@ -138,7 +138,7 @@ export const TESTIMONIALS = [
 		role: 'Student & Future CTO (after saving money)',
 		avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Ananya',
 		stars: 5,
-		text: "The built-in calculator in the add modal is chef's kiss. I split bills instantly. The transitions are so smooth I keep adding expenses just to watch the table animate.",
+		text: 'I keep my "things I swear I\'ll never buy again" checklist in Notes — zero items ticked so far. It pins to the top, saves as I type, and judges me silently. Perfect.',
 	},
 ];
 
