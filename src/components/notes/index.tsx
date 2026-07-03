@@ -13,13 +13,52 @@ import {
 	ChevronLeft,
 	Cloud,
 	CloudUpload,
+	List,
+	ListOrdered,
+	ListChecks,
 } from 'lucide-react';
+import { useEditor, EditorContent } from '@tiptap/react';
+import StarterKit from '@tiptap/starter-kit';
+import TaskList from '@tiptap/extension-task-list';
+import TaskItem from '@tiptap/extension-task-item';
+import { Placeholder } from '@tiptap/extensions';
 
 import ConfirmModal from '../ConfirmModal';
 import { Note } from '@/types';
 import { NotesSkeletonLoading } from './skeleton';
 
 type SaveState = 'saved' | 'dirty' | 'saving';
+
+const escapeHtml = (s: string) =>
+	s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+
+// Notes created before the rich editor were stored as plain text —
+// wrap them in paragraphs so the editor keeps their line breaks
+const toEditorHtml = (content: string | null) => {
+	if (!content) return '';
+	if (/^\s*</.test(content)) return content;
+	return content
+		.split('\n')
+		.map((line) => `<p>${escapeHtml(line)}</p>`)
+		.join('');
+};
+
+// Plain-text version of note content for the sidebar preview & search
+const stripHtml = (html: string) => {
+	if (!/^\s*</.test(html)) return html;
+	return html
+		.replace(/<li[^>]*data-checked="true"[^>]*>/gi, '\n☑ ')
+		.replace(/<li[^>]*data-checked="false"[^>]*>/gi, '\n☐ ')
+		.replace(/<li[^>]*>/gi, '\n• ')
+		.replace(/<\/(p|li|h[1-6]|blockquote|div)>/gi, '\n')
+		.replace(/<[^>]+>/g, '')
+		.replace(/&amp;/g, '&')
+		.replace(/&lt;/g, '<')
+		.replace(/&gt;/g, '>')
+		.replace(/&nbsp;/g, ' ')
+		.replace(/\n{2,}/g, '\n')
+		.trim();
+};
 
 export default function Notes() {
 	const queryClient = useQueryClient();
@@ -28,10 +67,11 @@ export default function Notes() {
 	const [selectedId, setSelectedId] = useState<number | null>(null);
 	const [creating, setCreating] = useState(false);
 
-	// Editor draft state
+	// Editor draft state (content is editor HTML)
 	const [draftTitle, setDraftTitle] = useState('');
 	const [draftContent, setDraftContent] = useState('');
 	const [saveState, setSaveState] = useState<SaveState>('saved');
+	const titleInputRef = useRef<HTMLInputElement | null>(null);
 
 	// Refs so debounced saves always see the latest draft
 	const draftRef = useRef<{
@@ -41,6 +81,7 @@ export default function Notes() {
 		dirty: boolean;
 	}>({ id: null, title: '', content: '', dirty: false });
 	const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+	const contentHandlerRef = useRef<(html: string) => void>(() => {});
 
 	const [confirmModal, setConfirmModal] = useState<{
 		isOpen: boolean;
@@ -64,7 +105,7 @@ export default function Notes() {
 		return allNotes.filter(
 			(n) =>
 				n.title.toLowerCase().includes(q) ||
-				(n.content || '').toLowerCase().includes(q),
+				stripHtml(n.content || '').toLowerCase().includes(q),
 		);
 	}, [allNotes, search]);
 
@@ -72,6 +113,33 @@ export default function Notes() {
 	const otherNotes = filteredNotes.filter((n) => !n.pinned);
 
 	const selectedNote = allNotes.find((n) => n.id === selectedId) || null;
+
+	// ---------- Rich text editor ----------
+	const editor = useEditor({
+		extensions: [
+			StarterKit,
+			TaskList,
+			TaskItem.configure({ nested: true }),
+			Placeholder.configure({ placeholder: 'Start writing...' }),
+		],
+		immediatelyRender: false,
+		shouldRerenderOnTransaction: true,
+		editorProps: {
+			attributes: {
+				class: 'note-editor flex-1 px-4 sm:px-6 pt-1 pb-6 text-sm leading-relaxed text-slate-700 dark:text-slate-300',
+			},
+		},
+		onUpdate: ({ editor }) => {
+			contentHandlerRef.current(editor.isEmpty ? '' : editor.getHTML());
+		},
+	});
+
+	// When the editor instance appears after a note was already selected
+	useEffect(() => {
+		if (editor && draftRef.current.id != null) {
+			editor.commands.setContent(draftRef.current.content || '');
+		}
+	}, [editor]);
 
 	// ---------- Auto-save ----------
 	const flushSave = useCallback(async () => {
@@ -122,25 +190,34 @@ export default function Notes() {
 		scheduleSave();
 	};
 
-	const onContentChange = (value: string) => {
-		setDraftContent(value);
-		draftRef.current = { ...draftRef.current, content: value, dirty: true };
-		setSaveState('dirty');
-		scheduleSave();
-	};
+	const onContentChange = useCallback(
+		(html: string) => {
+			setDraftContent(html);
+			draftRef.current = { ...draftRef.current, content: html, dirty: true };
+			setSaveState('dirty');
+			scheduleSave();
+		},
+		[scheduleSave],
+	);
+
+	useEffect(() => {
+		contentHandlerRef.current = onContentChange;
+	}, [onContentChange]);
 
 	// ---------- Actions ----------
 	const loadIntoEditor = (note: Note) => {
+		const html = toEditorHtml(note.content);
 		setSelectedId(note.id);
 		setDraftTitle(note.title);
-		setDraftContent(note.content || '');
+		setDraftContent(html);
 		draftRef.current = {
 			id: note.id,
 			title: note.title,
-			content: note.content || '',
+			content: html,
 			dirty: false,
 		};
 		setSaveState('saved');
+		editor?.commands.setContent(html || '');
 	};
 
 	const selectNote = (note: Note) => {
@@ -167,6 +244,7 @@ export default function Notes() {
 			loadIntoEditor(note);
 			setDraftTitle('');
 			draftRef.current.title = '';
+			setTimeout(() => titleInputRef.current?.focus(), 50);
 		} catch {
 			toast.error('Something went wrong', { id: toastId });
 		} finally {
@@ -226,7 +304,7 @@ export default function Notes() {
 	const NoteListItem = ({ note }: { note: Note }) => {
 		const isSelected = note.id === selectedId;
 		const title = isSelected ? draftTitle.trim() || 'New Note' : note.title;
-		const content = isSelected ? draftContent : note.content || '';
+		const preview = stripHtml(isSelected ? draftContent : note.content || '');
 
 		return (
 			<motion.button
@@ -256,7 +334,7 @@ export default function Notes() {
 					)}
 				</div>
 				<p className='text-xs text-slate-400 dark:text-slate-500 line-clamp-2 mt-0.5 whitespace-pre-line'>
-					{content || 'No additional text'}
+					{preview || 'No additional text'}
 				</p>
 				<p className='text-[11px] text-slate-400 dark:text-slate-500 mt-1.5'>
 					{new Date(note.updated_at).toLocaleDateString('en-IN', {
@@ -271,6 +349,27 @@ export default function Notes() {
 
 	const sectionLabelCls =
 		'px-3 pt-3 pb-1 text-[11px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500 flex items-center gap-1';
+
+	const formatButtons = [
+		{
+			icon: List,
+			title: 'Bulleted list',
+			isActive: editor?.isActive('bulletList') ?? false,
+			action: () => editor?.chain().focus().toggleBulletList().run(),
+		},
+		{
+			icon: ListOrdered,
+			title: 'Numbered list',
+			isActive: editor?.isActive('orderedList') ?? false,
+			action: () => editor?.chain().focus().toggleOrderedList().run(),
+		},
+		{
+			icon: ListChecks,
+			title: 'Checklist',
+			isActive: editor?.isActive('taskList') ?? false,
+			action: () => editor?.chain().focus().toggleTaskList().run(),
+		},
+	];
 
 	return (
 		<>
@@ -382,7 +481,7 @@ export default function Notes() {
 								selectedId !== null ? 'flex' : 'hidden md:flex'
 							} flex-1 min-w-0 flex-col bg-white/50 dark:bg-slate-900/30`}
 						>
-							{selectedNote ?
+							{selectedNote && (
 								<>
 									{/* Toolbar */}
 									<div className='flex items-center justify-between gap-2 px-3 sm:px-4 pt-3'>
@@ -396,7 +495,7 @@ export default function Notes() {
 											<ChevronLeft size={16} />
 										</button>
 
-										<div className='flex items-center gap-1.5 text-[11px] text-slate-400 dark:text-slate-500 min-w-0'>
+										<div className='hidden sm:flex items-center gap-1.5 text-[11px] text-slate-400 dark:text-slate-500 min-w-0'>
 											{saveState === 'saved' ?
 												<Cloud size={12} className='shrink-0' />
 											:	<CloudUpload
@@ -418,6 +517,23 @@ export default function Notes() {
 										</div>
 
 										<div className='flex items-center gap-1'>
+											{formatButtons.map((btn) => (
+												<button
+													key={btn.title}
+													onClick={btn.action}
+													title={btn.title}
+													className={`p-2 rounded-xl border shadow-sm transition-colors cursor-pointer ${
+														btn.isActive
+															? 'text-violet-500 bg-violet-50 dark:bg-violet-900/30 border-violet-200 dark:border-violet-700/50'
+															: 'text-slate-400 hover:text-violet-500 bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700'
+													}`}
+												>
+													<btn.icon size={15} />
+												</button>
+											))}
+
+											<div className='w-px h-5 bg-slate-200 dark:bg-slate-700 mx-1' />
+
 											<button
 												onClick={() => togglePin(selectedNote)}
 												title={selectedNote.pinned ? 'Unpin note' : 'Pin note'}
@@ -451,20 +567,35 @@ export default function Notes() {
 
 									{/* Inline editor — Apple Notes style, saves as you type */}
 									<input
+										ref={titleInputRef}
 										type='text'
 										value={draftTitle}
 										onChange={(e) => onTitleChange(e.target.value)}
+										onKeyDown={(e) => {
+											if (e.key === 'Enter') {
+												e.preventDefault();
+												editor?.commands.focus('start');
+											}
+										}}
 										className='w-full bg-transparent outline-none px-4 sm:px-6 pt-4 pb-1 text-xl sm:text-2xl font-bold text-slate-900 dark:text-white placeholder:text-slate-300 dark:placeholder:text-slate-600'
 										placeholder='Title'
 									/>
-									<textarea
-										value={draftContent}
-										onChange={(e) => onContentChange(e.target.value)}
-										className='w-full flex-1 resize-none bg-transparent outline-none px-4 sm:px-6 pt-1 pb-6 text-sm leading-relaxed text-slate-700 dark:text-slate-300 placeholder:text-slate-300 dark:placeholder:text-slate-600'
-										placeholder='Start writing...'
-									/>
 								</>
-							:	<div className='flex-1 flex flex-col items-center justify-center text-center p-8'>
+							)}
+
+							<div
+								className={`flex-1 overflow-y-auto flex-col ${
+									selectedNote ? 'flex' : 'hidden'
+								}`}
+							>
+								<EditorContent
+									editor={editor}
+									className='flex-1 flex flex-col cursor-text'
+								/>
+							</div>
+
+							{!selectedNote && (
+								<div className='flex-1 flex flex-col items-center justify-center text-center p-8'>
 									<StickyNote
 										className='text-slate-300 dark:text-slate-600 mb-4'
 										size={48}
@@ -480,7 +611,7 @@ export default function Notes() {
 										:	'Choose a note from the list or create a new one'}
 									</p>
 								</div>
-							}
+							)}
 						</div>
 					</div>
 				</div>
