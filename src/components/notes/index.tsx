@@ -1,24 +1,47 @@
 'use client';
 
-import { useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { motion } from 'framer-motion';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import toast from 'react-hot-toast';
-import { Plus, StickyNote, Pencil, Trash2, Pin, Search } from 'lucide-react';
+import {
+	Plus,
+	StickyNote,
+	Trash2,
+	Pin,
+	Search,
+	ChevronLeft,
+	Cloud,
+	CloudUpload,
+} from 'lucide-react';
 
-import AddNoteModal from './AddNoteModal';
 import ConfirmModal from '../ConfirmModal';
 import { Note } from '@/types';
 import { NotesSkeletonLoading } from './skeleton';
+
+type SaveState = 'saved' | 'dirty' | 'saving';
 
 export default function Notes() {
 	const queryClient = useQueryClient();
 
 	const [search, setSearch] = useState('');
+	const [selectedId, setSelectedId] = useState<number | null>(null);
+	const [creating, setCreating] = useState(false);
 
-	// Modal states
-	const [noteModalOpen, setNoteModalOpen] = useState(false);
-	const [editNote, setEditNote] = useState<Note | null>(null);
+	// Editor draft state
+	const [draftTitle, setDraftTitle] = useState('');
+	const [draftContent, setDraftContent] = useState('');
+	const [saveState, setSaveState] = useState<SaveState>('saved');
+
+	// Refs so debounced saves always see the latest draft
+	const draftRef = useRef<{
+		id: number | null;
+		title: string;
+		content: string;
+		dirty: boolean;
+	}>({ id: null, title: '', content: '', dirty: false });
+	const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
 	const [confirmModal, setConfirmModal] = useState<{
 		isOpen: boolean;
 		id: number | null;
@@ -31,22 +54,128 @@ export default function Notes() {
 			if (!res.ok) throw new Error('Failed to fetch');
 			return res.json() as Promise<{ notes: Note[] }>;
 		},
-		refetchInterval: 5000,
 	});
 
-	const notes = useMemo(() => {
-		const all = data?.notes || [];
-		if (!search.trim()) return all;
+	const allNotes = useMemo(() => data?.notes || [], [data]);
+
+	const filteredNotes = useMemo(() => {
+		if (!search.trim()) return allNotes;
 		const q = search.trim().toLowerCase();
-		return all.filter(
+		return allNotes.filter(
 			(n) =>
 				n.title.toLowerCase().includes(q) ||
 				(n.content || '').toLowerCase().includes(q),
 		);
-	}, [data, search]);
+	}, [allNotes, search]);
 
-	const togglePin = async (note: Note, e: React.MouseEvent) => {
-		e.stopPropagation();
+	const pinnedNotes = filteredNotes.filter((n) => n.pinned);
+	const otherNotes = filteredNotes.filter((n) => !n.pinned);
+
+	const selectedNote = allNotes.find((n) => n.id === selectedId) || null;
+
+	// ---------- Auto-save ----------
+	const flushSave = useCallback(async () => {
+		if (timerRef.current) {
+			clearTimeout(timerRef.current);
+			timerRef.current = null;
+		}
+		const d = draftRef.current;
+		if (!d.dirty || d.id == null) return;
+		d.dirty = false;
+		setSaveState('saving');
+		try {
+			const res = await fetch('/api/notes', {
+				method: 'PATCH',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({
+					id: d.id,
+					title: d.title.trim() || 'New Note',
+					content: d.content.trim() ? d.content : null,
+				}),
+			});
+			if (!res.ok) throw new Error('Failed to save');
+			queryClient.invalidateQueries({ queryKey: ['notes'] });
+			if (!draftRef.current.dirty) setSaveState('saved');
+		} catch {
+			draftRef.current.dirty = true;
+			setSaveState('dirty');
+			toast.error('Failed to save note');
+		}
+	}, [queryClient]);
+
+	const scheduleSave = useCallback(() => {
+		if (timerRef.current) clearTimeout(timerRef.current);
+		timerRef.current = setTimeout(flushSave, 800);
+	}, [flushSave]);
+
+	// Flush pending edits when leaving the page
+	useEffect(() => {
+		return () => {
+			flushSave();
+		};
+	}, [flushSave]);
+
+	const onTitleChange = (value: string) => {
+		setDraftTitle(value);
+		draftRef.current = { ...draftRef.current, title: value, dirty: true };
+		setSaveState('dirty');
+		scheduleSave();
+	};
+
+	const onContentChange = (value: string) => {
+		setDraftContent(value);
+		draftRef.current = { ...draftRef.current, content: value, dirty: true };
+		setSaveState('dirty');
+		scheduleSave();
+	};
+
+	// ---------- Actions ----------
+	const loadIntoEditor = (note: Note) => {
+		setSelectedId(note.id);
+		setDraftTitle(note.title);
+		setDraftContent(note.content || '');
+		draftRef.current = {
+			id: note.id,
+			title: note.title,
+			content: note.content || '',
+			dirty: false,
+		};
+		setSaveState('saved');
+	};
+
+	const selectNote = (note: Note) => {
+		if (note.id === selectedId) return;
+		flushSave();
+		loadIntoEditor(note);
+	};
+
+	const createNote = async () => {
+		flushSave();
+		setCreating(true);
+		const toastId = toast.loading('Creating note...');
+		try {
+			const res = await fetch('/api/notes', {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({ title: 'New Note', content: null }),
+			});
+			if (!res.ok) throw new Error('Failed to create note');
+			const { note } = (await res.json()) as { note: Note };
+			toast.success('Note created!', { id: toastId });
+			queryClient.invalidateQueries({ queryKey: ['notes'] });
+			setSearch('');
+			loadIntoEditor(note);
+			setDraftTitle('');
+			draftRef.current.title = '';
+		} catch {
+			toast.error('Something went wrong', { id: toastId });
+		} finally {
+			setCreating(false);
+		}
+	};
+
+	const togglePin = async (note: Note, e?: React.MouseEvent) => {
+		e?.stopPropagation();
 		const loadingId = toast.loading('Please Wait !', { duration: 1500 });
 		try {
 			const res = await fetch('/api/notes', {
@@ -76,6 +205,10 @@ export default function Notes() {
 			});
 			if (!res.ok) throw new Error('Failed to delete');
 			toast.success('Deleted!', { id: toastId });
+			if (confirmModal.id === selectedId) {
+				setSelectedId(null);
+				draftRef.current = { id: null, title: '', content: '', dirty: false };
+			}
 			queryClient.invalidateQueries({ queryKey: ['notes'] });
 		} catch {
 			toast.error('Something went wrong', { id: toastId });
@@ -84,28 +217,66 @@ export default function Notes() {
 		}
 	};
 
-	const openAddNote = () => {
-		setEditNote(null);
-		setNoteModalOpen(true);
-	};
-
-	const openEditNote = (note: Note) => {
-		setEditNote(note);
-		setNoteModalOpen(true);
-	};
-
 	// ---------- Loading Skeleton ----------
 	if (isLoading && !data) {
 		return <NotesSkeletonLoading />;
 	}
 
-	const hasNotes = (data?.notes || []).length > 0;
+	// Sidebar list item — shows live draft values for the note being edited
+	const NoteListItem = ({ note }: { note: Note }) => {
+		const isSelected = note.id === selectedId;
+		const title = isSelected ? draftTitle.trim() || 'New Note' : note.title;
+		const content = isSelected ? draftContent : note.content || '';
+
+		return (
+			<motion.button
+				whileTap={{ scale: 0.98 }}
+				onClick={() => selectNote(note)}
+				className={`w-full text-left p-3 rounded-2xl border transition-all cursor-pointer group ${
+					isSelected
+						? 'bg-violet-100/80 dark:bg-violet-900/40 border-violet-200 dark:border-violet-700/50'
+						: 'bg-transparent border-transparent hover:bg-slate-100/70 dark:hover:bg-slate-800/50'
+				}`}
+			>
+				<div className='flex items-center justify-between gap-2'>
+					<h3
+						className={`font-semibold text-sm truncate ${
+							isSelected
+								? 'text-violet-900 dark:text-violet-100'
+								: 'text-slate-900 dark:text-white'
+						}`}
+					>
+						{title}
+					</h3>
+					{note.pinned && (
+						<Pin
+							size={12}
+							className='shrink-0 fill-violet-500 text-violet-500'
+						/>
+					)}
+				</div>
+				<p className='text-xs text-slate-400 dark:text-slate-500 line-clamp-2 mt-0.5 whitespace-pre-line'>
+					{content || 'No additional text'}
+				</p>
+				<p className='text-[11px] text-slate-400 dark:text-slate-500 mt-1.5'>
+					{new Date(note.updated_at).toLocaleDateString('en-IN', {
+						day: 'numeric',
+						month: 'short',
+						year: 'numeric',
+					})}
+				</p>
+			</motion.button>
+		);
+	};
+
+	const sectionLabelCls =
+		'px-3 pt-3 pb-1 text-[11px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500 flex items-center gap-1';
 
 	return (
 		<>
 			<div className='relative flex-1 w-full min-h-[calc(100dvh-24px)] sm:min-h-[calc(100dvh-64px)] overflow-hidden'>
-				<div className='relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8'>
-					<header className='flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8'>
+				<div className='relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 pb-24 md:pb-8'>
+					<header className='flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6'>
 						<div>
 							<h1 className='text-3xl font-bold bg-clip-text text-transparent bg-linear-to-r from-violet-600 to-fuchsia-600 dark:from-violet-400 dark:to-fuchsia-400'>
 								Notes
@@ -115,160 +286,205 @@ export default function Notes() {
 							</p>
 						</div>
 						<button
-							onClick={openAddNote}
-							className='w-fit bg-violet-600 hover:bg-violet-700 text-white shadow-md shadow-violet-600/20 px-4 py-2.5 rounded-xl font-medium flex items-center gap-2 transition-all cursor-pointer'
+							onClick={createNote}
+							disabled={creating}
+							className='w-fit bg-violet-600 hover:bg-violet-700 text-white shadow-md shadow-violet-600/20 px-4 py-2.5 rounded-xl font-medium flex items-center gap-2 transition-all cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed'
 						>
 							<Plus size={18} />
 							<span>New Note</span>
 						</button>
 					</header>
 
-					{/* Search — only when there are notes to search */}
-					{hasNotes && (
-						<div className='relative max-w-md mb-6'>
-							<Search
-								size={16}
-								className='absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none'
-							/>
-							<input
-								type='text'
-								value={search}
-								onChange={(e) => setSearch(e.target.value)}
-								className='w-full pl-10 pr-4 py-2.5 text-base md:text-sm bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-violet-500 focus:bg-slate-50 dark:focus:bg-slate-800 shadow-sm transition-shadow outline-none text-slate-900 dark:text-white'
-								placeholder='Search notes...'
-							/>
-						</div>
-					)}
+					{/* Apple Notes style split panel */}
+					<div className='bg-violet-50/60 backdrop-blur-xl dark:bg-violet-900/20 border border-violet-100 dark:border-violet-800/30 rounded-3xl shadow-sm overflow-hidden flex h-[calc(100dvh-330px)] md:h-[calc(100dvh-250px)] min-h-105'>
+						{/* Sidebar — note list */}
+						<div
+							className={`${
+								selectedId !== null ? 'hidden md:flex' : 'flex'
+							} w-full md:w-72 lg:w-80 shrink-0 md:border-r border-violet-100 dark:border-violet-800/30 flex-col`}
+						>
+							<div className='p-3 pb-2'>
+								<div className='relative'>
+									<Search
+										size={15}
+										className='absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none'
+									/>
+									<input
+										type='text'
+										value={search}
+										onChange={(e) => setSearch(e.target.value)}
+										className='w-full pl-9 pr-4 py-2 text-base md:text-sm bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-violet-500 focus:bg-slate-50 dark:focus:bg-slate-800 shadow-sm transition-shadow outline-none text-slate-900 dark:text-white'
+										placeholder='Search notes...'
+									/>
+								</div>
+							</div>
 
-					{!hasNotes ?
-						<motion.div
-							initial={{ opacity: 0, y: 20 }}
-							animate={{ opacity: 1, y: 0 }}
-							className='bg-violet-50/60 backdrop-blur-xl dark:bg-violet-900/20 border border-violet-100 dark:border-violet-800/30 rounded-3xl p-12 shadow-sm text-center'
-						>
-							<StickyNote
-								className='mx-auto text-slate-300 dark:text-slate-600 mb-4'
-								size={48}
-							/>
-							<p className='text-slate-500 dark:text-slate-400 text-lg font-medium'>
-								No notes yet
-							</p>
-							<p className='text-slate-400 dark:text-slate-500 text-sm mt-1'>
-								Create a note to save your thoughts
-							</p>
-						</motion.div>
-					: notes.length === 0 ?
-						<motion.div
-							initial={{ opacity: 0, y: 20 }}
-							animate={{ opacity: 1, y: 0 }}
-							className='bg-violet-50/60 backdrop-blur-xl dark:bg-violet-900/20 border border-violet-100 dark:border-violet-800/30 rounded-3xl p-12 shadow-sm text-center'
-						>
-							<Search
-								className='mx-auto text-slate-300 dark:text-slate-600 mb-4'
-								size={48}
-							/>
-							<p className='text-slate-500 dark:text-slate-400 text-lg font-medium'>
-								No matching notes
-							</p>
-							<p className='text-slate-400 dark:text-slate-500 text-sm mt-1'>
-								Try a different search term
-							</p>
-						</motion.div>
-					:	<div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4'>
-							{notes.map((note) => (
-								<motion.div
-									key={note.id}
-									whileTap={{ scale: 0.98 }}
-									onClick={() => openEditNote(note)}
-									className='p-5 rounded-3xl border cursor-pointer transition-all group relative overflow-hidden bg-white/70 dark:bg-slate-900/50 border-violet-100 dark:border-violet-800/30 hover:bg-white dark:hover:bg-slate-800/60 hover:shadow-md flex flex-col'
-								>
-									<div className='absolute -inset-2 bg-linear-to-r from-transparent via-white/40 to-transparent dark:via-white/5 skew-x-12 translate-x-[-150%] group-hover:translate-x-[150%] transition-transform duration-700 pointer-events-none' />
-									<div className='relative z-10 flex flex-col flex-1'>
-										<div className='flex items-start justify-between mb-2'>
-											<div className='flex items-center gap-2 min-w-0'>
+							<div className='flex-1 overflow-y-auto px-3 pb-3 space-y-1'>
+								{filteredNotes.length === 0 ?
+									<div className='text-center pt-12 px-4'>
+										{allNotes.length === 0 ?
+											<>
 												<StickyNote
-													size={18}
-													className='text-violet-500 shrink-0'
+													className='mx-auto text-slate-300 dark:text-slate-600 mb-3'
+													size={36}
 												/>
-												<h3 className='font-bold text-slate-900 dark:text-white text-lg truncate'>
-													{note.title}
-												</h3>
-											</div>
-											<div className='flex items-center gap-1 shrink-0'>
-												<button
-													onClick={(e) => togglePin(note, e)}
-													className={`p-1.5 rounded-lg transition-colors ${
-														note.pinned
-															? 'text-violet-500'
-															: 'text-slate-300 hover:text-violet-500 opacity-0 group-hover:opacity-100'
-													}`}
-												>
-													<Pin
-														size={14}
-														className={note.pinned ? 'fill-violet-500' : ''}
-													/>
-												</button>
-												<button
-													onClick={(e) => {
-														e.stopPropagation();
-														openEditNote(note);
-													}}
-													className='p-1.5 text-slate-300 hover:text-violet-500 rounded-lg transition-colors opacity-0 group-hover:opacity-100'
-												>
-													<Pencil size={14} />
-												</button>
-												<button
-													onClick={(e) => {
-														e.stopPropagation();
-														setConfirmModal({
-															isOpen: true,
-															id: note.id,
-														});
-													}}
-													className='p-1.5 text-slate-300 hover:text-rose-400 rounded-lg transition-colors opacity-0 group-hover:opacity-100'
-												>
-													<Trash2 size={14} />
-												</button>
-											</div>
-										</div>
-										{note.content && (
-											<p className='text-sm text-slate-400 dark:text-slate-500 mb-3 line-clamp-4 whitespace-pre-line'>
-												{note.content}
-											</p>
+												<p className='text-slate-500 dark:text-slate-400 font-medium'>
+													No notes yet
+												</p>
+												<p className='text-slate-400 dark:text-slate-500 text-sm mt-1'>
+													Create a note to save your thoughts
+												</p>
+											</>
+										:	<>
+												<Search
+													className='mx-auto text-slate-300 dark:text-slate-600 mb-3'
+													size={36}
+												/>
+												<p className='text-slate-500 dark:text-slate-400 font-medium'>
+													No matching notes
+												</p>
+												<p className='text-slate-400 dark:text-slate-500 text-sm mt-1'>
+													Try a different search term
+												</p>
+											</>
+										}
+									</div>
+								:	<>
+										{pinnedNotes.length > 0 && (
+											<>
+												<p className={sectionLabelCls}>
+													<Pin size={11} />
+													Pinned
+												</p>
+												{pinnedNotes.map((note) => (
+													<NoteListItem key={note.id} note={note} />
+												))}
+											</>
 										)}
-										<div className='flex items-center justify-between mt-auto pt-3'>
-											<span className='text-xs text-slate-400 dark:text-slate-500'>
-												{new Date(note.updated_at).toLocaleDateString(
-													'en-IN',
-													{
+										{otherNotes.length > 0 && (
+											<>
+												{pinnedNotes.length > 0 && (
+													<p className={sectionLabelCls}>Notes</p>
+												)}
+												{otherNotes.map((note) => (
+													<NoteListItem key={note.id} note={note} />
+												))}
+											</>
+										)}
+									</>
+								}
+							</div>
+						</div>
+
+						{/* Editor pane */}
+						<div
+							className={`${
+								selectedId !== null ? 'flex' : 'hidden md:flex'
+							} flex-1 min-w-0 flex-col bg-white/50 dark:bg-slate-900/30`}
+						>
+							{selectedNote ?
+								<>
+									{/* Toolbar */}
+									<div className='flex items-center justify-between gap-2 px-3 sm:px-4 pt-3'>
+										<button
+											onClick={() => {
+												flushSave();
+												setSelectedId(null);
+											}}
+											className='md:hidden p-2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl transition-colors cursor-pointer'
+										>
+											<ChevronLeft size={16} />
+										</button>
+
+										<div className='flex items-center gap-1.5 text-[11px] text-slate-400 dark:text-slate-500 min-w-0'>
+											{saveState === 'saved' ?
+												<Cloud size={12} className='shrink-0' />
+											:	<CloudUpload
+													size={12}
+													className='shrink-0 animate-pulse text-violet-400'
+												/>
+											}
+											<span className='truncate'>
+												{saveState === 'saved' ?
+													`Edited ${new Date(
+														selectedNote.updated_at,
+													).toLocaleDateString('en-IN', {
 														day: 'numeric',
 														month: 'short',
 														year: 'numeric',
-													},
-												)}
+													})}`
+												:	'Saving...'}
 											</span>
-											{note.pinned && (
-												<span className='text-[10px] font-semibold uppercase tracking-wide text-violet-500 dark:text-violet-400 bg-violet-50 dark:bg-violet-900/30 border border-violet-100 dark:border-violet-800/30 px-2 py-0.5 rounded-full'>
-													Pinned
-												</span>
-											)}
+										</div>
+
+										<div className='flex items-center gap-1'>
+											<button
+												onClick={() => togglePin(selectedNote)}
+												title={selectedNote.pinned ? 'Unpin note' : 'Pin note'}
+												className={`p-2 rounded-xl border shadow-sm transition-colors cursor-pointer ${
+													selectedNote.pinned
+														? 'text-violet-500 bg-violet-50 dark:bg-violet-900/30 border-violet-200 dark:border-violet-700/50'
+														: 'text-slate-400 hover:text-violet-500 bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700'
+												}`}
+											>
+												<Pin
+													size={15}
+													className={
+														selectedNote.pinned ? 'fill-violet-500' : ''
+													}
+												/>
+											</button>
+											<button
+												onClick={() =>
+													setConfirmModal({
+														isOpen: true,
+														id: selectedNote.id,
+													})
+												}
+												title='Delete note'
+												className='p-2 text-slate-400 hover:text-rose-400 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl shadow-sm transition-colors cursor-pointer'
+											>
+												<Trash2 size={15} />
+											</button>
 										</div>
 									</div>
-								</motion.div>
-							))}
+
+									{/* Inline editor — Apple Notes style, saves as you type */}
+									<input
+										type='text'
+										value={draftTitle}
+										onChange={(e) => onTitleChange(e.target.value)}
+										className='w-full bg-transparent outline-none px-4 sm:px-6 pt-4 pb-1 text-xl sm:text-2xl font-bold text-slate-900 dark:text-white placeholder:text-slate-300 dark:placeholder:text-slate-600'
+										placeholder='Title'
+									/>
+									<textarea
+										value={draftContent}
+										onChange={(e) => onContentChange(e.target.value)}
+										className='w-full flex-1 resize-none bg-transparent outline-none px-4 sm:px-6 pt-1 pb-6 text-sm leading-relaxed text-slate-700 dark:text-slate-300 placeholder:text-slate-300 dark:placeholder:text-slate-600'
+										placeholder='Start writing...'
+									/>
+								</>
+							:	<div className='flex-1 flex flex-col items-center justify-center text-center p-8'>
+									<StickyNote
+										className='text-slate-300 dark:text-slate-600 mb-4'
+										size={48}
+									/>
+									<p className='text-slate-500 dark:text-slate-400 text-lg font-medium'>
+										{allNotes.length === 0 ?
+											'No notes yet'
+										:	'Select a note'}
+									</p>
+									<p className='text-slate-400 dark:text-slate-500 text-sm mt-1'>
+										{allNotes.length === 0 ?
+											'Create a note to save your thoughts'
+										:	'Choose a note from the list or create a new one'}
+									</p>
+								</div>
+							}
 						</div>
-					}
+					</div>
 				</div>
 			</div>
-
-			<AddNoteModal
-				isOpen={noteModalOpen}
-				onClose={() => {
-					setNoteModalOpen(false);
-					setEditNote(null);
-				}}
-				editNote={editNote}
-			/>
 
 			<ConfirmModal
 				isOpen={confirmModal.isOpen}

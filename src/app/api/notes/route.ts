@@ -55,20 +55,23 @@ export async function POST(req: NextRequest) {
 		const body = await req.json();
 		const { title, content, pinned } = body;
 
-		if (!title?.trim()) {
-			return NextResponse.json({ message: 'Title is required' }, { status: 400 });
-		}
-
-		const { error } = await supabase.from('regretify-notes').insert({
-			user_id: user.id,
-			title: title.trim(),
-			content: content || null,
-			pinned: !!pinned,
-		});
+		const { data, error } = await supabase
+			.from('regretify-notes')
+			.insert({
+				user_id: user.id,
+				title: title?.trim() || 'New Note',
+				content: content || null,
+				pinned: !!pinned,
+			})
+			.select()
+			.single();
 
 		if (error) throw error;
 
-		return NextResponse.json({ message: 'Created successfully' }, { status: 201 });
+		return NextResponse.json(
+			{ message: 'Created successfully', note: data },
+			{ status: 201 },
+		);
 	} catch (error: any) {
 		console.error('POST /api/notes error:', error);
 		return NextResponse.json(
@@ -94,7 +97,7 @@ export async function PATCH(req: NextRequest) {
 		}
 
 		const payload: Record<string, any> = { updated_at: new Date().toISOString() };
-		if (title !== undefined) payload.title = title.trim();
+		if (title !== undefined) payload.title = title.trim() || 'New Note';
 		if (content !== undefined) payload.content = content || null;
 		if (pinned !== undefined) payload.pinned = !!pinned;
 

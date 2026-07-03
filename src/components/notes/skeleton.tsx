@@ -4,25 +4,34 @@ export const NotesSkeletonLoading = () => {
 	return (
 		<div className='relative flex-1 w-full min-h-[calc(100vh-64px)] overflow-hidden'>
 			<div className='relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8'>
-				<div className='flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8'>
+				<div className='flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6'>
 					<div>
 						<div className={`${shimmer} h-8 w-28 mb-2`} />
 						<div className={`${shimmer} h-4 w-64`} />
 					</div>
 					<div className={`${shimmer} h-11 w-36`} />
 				</div>
-				<div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4'>
-					{[...Array(6)].map((_, i) => (
-						<div
-							key={i}
-							className='bg-violet-50/60 dark:bg-violet-900/20 border border-violet-100 dark:border-violet-800/30 rounded-3xl p-6 shadow-sm'
-						>
-							<div className={`${shimmer} h-5 w-32 mb-3`} />
-							<div className={`${shimmer} h-3 w-full mb-2`} />
-							<div className={`${shimmer} h-3 w-48 mb-4`} />
-							<div className={`${shimmer} h-4 w-20`} />
+				<div className='bg-violet-50/60 dark:bg-violet-900/20 border border-violet-100 dark:border-violet-800/30 rounded-3xl shadow-sm overflow-hidden flex h-[calc(100dvh-330px)] md:h-[calc(100dvh-250px)] min-h-105'>
+					<div className='w-full md:w-72 lg:w-80 shrink-0 md:border-r border-violet-100 dark:border-violet-800/30 p-3 space-y-3'>
+						<div className={`${shimmer} h-9 w-full`} />
+						{[...Array(5)].map((_, i) => (
+							<div key={i} className='p-3 space-y-2'>
+								<div className={`${shimmer} h-4 w-32`} />
+								<div className={`${shimmer} h-3 w-full`} />
+								<div className={`${shimmer} h-3 w-20`} />
+							</div>
+						))}
+					</div>
+					<div className='hidden md:flex flex-1 flex-col bg-white/50 dark:bg-slate-900/30 p-6 space-y-4'>
+						<div className='flex justify-between'>
+							<div className={`${shimmer} h-4 w-40`} />
+							<div className={`${shimmer} h-8 w-20`} />
 						</div>
-					))}
+						<div className={`${shimmer} h-7 w-64`} />
+						<div className={`${shimmer} h-3 w-full`} />
+						<div className={`${shimmer} h-3 w-5/6`} />
+						<div className={`${shimmer} h-3 w-3/4`} />
+					</div>
 				</div>
 			</div>
 		</div>
