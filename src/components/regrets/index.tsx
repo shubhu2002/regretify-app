@@ -107,9 +107,9 @@ export default function Regrets({ session }: { session: Session }) {
 			}
 		});
 
-		// Sort chronologically (Jan -> current month)
+		// Sort latest month first (current month -> Jan)
 		return Object.entries(map)
-			.sort((a, b) => a[0].localeCompare(b[0]))
+			.sort((a, b) => b[0].localeCompare(a[0]))
 			.map(([key, val]) => ({
 				key,
 				month: new Date(key + '-02').toLocaleDateString('en-IN', {
@@ -523,7 +523,8 @@ function MonthlyBreakdown({ data }: { data: MonthRow[] }) {
 			</h3>
 
 			{/* Mobile cards */}
-			<div className='md:hidden space-y-3'>
+			<div className='md:hidden flex flex-col gap-3'>
+				<div className='order-2 max-h-120 overflow-y-auto space-y-3 pr-1'>
 				{data.map((row) => {
 					const barColor =
 						row.pct > 80 ? 'bg-rose-500'
@@ -586,9 +587,10 @@ function MonthlyBreakdown({ data }: { data: MonthRow[] }) {
 						</div>
 					);
 				})}
+				</div>
 
-				{/* Summary row for mobile */}
-				<div className='bg-violet-100/90 dark:bg-violet-900/50 rounded-2xl p-4 border border-violet-200 dark:border-violet-700 shadow-md transition-all group overflow-hidden'>
+				{/* Summary card — rendered on top via order */}
+				<div className='order-1 bg-violet-100/90 dark:bg-violet-900/50 rounded-2xl p-4 border border-violet-200 dark:border-violet-700 shadow-md transition-all group overflow-hidden'>
 					<h4 className='text-xs font-bold text-slate-500 dark:text-slate-300 uppercase mb-3 tracking-widest text-center'>
 						Annual Summary ({currentYear})
 					</h4>
@@ -646,10 +648,10 @@ function MonthlyBreakdown({ data }: { data: MonthRow[] }) {
 				</div>
 			</div>
 
-			{/* Desktop table */}
-			<div className='hidden md:block overflow-x-auto rounded-xl border border-violet-100 dark:border-violet-800/30 bg-white/40 dark:bg-slate-950/40'>
+			{/* Desktop table — fixed height, scrollable, header + aggregate pinned */}
+			<div className='hidden md:block overflow-x-auto overflow-y-auto max-h-[23rem] rounded-xl border border-violet-100 dark:border-violet-800/30 bg-white/40 dark:bg-slate-950/40'>
 				<table className='w-full text-sm text-left table-auto'>
-					<thead className='bg-violet-100/50 dark:bg-violet-800/30 border-b border-violet-100 dark:border-violet-800/30 text-slate-500 dark:text-slate-400 uppercase text-xs font-bold'>
+					<thead className='sticky top-0 z-20 bg-white dark:bg-slate-950 bg-linear-to-b from-violet-100/80 to-violet-100/80 dark:from-violet-800/40 dark:to-violet-800/40 text-slate-500 dark:text-slate-400 uppercase text-xs font-bold'>
 						<tr>
 							<th className='px-6 py-4'>Month</th>
 							<th className='px-6 py-4 text-right'>Income</th>
@@ -658,6 +660,49 @@ function MonthlyBreakdown({ data }: { data: MonthRow[] }) {
 							<th className='px-6 py-4'>Damage %</th>
 						</tr>
 					</thead>
+					<tbody className='sticky top-12 z-10 font-bold bg-white dark:bg-slate-950 bg-linear-to-b from-violet-200/80 to-violet-200/80 dark:from-violet-800/60 dark:to-violet-800/60'>
+						<tr>
+							<td className='px-6 py-4 text-slate-800 dark:text-white uppercase text-[10px] tracking-wider'>
+								Yearly Aggregate ({currentYear})
+							</td>
+							<td className='px-6 py-4 text-right text-emerald-600 dark:text-emerald-400 tabular-nums text-base'>
+								₹{totalIncomeYear.toLocaleString('en-IN')}
+							</td>
+							<td className='px-6 py-4 text-right text-rose-500 dark:text-rose-400 tabular-nums text-base'>
+								₹{totalSpentYear.toLocaleString('en-IN')}
+							</td>
+							<td
+								className={`px-6 py-4 text-right tabular-nums text-base ${
+									anualBalance >= 0 ?
+										'text-emerald-600 dark:text-emerald-400'
+									:	'text-rose-500 dark:text-rose-400'
+								}`}
+							>
+								{anualBalance >= 0 ? '+' : ''}₹
+								{anualBalance.toLocaleString('en-IN')}
+							</td>
+							<td className='px-6 py-4'>
+								<div className='flex items-center gap-2'>
+									<div className='flex-1 min-w-15 h-2.5 bg-slate-300/50 dark:bg-slate-700/50 rounded-full overflow-hidden'>
+										<div
+											className={`h-full rounded-full ${
+												anualDamage > 80 ? 'bg-rose-500'
+												: anualDamage > 50 ?
+													'bg-amber-400'
+												:	'bg-emerald-500'
+											}`}
+											style={{
+												width: `${Math.min(anualDamage, 100)}%`,
+											}}
+										/>
+									</div>
+									<span className='text-xs font-black text-slate-700 dark:text-slate-200 uppercase tabular-nums'>
+										{anualDamage}%
+									</span>
+								</div>
+							</td>
+						</tr>
+					</tbody>
 					<tbody className='divide-y divide-violet-200/50 dark:divide-violet-800/30 bg-white/20 dark:bg-slate-900/20'>
 						{data.map((row) => {
 							const barColor =
@@ -707,49 +752,6 @@ function MonthlyBreakdown({ data }: { data: MonthRow[] }) {
 							);
 						})}
 					</tbody>
-					<tfoot className='bg-violet-100/80 dark:bg-violet-900/40 font-bold border-t border-violet-200 dark:border-violet-700'>
-						<tr>
-							<td className='px-6 py-5 text-slate-800 dark:text-white uppercase text-[10px] tracking-wider'>
-								Yearly Aggregate ({currentYear})
-							</td>
-							<td className='px-6 py-5 text-right text-emerald-600 dark:text-emerald-400 tabular-nums text-base'>
-								₹{totalIncomeYear.toLocaleString('en-IN')}
-							</td>
-							<td className='px-6 py-5 text-right text-rose-500 dark:text-rose-400 tabular-nums text-base'>
-								₹{totalSpentYear.toLocaleString('en-IN')}
-							</td>
-							<td
-								className={`px-6 py-5 text-right tabular-nums text-base ${
-									anualBalance >= 0 ?
-										'text-emerald-600 dark:text-emerald-400'
-									:	'text-rose-500 dark:text-rose-400'
-								}`}
-							>
-								{anualBalance >= 0 ? '+' : ''}₹
-								{anualBalance.toLocaleString('en-IN')}
-							</td>
-							<td className='px-6 py-5'>
-								<div className='flex items-center gap-2'>
-									<div className='flex-1 min-w-15 h-2.5 bg-slate-300/50 dark:bg-slate-700/50 rounded-full overflow-hidden'>
-										<div
-											className={`h-full rounded-full ${
-												anualDamage > 80 ? 'bg-rose-500'
-												: anualDamage > 50 ?
-													'bg-amber-400'
-												:	'bg-emerald-500'
-											}`}
-											style={{
-												width: `${Math.min(anualDamage, 100)}%`,
-											}}
-										/>
-									</div>
-									<span className='text-xs font-black text-slate-700 dark:text-slate-200 uppercase tabular-nums'>
-										{anualDamage}%
-									</span>
-								</div>
-							</td>
-						</tr>
-					</tfoot>
 				</table>
 			</div>
 		</motion.div>
