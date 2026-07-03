@@ -126,7 +126,7 @@ export default function Notes() {
 		shouldRerenderOnTransaction: true,
 		editorProps: {
 			attributes: {
-				class: 'note-editor flex-1 px-4 sm:px-6 pt-1 pb-6 text-sm leading-relaxed text-slate-700 dark:text-slate-300',
+				class: 'note-editor flex-1 px-4 sm:px-6 pt-1.5 pb-10 text-[15px] sm:text-base leading-relaxed text-slate-700 dark:text-slate-300',
 			},
 		},
 		onUpdate: ({ editor }) => {
