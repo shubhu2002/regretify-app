@@ -1,11 +1,9 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useRef, useEffect } from 'react';
 import { format } from 'date-fns';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
 	Search,
 	ArrowUpDown,
-	ChevronLeft,
-	ChevronRight,
 	Filter,
 	Edit2,
 	Trash2,
@@ -44,8 +42,14 @@ export default function TransactionsTable({
 		key: 'date',
 		direction: 'desc',
 	});
-	const [currentPage, setCurrentPage] = useState(1);
 	const itemsPerPage = 10;
+	const [visibleCount, setVisibleCount] = useState(itemsPerPage);
+	const [loadingMore, setLoadingMore] = useState(false);
+	const desktopScrollRef = useRef<HTMLDivElement | null>(null);
+	const desktopSentinelRef = useRef<HTMLDivElement | null>(null);
+	const mobileScrollRef = useRef<HTMLDivElement | null>(null);
+	const mobileSentinelRef = useRef<HTMLDivElement | null>(null);
+	const loadingMoreRef = useRef(false);
 
 	// Normalize data
 	const normalizedData = useMemo(() => {
@@ -115,12 +119,49 @@ export default function TransactionsTable({
 		return result;
 	}, [normalizedData, searchTerm, filterType, sortConfig]);
 
-	// Pagination Logic
-	const totalPages = Math.ceil(processedData.length / itemsPerPage) || 1;
-	const currentData = useMemo(() => {
-		const startIdx = (currentPage - 1) * itemsPerPage;
-		return processedData.slice(startIdx, startIdx + itemsPerPage);
-	}, [processedData, currentPage]);
+	// Infinite scroll — reveal rows in batches as the sentinel comes into view
+	const currentData = useMemo(
+		() => processedData.slice(0, visibleCount),
+		[processedData, visibleCount],
+	);
+	const hasMore = visibleCount < processedData.length;
+
+	useEffect(() => {
+		if (!hasMore) return;
+
+		const loadNextBatch = () => {
+			if (loadingMoreRef.current) return;
+			loadingMoreRef.current = true;
+			setLoadingMore(true);
+			setTimeout(() => {
+				setVisibleCount((c) => c + itemsPerPage);
+				setLoadingMore(false);
+				loadingMoreRef.current = false;
+			}, 400);
+		};
+
+		// Sentinels are observed against their own scroll container (root),
+		// so a batch loads only when that container is scrolled to its bottom.
+		// Re-created after every batch (visibleCount dep) so a fresh observe()
+		// re-reports the current intersection state.
+		const pairs: [HTMLElement | null, HTMLElement | null][] = [
+			[desktopScrollRef.current, desktopSentinelRef.current],
+			[mobileScrollRef.current, mobileSentinelRef.current],
+		];
+		const observers = pairs
+			.filter(([root, el]) => root && el)
+			.map(([root, el]) => {
+				const observer = new IntersectionObserver(
+					(entries) => {
+						if (entries[0].isIntersecting) loadNextBatch();
+					},
+					{ root },
+				);
+				observer.observe(el!);
+				return observer;
+			});
+		return () => observers.forEach((o) => o.disconnect());
+	}, [hasMore, visibleCount]);
 
 	const handleSort = (key: string) => {
 		let direction: 'asc' | 'desc' = 'asc';
@@ -230,7 +271,7 @@ export default function TransactionsTable({
 		doc.save(`Regretify_Export_${format(new Date(), 'yyyy-MM-dd')}.pdf`);
 	};
 
-	const tableKey = `${currentPage}-${searchTerm}-${filterType}-${filterMonth}-${sortConfig.key}-${sortConfig.direction}-${currentData.length}`;
+	const tableKey = `${searchTerm}-${filterType}-${filterMonth}-${sortConfig.key}-${sortConfig.direction}`;
 
 	return (
 		<motion.div
@@ -254,7 +295,7 @@ export default function TransactionsTable({
 							value={searchTerm}
 							onChange={(e) => {
 								setSearchTerm(e.target.value);
-								setCurrentPage(1);
+								setVisibleCount(itemsPerPage);
 							}}
 							className='w-full sm:w-64 pl-9 pr-3 py-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/50 text-slate-900 dark:text-white focus:ring-2 focus:ring-violet-500 outline-none text-base md:text-sm transition-all'
 						/>
@@ -267,7 +308,7 @@ export default function TransactionsTable({
 						/>
 						<CustomSelect
 							value={filterMonth}
-							onChange={(v) => { setFilterMonth(v); setCurrentPage(1); }}
+							onChange={(v) => { setFilterMonth(v); setVisibleCount(itemsPerPage); }}
 							options={[
 								{ value: 'all', label: 'All Months' },
 								...MONTHS.map((m, i) => ({ value: i.toString(), label: m })),
@@ -277,7 +318,7 @@ export default function TransactionsTable({
 
 						<CustomSelect
 							value={filterType}
-							onChange={(v) => { setFilterType(v as 'all' | 'income' | 'expense'); setCurrentPage(1); }}
+							onChange={(v) => { setFilterType(v as 'all' | 'income' | 'expense'); setVisibleCount(itemsPerPage); }}
 							options={[
 								{ value: 'all', label: 'All Types' },
 								{ value: 'income', label: 'Incomes Only' },
@@ -300,8 +341,11 @@ export default function TransactionsTable({
 				</div>
 			</div>
 
-			{/* ── Mobile: Card List ── */}
-			<div className='md:hidden'>
+			{/* ── Mobile: Card List — fixed height, loads 10 more at its bottom ── */}
+			<div
+				ref={mobileScrollRef}
+				className='md:hidden max-h-120 overflow-y-auto pr-1'
+			>
 				<AnimatePresence mode='wait'>
 					<motion.div
 						key={tableKey}
@@ -384,15 +428,30 @@ export default function TransactionsTable({
 						}
 					</motion.div>
 				</AnimatePresence>
+
+				{/* Sentinel + loader (inside the scroll container) */}
+				<div
+					ref={mobileSentinelRef}
+					className='flex items-center justify-center min-h-1'
+				>
+					{loadingMore && hasMore && (
+						<div className='flex items-center gap-2 py-3 text-sm font-medium text-slate-500 dark:text-slate-400'>
+							<div className='h-4 w-4 border-2 border-violet-500 border-t-transparent rounded-full animate-spin' />
+							Loading more regrets...
+						</div>
+					)}
+				</div>
 			</div>
 
-			{/* ── Desktop: Full Table ── */}
-			<motion.div
-				layout
-				className='hidden md:block overflow-x-auto w-full rounded-xl border border-violet-100 dark:border-violet-800/30 shadow-sm bg-white/40 dark:bg-slate-950/40'
+			{/* ── Desktop: Full Table — fixed height, loads 10 more at its bottom.
+			     No `layout` animation here: transform-based layout animations make
+			     the sentinel briefly intersect the scroll root, cascading batches ── */}
+			<div
+				ref={desktopScrollRef}
+				className='hidden md:block overflow-x-auto overflow-y-auto max-h-112 w-full rounded-xl border border-violet-100 dark:border-violet-800/30 shadow-sm bg-white/40 dark:bg-slate-950/40'
 			>
 				<table className='w-full text-left text-sm whitespace-nowrap'>
-					<thead className='bg-violet-100/50 dark:bg-violet-800/30 border-b border-violet-100 dark:border-violet-800/30 text-slate-500 dark:text-slate-400 uppercase text-xs font-semibold'>
+					<thead className='sticky top-0 z-10 bg-white dark:bg-slate-950 bg-linear-to-b from-violet-100/80 to-violet-100/80 dark:from-violet-800/40 dark:to-violet-800/40 text-slate-500 dark:text-slate-400 uppercase text-xs font-semibold'>
 						<tr>
 							<th
 								className='px-4 py-3 cursor-pointer hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors'
@@ -504,26 +563,29 @@ export default function TransactionsTable({
 						</motion.tbody>
 					</AnimatePresence>
 				</table>
-			</motion.div>
 
-			{/* ── Pagination ── */}
+				{/* Sentinel + loader (inside the scroll container) */}
+				<div
+					ref={desktopSentinelRef}
+					className='flex items-center justify-center min-h-1'
+				>
+					{loadingMore && hasMore && (
+						<div className='flex items-center gap-2 py-3 text-sm font-medium text-slate-500 dark:text-slate-400'>
+							<div className='h-4 w-4 border-2 border-violet-500 border-t-transparent rounded-full animate-spin' />
+							Loading more regrets...
+						</div>
+					)}
+				</div>
+			</div>
+
 			<motion.div
 				layout
-				className='flex items-center justify-between mt-6'
+				className='flex items-center justify-center mt-4'
 			>
 				<p className='text-sm font-medium text-slate-500 dark:text-slate-400'>
 					Showing{' '}
 					<span className='font-semibold text-slate-900 dark:text-slate-200'>
-						{currentData.length > 0 ?
-							(currentPage - 1) * itemsPerPage + 1
-						:	0}
-					</span>{' '}
-					to{' '}
-					<span className='font-semibold text-slate-900 dark:text-slate-200'>
-						{Math.min(
-							currentPage * itemsPerPage,
-							processedData.length,
-						)}
+						{currentData.length}
 					</span>{' '}
 					of{' '}
 					<span className='font-semibold text-slate-900 dark:text-slate-200'>
@@ -531,38 +593,6 @@ export default function TransactionsTable({
 					</span>{' '}
 					results
 				</p>
-
-				<div className='flex items-center gap-2'>
-					<button
-						onClick={() =>
-							setCurrentPage((p) => Math.max(1, p - 1))
-						}
-						disabled={currentPage === 1}
-						className='p-1.5 rounded-lg border border-slate-200 dark:border-slate-700 text-slate-500 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 disabled:opacity-50 disabled:cursor-not-allowed transition-colors'
-					>
-						<ChevronLeft
-							size={16}
-							strokeWidth={2}
-						/>
-					</button>
-
-					<span className='text-sm font-medium text-slate-700 dark:text-slate-300 px-2 py-1 bg-transparent'>
-						Page {currentPage} of {totalPages}
-					</span>
-
-					<button
-						onClick={() =>
-							setCurrentPage((p) => Math.min(totalPages, p + 1))
-						}
-						disabled={currentPage === totalPages}
-						className='p-1.5 rounded-lg border border-slate-200 dark:border-slate-700 text-slate-500 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 disabled:opacity-50 disabled:cursor-not-allowed transition-colors'
-					>
-						<ChevronRight
-							size={16}
-							strokeWidth={2}
-						/>
-					</button>
-				</div>
 			</motion.div>
 		</motion.div>
 	);
