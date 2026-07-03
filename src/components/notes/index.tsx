@@ -310,10 +310,10 @@ export default function Notes() {
 			<motion.button
 				whileTap={{ scale: 0.98 }}
 				onClick={() => selectNote(note)}
-				className={`w-full text-left p-3 rounded-2xl border transition-all cursor-pointer group ${
+				className={`w-full text-left p-3 rounded-2xl border shadow-sm transition-all cursor-pointer group ${
 					isSelected
 						? 'bg-violet-100/80 dark:bg-violet-900/40 border-violet-200 dark:border-violet-700/50'
-						: 'bg-transparent border-transparent hover:bg-slate-100/70 dark:hover:bg-slate-800/50'
+						: 'bg-white/60 dark:bg-slate-900/40 border-violet-100 dark:border-violet-800/30 hover:bg-white dark:hover:bg-slate-800/60'
 				}`}
 			>
 				<div className='flex items-center justify-between gap-2'>
@@ -418,7 +418,7 @@ export default function Notes() {
 								</div>
 							</div>
 
-							<div className='flex-1 overflow-y-auto px-3 pb-3 space-y-1'>
+							<div className='flex-1 overflow-y-auto px-3 pb-3 space-y-2'>
 								{filteredNotes.length === 0 ?
 									<div className='text-center pt-12 px-4'>
 										{allNotes.length === 0 ?
