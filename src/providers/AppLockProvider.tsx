@@ -2,7 +2,12 @@
 
 import { createContext, useContext, useState, useEffect, useCallback } from 'react';
 import { useSession } from 'next-auth/react';
+import { usePathname } from 'next/navigation';
 import AppLockScreen from '@/components/AppLockScreen';
+
+// The lock screen only guards these pages — the public landing page ('/')
+// stays accessible while the session is still locked
+const PROTECTED_ROUTES = ['/regrets', '/ledger', '/notes', '/profile'];
 
 interface AppLockContextType {
 	isLocked: boolean;
@@ -22,6 +27,10 @@ export const useAppLock = () => useContext(AppLockContext);
 
 export function AppLockProvider({ children }: { children: React.ReactNode }) {
 	const { status } = useSession();
+	const pathname = usePathname();
+	const isProtectedRoute = PROTECTED_ROUTES.some(
+		(route) => pathname === route || pathname.startsWith(route + '/'),
+	);
 	const [hasPasscode, setHasPasscode] = useState(false);
 	const [passcodeLength, setPasscodeLength] = useState<4 | 6 | null>(null);
 	const [isLocked, setIsLocked] = useState(false);
@@ -73,7 +82,7 @@ export function AppLockProvider({ children }: { children: React.ReactNode }) {
 		setIsLocked(false);
 	}, []);
 
-	if (isLocked) {
+	if (isLocked && isProtectedRoute) {
 		return (
 			<AppLockContext.Provider value={{ isLocked, hasPasscode, passcodeLength, refreshPasscodeStatus }}>
 				<AppLockScreen onUnlock={handleUnlock} passcodeLength={passcodeLength || 4} />
