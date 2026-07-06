@@ -76,7 +76,8 @@ export async function GET(req: NextRequest) {
 
 		const total = totalCount ?? 0;
 		const totalPages = Math.max(1, Math.ceil(total / perPage));
-
+		const hasNext = page < totalPages;
+		
 		return NextResponse.json({
 			entries: entries || [],
 			balance,
@@ -85,6 +86,7 @@ export async function GET(req: NextRequest) {
 				per_page: perPage,
 				total,
 				total_pages: totalPages,
+				has_next: hasNext,
 			},
 		});
 	} catch (error: any) {
