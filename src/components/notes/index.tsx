@@ -97,7 +97,18 @@ export default function Notes() {
 		},
 	});
 
-	const allNotes = useMemo(() => data?.notes || [], [data]);
+	// Stable order: newest-created first. Sorting by created_at (not the
+	// server's updated_at order) keeps a note from jumping to the top of the
+	// list on every autosave while it's being edited.
+	const allNotes = useMemo(
+		() =>
+			[...(data?.notes || [])].sort(
+				(a, b) =>
+					new Date(b.created_at).getTime() -
+					new Date(a.created_at).getTime(),
+			),
+		[data],
+	);
 
 	const filteredNotes = useMemo(() => {
 		if (!search.trim()) return allNotes;
@@ -316,13 +327,10 @@ export default function Notes() {
 			>
 				{isSelected && (
 					<motion.div
-						layoutId='activeNoteBar'
+						initial={{ opacity: 0 }}
+						animate={{ opacity: 1 }}
+						transition={{ duration: 0.15 }}
 						className='absolute left-0 top-2.5 bottom-2.5 w-1 rounded-r-full bg-[#9294e5]'
-						transition={{
-							type: 'spring',
-							bounce: 0.25,
-							duration: 0.45,
-						}}
 					/>
 				)}
 				<div className='flex items-center justify-between gap-2'>

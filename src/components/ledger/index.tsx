@@ -371,13 +371,16 @@ export default function Ledger() {
 												>
 													{isSelected && (
 														<motion.div
-															layoutId='activeAccountBar'
-															className='absolute left-0 top-2.5 bottom-2.5 w-1 rounded-r-full bg-[#9294e5]'
-															transition={{
-																type: 'spring',
-																bounce: 0.25,
-																duration: 0.45,
+															initial={{
+																opacity: 0,
 															}}
+															animate={{
+																opacity: 1,
+															}}
+															transition={{
+																duration: 0.15,
+															}}
+															className='absolute left-0 top-2.5 bottom-2.5 w-1 rounded-r-full bg-[#9294e5]'
 														/>
 													)}
 													<div className='flex items-center gap-3'>
