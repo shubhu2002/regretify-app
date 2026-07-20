@@ -166,10 +166,10 @@ export default function Regrets({ session }: { session: Session }) {
 			<div className='relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8'>
 				<header className='flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8'>
 					<div>
-						<h1 className='text-3xl font-bold bg-clip-text text-transparent bg-linear-to-r from-violet-600 to-fuchsia-600 dark:from-violet-400 dark:to-fuchsia-400'>
+						<h1 className='text-3xl font-semibold tracking-tight text-white text-gradient'>
 							Wall of Regret
 						</h1>
-						<p className='text-slate-500 dark:text-slate-400 mt-1'>
+						<p className='text-white/50 mt-1'>
 							Welcome back, {session.user?.name}
 						</p>
 					</div>
@@ -178,7 +178,7 @@ export default function Regrets({ session }: { session: Session }) {
 						<CustomSelect
 							value={filterMonth}
 							onChange={setFilterMonth}
-							icon={<CalendarDays size={15} className='text-violet-500' />}
+							icon={<CalendarDays size={15} className='text-white/50' />}
 							options={[
 								{ value: 'all', label: 'All Time' },
 								...MONTHS.map((m, i) => ({ value: i.toString(), label: m })),
@@ -193,11 +193,11 @@ export default function Regrets({ session }: { session: Session }) {
 								setEditItem(null);
 								setModalOpen(true);
 							}}
-							className='bg-white/80 backdrop-blur-sm dark:bg-slate-900/80 border border-slate-200 dark:border-slate-800 hover:bg-white dark:hover:bg-slate-800 px-4 py-2.5 rounded-xl font-medium text-slate-700 dark:text-slate-300 flex items-center gap-2 transition-colors shadow-sm'
+							className='bg-white/[0.08] hover:bg-white/[0.14] border border-white/10 px-4 py-2.5 rounded-xl font-medium text-white/80 flex items-center gap-2 transition-colors'
 						>
 							<Plus
 								size={18}
-								className='text-emerald-500'
+								className='text-emerald-400'
 							/>
 							<span>Rare Windfall</span>
 						</button>
@@ -207,7 +207,7 @@ export default function Regrets({ session }: { session: Session }) {
 								setEditItem(null);
 								setModalOpen(true);
 							}}
-							className='bg-violet-600 hover:bg-violet-700 text-white shadow-md shadow-violet-600/20 px-4 py-2.5 rounded-xl font-medium flex items-center gap-2 transition-all'
+							className='bg-[#9294e5] hover:bg-[#a3a5ec] text-black shadow-[0_2px_24px_rgba(146,148,229,0.35)] px-4 py-2.5 rounded-xl font-semibold flex items-center gap-2 transition-colors'
 						>
 							<Plus size={18} />
 							<span>Add Regret</span>
@@ -228,7 +228,7 @@ export default function Regrets({ session }: { session: Session }) {
 								icon={
 									<ArrowDownRight
 										size={20}
-										className='text-emerald-500'
+										className='text-emerald-400'
 									/>
 								}
 							/>
@@ -239,7 +239,7 @@ export default function Regrets({ session }: { session: Session }) {
 								icon={
 									<ArrowUpRight
 										size={20}
-										className='text-rose-500'
+										className='text-red-400'
 									/>
 								}
 							/>
@@ -257,8 +257,8 @@ export default function Regrets({ session }: { session: Session }) {
 
 						{/* Charts Layout */}
 						<div className='grid grid-cols-1 lg:grid-cols-3 gap-6 relative z-10'>
-							<div className='lg:col-span-2 bg-violet-50/60 backdrop-blur-xl dark:bg-violet-900/20 border border-violet-100 dark:border-violet-800/30 rounded-3xl px-2 py-4 sm:p-6 min-h-100 shadow-sm flex flex-col'>
-								<h3 className='text-lg font-semibold mb-6 text-slate-800 dark:text-slate-200 px-4'>
+							<div className='lg:col-span-2 card-ultra rounded-3xl px-2 py-4 sm:p-6 min-h-100 flex flex-col'>
+								<h3 className='text-lg font-semibold tracking-tight mb-6 text-white px-4'>
 									Expense Over Time
 								</h3>
 								<div className='flex-1 relative'>
@@ -266,8 +266,8 @@ export default function Regrets({ session }: { session: Session }) {
 								</div>
 							</div>
 
-							<div className='bg-fuchsia-50/60 backdrop-blur-xl dark:bg-fuchsia-900/10 border border-fuchsia-100 dark:border-fuchsia-800/20 rounded-3xl p-4 sm:p-6 min-h-100 shadow-sm flex flex-col'>
-								<h3 className='text-lg font-semibold mb-6 text-slate-800 dark:text-slate-200'>
+							<div className='card-ultra rounded-3xl p-4 sm:p-6 min-h-100 flex flex-col'>
+								<h3 className='text-lg font-semibold tracking-tight mb-6 text-white'>
 									Categories
 								</h3>
 								<div className='flex-1 relative'>
@@ -326,32 +326,41 @@ function StatCard({
 	icon?: React.ReactNode;
 }) {
 	const colorClass =
-		type === 'income' ? 'text-emerald-600 dark:text-emerald-400'
-		: type === 'expense' ? 'text-rose-600 dark:text-rose-400'
-		: 'text-slate-900 dark:text-white';
+		type === 'income' ? 'text-emerald-400'
+		: type === 'expense' ? 'text-red-400'
+		: 'text-white';
 
 	return (
 		<motion.div
 			initial={{ opacity: 0, scale: 0.9 }}
 			animate={{ opacity: 1, scale: 1 }}
 			whileHover={{ y: -4 }}
-			className='bg-violet-50/60 backdrop-blur-xl dark:bg-violet-900/20 border border-violet-100 dark:border-violet-800/30 p-4 sm:p-6 rounded-3xl shadow-sm transition-all hover:shadow-md hover:-translate-y-1 relative overflow-hidden group'
+			className='card-ultra p-4 sm:p-6 rounded-3xl transition-all hover:-translate-y-1 relative overflow-hidden group'
 		>
-			<div className='absolute -inset-2 bg-linear-to-r from-transparent via-white/40 to-transparent dark:via-white/5 skew-x-12 translate-x-[-150%] group-hover:translate-x-[150%] transition-transform duration-700 pointer-events-none' />
+			<div className='absolute -inset-2 bg-linear-to-r from-transparent via-white/5 to-transparent skew-x-12 translate-x-[-150%] group-hover:translate-x-[150%] transition-transform duration-700 pointer-events-none' />
 			<div className='flex items-center justify-between mb-2 relative z-10'>
-				<h3 className='text-sm font-medium text-slate-500 dark:text-slate-400'>
+				<h3 className='text-sm font-medium text-white/50'>
 					{title}
 				</h3>
-				{icon}
+				{icon && (
+					<span
+						className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 ${
+							type === 'income' ?
+								'bg-[#f0f8e8]/10'
+							:	'bg-[#d39dbd]/15'
+						}`}
+					>
+						{icon}
+					</span>
+				)}
 			</div>
-			<div className={`text-3xl font-bold ${colorClass}`}>{amount}</div>
+			<div className={`text-3xl font-semibold tracking-tight ${colorClass}`}>{amount}</div>
 		</motion.div>
 	);
 }
 
 function RegretsSkeleton() {
-	const shimmer =
-		'animate-pulse bg-slate-200/80 dark:bg-slate-700/50 rounded-xl';
+	const shimmer = 'animate-pulse bg-white/[0.06] rounded-xl';
 	return (
 		<div className='space-y-8'>
 			{/* Stat Cards Skeleton */}
@@ -359,7 +368,7 @@ function RegretsSkeleton() {
 				{[...Array(4)].map((_, i) => (
 					<div
 						key={i}
-						className='bg-violet-50/60 dark:bg-violet-900/20 border border-violet-100 dark:border-violet-800/30 p-6 rounded-3xl shadow-sm'
+						className='card-ultra p-6 rounded-3xl'
 					>
 						<div className='flex items-center justify-between mb-3'>
 							<div className={`${shimmer} h-4 w-24`} />
@@ -374,7 +383,7 @@ function RegretsSkeleton() {
 
 			{/* Charts Skeleton */}
 			<div className='grid grid-cols-1 lg:grid-cols-3 gap-6'>
-				<div className='lg:col-span-2 bg-violet-50/60 dark:bg-violet-900/20 border border-violet-100 dark:border-violet-800/30 rounded-3xl p-6 min-h-100 shadow-sm'>
+				<div className='lg:col-span-2 card-ultra rounded-3xl p-6 min-h-100'>
 					<div className={`${shimmer} h-5 w-40 mb-6`} />
 					<div className='relative h-52'>
 						{/* Y-axis ticks */}
@@ -386,19 +395,19 @@ function RegretsSkeleton() {
 						{/* Grid lines */}
 						<div className='absolute left-12 right-0 top-0 bottom-6 flex flex-col justify-between'>
 							{[...Array(5)].map((_, i) => (
-								<div key={i} className='h-px bg-slate-200/50 dark:bg-slate-700/30' />
+								<div key={i} className='h-px bg-white/[0.08]' />
 							))}
 						</div>
 						{/* Area curve */}
 						<svg className='absolute left-12 right-0 top-0 bottom-6 w-[calc(100%-3rem)] h-[calc(100%-1.5rem)]' viewBox='0 0 400 180' preserveAspectRatio='none'>
 							<defs>
 								<linearGradient id='skelGrad' x1='0' y1='0' x2='0' y2='1'>
-									<stop offset='0%' className='[stop-color:var(--color-violet-300)] dark:[stop-color:var(--color-violet-600)]' stopOpacity='0.3' />
-									<stop offset='100%' className='[stop-color:var(--color-violet-300)] dark:[stop-color:var(--color-violet-600)]' stopOpacity='0' />
+									<stop offset='0%' stopColor='#ffffff' stopOpacity='0.12' />
+									<stop offset='100%' stopColor='#ffffff' stopOpacity='0' />
 								</linearGradient>
 							</defs>
 							<path d='M0,140 C30,135 60,120 100,100 C140,80 160,30 200,50 C240,70 280,90 320,85 C360,80 380,75 400,80 L400,180 L0,180 Z' fill='url(#skelGrad)' className='animate-pulse' />
-							<path d='M0,140 C30,135 60,120 100,100 C140,80 160,30 200,50 C240,70 280,90 320,85 C360,80 380,75 400,80' fill='none' className='stroke-slate-300/60 dark:stroke-slate-600/40 animate-pulse' strokeWidth='2.5' />
+							<path d='M0,140 C30,135 60,120 100,100 C140,80 160,30 200,50 C240,70 280,90 320,85 C360,80 380,75 400,80' fill='none' className='stroke-white/20 animate-pulse' strokeWidth='2.5' />
 						</svg>
 						{/* X-axis ticks */}
 						<div className='absolute left-12 right-0 bottom-0 flex justify-between'>
@@ -414,7 +423,7 @@ function RegretsSkeleton() {
 						<div className={`${shimmer} h-3 w-8`} />
 					</div>
 				</div>
-				<div className='bg-fuchsia-50/60 dark:bg-fuchsia-900/10 border border-fuchsia-100 dark:border-fuchsia-800/20 rounded-3xl p-6 min-h-100 shadow-sm'>
+				<div className='card-ultra rounded-3xl p-6 min-h-100'>
 					<div className={`${shimmer} h-5 w-28 mb-6`} />
 					<div className='flex items-center justify-center py-8'>
 						<div className={`${shimmer} w-40 h-40 rounded-full`} />
@@ -437,7 +446,7 @@ function RegretsSkeleton() {
 			</div>
 
 			{/* Transactions Table Skeleton */}
-			<div className='bg-violet-50/60 dark:bg-violet-900/20 border border-violet-100 dark:border-violet-800/30 rounded-3xl p-4 sm:p-6 shadow-sm'>
+			<div className='card-ultra rounded-3xl p-4 sm:p-6'>
 				<div className='flex items-center justify-between mb-6'>
 					<div className={`${shimmer} h-6 w-40`} />
 					<div className='flex gap-3'>
@@ -449,7 +458,7 @@ function RegretsSkeleton() {
 					{[...Array(5)].map((_, i) => (
 						<div
 							key={i}
-							className='flex items-center gap-4 p-4 bg-white/50 dark:bg-slate-900/30 rounded-2xl'
+							className='flex items-center gap-4 p-4 bg-white/[0.04] rounded-2xl'
 						>
 							<div className={`${shimmer} h-8 w-16 rounded-lg`} />
 							<div className={`${shimmer} h-4 w-32`} />
@@ -462,13 +471,13 @@ function RegretsSkeleton() {
 			</div>
 
 			{/* Monthly Breakdown Skeleton */}
-			<div className='bg-violet-50/60 dark:bg-violet-900/20 border border-violet-100 dark:border-violet-800/30 rounded-3xl p-4 sm:p-6 shadow-sm'>
+			<div className='card-ultra rounded-3xl p-4 sm:p-6'>
 				<div className={`${shimmer} h-6 w-56 mb-6`} />
 				<div className='space-y-3'>
 					{[...Array(4)].map((_, i) => (
 						<div
 							key={i}
-							className='flex items-center gap-4 p-4 bg-white/50 dark:bg-slate-900/30 rounded-2xl'
+							className='flex items-center gap-4 p-4 bg-white/[0.04] rounded-2xl'
 						>
 							<div className={`${shimmer} h-4 w-28`} />
 							<div className='flex-1' />
@@ -511,34 +520,34 @@ function MonthlyBreakdown({ data }: { data: MonthRow[] }) {
 	return (
 		<motion.div
 			layout
-			className='bg-violet-50/60 backdrop-blur-xl dark:bg-violet-900/20 border border-violet-100 dark:border-violet-800/30 rounded-3xl p-4 sm:p-6 shadow-sm mt-6 relative z-10'
+			className='card-ultra rounded-3xl p-4 sm:p-6 mt-6 relative z-10'
 		>
-			<h3 className='text-xl font-bold bg-clip-text text-transparent bg-linear-to-r from-violet-600 to-fuchsia-600 dark:from-violet-400 dark:to-fuchsia-400 mb-6 px-1'>
+			<h3 className='text-xl font-semibold tracking-tight text-white mb-6 px-1'>
 				Annual Regret Timeline ({currentYear})
 			</h3>
 
 			{/* Mobile cards */}
 			<div className='md:hidden flex flex-col gap-3'>
-				<div className='order-2 max-h-120 overflow-y-auto space-y-3 pr-1'>
+				<div className='order-2 max-h-120 overflow-y-auto bg-[#1a191e] border border-white/[0.06] rounded-2xl divide-y divide-white/[0.05]'>
 				{data.map((row) => {
 					const barColor =
-						row.pct > 80 ? 'bg-rose-500'
+						row.pct > 80 ? 'bg-red-500'
 						: row.pct > 50 ? 'bg-amber-400'
 						: 'bg-emerald-500';
 					return (
 						<div
 							key={row.key}
-							className='bg-white/70 dark:bg-slate-800/50 rounded-2xl p-4 border border-violet-100 dark:border-violet-800/30 shadow-sm'
+							className='px-4 py-3 transition-colors hover:bg-white/[0.03]'
 						>
 							<div className='flex items-center justify-between mb-3'>
-								<span className='font-semibold text-sm text-slate-800 dark:text-white'>
+								<span className='font-semibold text-sm text-white'>
 									{row.month}
 								</span>
 								<span
-									className={`text-sm font-bold ${
+									className={`text-sm font-semibold ${
 										row.balance >= 0 ?
-											'text-emerald-600 dark:text-emerald-400'
-										:	'text-rose-500 dark:text-rose-400'
+											'text-emerald-400'
+										:	'text-red-400'
 									}`}
 								>
 									{row.balance >= 0 ? '+' : ''}₹
@@ -547,31 +556,31 @@ function MonthlyBreakdown({ data }: { data: MonthRow[] }) {
 							</div>
 							<div className='grid grid-cols-3 gap-3 text-xs mb-3'>
 								<div>
-									<p className='text-slate-400 mb-0.5'>
+									<p className='text-white/40 mb-0.5'>
 										Income
 									</p>
-									<p className='font-semibold text-emerald-600 dark:text-emerald-400 tabular-nums'>
+									<p className='font-semibold text-emerald-400 tabular-nums'>
 										₹{row.income.toLocaleString('en-IN')}
 									</p>
 								</div>
 								<div>
-									<p className='text-slate-400 mb-0.5'>
+									<p className='text-white/40 mb-0.5'>
 										Spent
 									</p>
-									<p className='font-semibold text-rose-500 dark:text-rose-400 tabular-nums'>
+									<p className='font-semibold text-red-400 tabular-nums'>
 										₹{row.expense.toLocaleString('en-IN')}
 									</p>
 								</div>
 								<div>
-									<p className='text-slate-400 mb-0.5'>
+									<p className='text-white/40 mb-0.5'>
 										Damage
 									</p>
-									<p className='font-semibold text-slate-700 dark:text-slate-200'>
+									<p className='font-semibold text-white/80'>
 										{row.pct}%
 									</p>
 								</div>
 							</div>
-							<div className='h-1.5 bg-slate-200 dark:bg-slate-700 rounded-full overflow-hidden'>
+							<div className='h-1.5 bg-white/10 rounded-full overflow-hidden'>
 								<div
 									className={`h-full rounded-full ${barColor}`}
 									style={{
@@ -585,36 +594,36 @@ function MonthlyBreakdown({ data }: { data: MonthRow[] }) {
 				</div>
 
 				{/* Summary card — rendered on top via order */}
-				<div className='order-1 bg-violet-100/90 dark:bg-violet-900/50 rounded-2xl p-4 border border-violet-200 dark:border-violet-700 shadow-md transition-all group overflow-hidden'>
-					<h4 className='text-xs font-bold text-slate-500 dark:text-slate-300 uppercase mb-3 tracking-widest text-center'>
+				<div className='order-1 bg-white/[0.08] rounded-2xl p-4 border border-white/10 transition-all group overflow-hidden'>
+					<h4 className='text-xs font-semibold text-white/50 uppercase mb-3 tracking-widest text-center'>
 						Annual Summary ({currentYear})
 					</h4>
 					<div className='grid grid-cols-3 gap-2 text-center relative z-10'>
 						<div>
-							<p className='text-[10px] text-slate-500 dark:text-slate-400 mb-1 font-medium'>
+							<p className='text-[10px] text-white/40 mb-1 font-medium'>
 								Income
 							</p>
-							<p className='text-xs font-bold text-emerald-600 dark:text-emerald-400 tabular-nums'>
+							<p className='text-xs font-semibold text-emerald-400 tabular-nums'>
 								₹{totalIncomeYear.toLocaleString('en-IN')}
 							</p>
 						</div>
 						<div>
-							<p className='text-[10px] text-slate-500 dark:text-slate-400 mb-1 font-medium'>
+							<p className='text-[10px] text-white/40 mb-1 font-medium'>
 								Spent
 							</p>
-							<p className='text-xs font-bold text-rose-500 dark:text-rose-400 tabular-nums'>
+							<p className='text-xs font-semibold text-red-400 tabular-nums'>
 								₹{totalSpentYear.toLocaleString('en-IN')}
 							</p>
 						</div>
 						<div>
-							<p className='text-[10px] text-slate-500 dark:text-slate-400 mb-1 font-medium'>
+							<p className='text-[10px] text-white/40 mb-1 font-medium'>
 								Balance
 							</p>
 							<p
-								className={`text-xs font-bold tabular-nums ${
+								className={`text-xs font-semibold tabular-nums ${
 									anualBalance >= 0 ?
-										'text-emerald-600 dark:text-emerald-400'
-									:	'text-rose-500 dark:text-rose-400'
+										'text-emerald-400'
+									:	'text-red-400'
 								}`}
 							>
 								₹
@@ -623,14 +632,14 @@ function MonthlyBreakdown({ data }: { data: MonthRow[] }) {
 						</div>
 					</div>
 					<div className='mt-4 px-2'>
-						<div className='flex items-center justify-between text-[10px] text-slate-500 dark:text-slate-400 mb-1 font-bold italic uppercase tracking-tighter'>
+						<div className='flex items-center justify-between text-[10px] text-white/40 mb-1 font-semibold italic uppercase tracking-tighter'>
 							<span>Annual Damage</span>
 							<span>{anualDamage}%</span>
 						</div>
-						<div className='h-2 bg-slate-200 dark:bg-slate-700 rounded-full overflow-hidden'>
+						<div className='h-2 bg-white/10 rounded-full overflow-hidden'>
 							<div
 								className={`h-full rounded-full transition-all duration-1000 ${
-									anualDamage > 80 ? 'bg-rose-500'
+									anualDamage > 80 ? 'bg-red-500'
 									: anualDamage > 50 ? 'bg-amber-400'
 									: 'bg-emerald-500'
 								}`}
@@ -644,9 +653,9 @@ function MonthlyBreakdown({ data }: { data: MonthRow[] }) {
 			</div>
 
 			{/* Desktop table — fixed height, scrollable, header + aggregate pinned */}
-			<div className='hidden md:block overflow-x-auto overflow-y-auto max-h-92 rounded-xl border border-violet-100 dark:border-violet-800/30 bg-white/40 dark:bg-slate-950/40'>
+			<div className='hidden md:block overflow-x-auto overflow-y-auto max-h-92 rounded-2xl border border-white/[0.06] bg-[#1a191e]'>
 				<table className='w-full text-sm text-left table-auto'>
-					<thead className='sticky top-0 z-20 bg-white dark:bg-slate-950 bg-linear-to-b from-violet-100/80 to-violet-100/80 dark:from-violet-800/40 dark:to-violet-800/40 text-slate-500 dark:text-slate-400 uppercase text-xs font-bold'>
+					<thead className='sticky top-0 z-20 bg-[#141317] text-white/40 uppercase text-xs font-semibold'>
 						<tr>
 							<th className='px-6 py-4'>Month</th>
 							<th className='px-6 py-4 text-right'>Income</th>
@@ -655,22 +664,22 @@ function MonthlyBreakdown({ data }: { data: MonthRow[] }) {
 							<th className='px-6 py-4'>Damage %</th>
 						</tr>
 					</thead>
-					<tbody className='sticky top-12 z-10 font-bold bg-white dark:bg-slate-950 bg-linear-to-b from-violet-200/80 to-violet-200/80 dark:from-violet-800/60 dark:to-violet-800/60'>
+					<tbody className='sticky top-12 z-10 font-semibold bg-[#141317]'>
 						<tr>
-							<td className='px-6 py-4 text-slate-800 dark:text-white uppercase text-[10px] tracking-wider'>
+							<td className='px-6 py-4 text-white uppercase text-[10px] tracking-wider'>
 								Yearly Aggregate ({currentYear})
 							</td>
-							<td className='px-6 py-4 text-right text-emerald-600 dark:text-emerald-400 tabular-nums text-base'>
+							<td className='px-6 py-4 text-right text-emerald-400 tabular-nums text-base'>
 								₹{totalIncomeYear.toLocaleString('en-IN')}
 							</td>
-							<td className='px-6 py-4 text-right text-rose-500 dark:text-rose-400 tabular-nums text-base'>
+							<td className='px-6 py-4 text-right text-red-400 tabular-nums text-base'>
 								₹{totalSpentYear.toLocaleString('en-IN')}
 							</td>
 							<td
 								className={`px-6 py-4 text-right tabular-nums text-base ${
 									anualBalance >= 0 ?
-										'text-emerald-600 dark:text-emerald-400'
-									:	'text-rose-500 dark:text-rose-400'
+										'text-emerald-400'
+									:	'text-red-400'
 								}`}
 							>
 								{anualBalance >= 0 ? '+' : ''}₹
@@ -678,10 +687,10 @@ function MonthlyBreakdown({ data }: { data: MonthRow[] }) {
 							</td>
 							<td className='px-6 py-4'>
 								<div className='flex items-center gap-2'>
-									<div className='flex-1 min-w-15 h-2.5 bg-slate-300/50 dark:bg-slate-700/50 rounded-full overflow-hidden'>
+									<div className='flex-1 min-w-15 h-2.5 bg-white/10 rounded-full overflow-hidden'>
 										<div
 											className={`h-full rounded-full ${
-												anualDamage > 80 ? 'bg-rose-500'
+												anualDamage > 80 ? 'bg-red-500'
 												: anualDamage > 50 ?
 													'bg-amber-400'
 												:	'bg-emerald-500'
@@ -691,38 +700,38 @@ function MonthlyBreakdown({ data }: { data: MonthRow[] }) {
 											}}
 										/>
 									</div>
-									<span className='text-xs font-black text-slate-700 dark:text-slate-200 uppercase tabular-nums'>
+									<span className='text-xs font-semibold text-white/80 uppercase tabular-nums'>
 										{anualDamage}%
 									</span>
 								</div>
 							</td>
 						</tr>
 					</tbody>
-					<tbody className='divide-y divide-violet-200/50 dark:divide-violet-800/30 bg-white/20 dark:bg-slate-900/20'>
+					<tbody className='divide-y divide-white/[0.05]'>
 						{data.map((row) => {
 							const barColor =
-								row.pct > 80 ? 'bg-rose-500'
+								row.pct > 80 ? 'bg-red-500'
 								: row.pct > 50 ? 'bg-amber-400'
 								: 'bg-emerald-500';
 							return (
 								<tr
 									key={row.key}
-									className='hover:bg-white/60 dark:hover:bg-slate-800/40 transition-colors'
+									className='hover:bg-white/[0.03] transition-colors'
 								>
-									<td className='px-6 py-4 font-semibold text-slate-800 dark:text-slate-200'>
+									<td className='px-6 py-4 font-semibold text-white/80'>
 										{row.month}
 									</td>
-									<td className='px-6 py-4 text-right font-semibold text-emerald-600 dark:text-emerald-400 tabular-nums whitespace-nowrap'>
+									<td className='px-6 py-4 text-right font-semibold text-emerald-400 tabular-nums whitespace-nowrap'>
 										₹{row.income.toLocaleString('en-IN')}
 									</td>
-									<td className='px-6 py-4 text-right font-semibold text-rose-500 dark:text-rose-400 tabular-nums whitespace-nowrap'>
+									<td className='px-6 py-4 text-right font-semibold text-red-400 tabular-nums whitespace-nowrap'>
 										₹{row.expense.toLocaleString('en-IN')}
 									</td>
 									<td
-										className={`px-6 py-4 text-right font-bold tabular-nums whitespace-nowrap ${
+										className={`px-6 py-4 text-right font-semibold tabular-nums whitespace-nowrap ${
 											row.balance >= 0 ?
-												'text-emerald-600 dark:text-emerald-400'
-											:	'text-rose-500 dark:text-rose-400'
+												'text-emerald-400'
+											:	'text-red-400'
 										}`}
 									>
 										{row.balance >= 0 ? '+' : ''}₹
@@ -730,7 +739,7 @@ function MonthlyBreakdown({ data }: { data: MonthRow[] }) {
 									</td>
 									<td className='px-6 py-4 min-w-30'>
 										<div className='flex items-center gap-2'>
-											<div className='flex-1 min-w-15 h-2 bg-slate-200 dark:bg-slate-700 rounded-full overflow-hidden'>
+											<div className='flex-1 min-w-15 h-2 bg-white/10 rounded-full overflow-hidden'>
 												<div
 													className={`h-full rounded-full ${barColor}`}
 													style={{
@@ -738,7 +747,7 @@ function MonthlyBreakdown({ data }: { data: MonthRow[] }) {
 													}}
 												/>
 											</div>
-											<span className='text-xs font-medium text-slate-600 dark:text-slate-300 tabular-nums w-10'>
+											<span className='text-xs font-medium text-white/50 tabular-nums w-10'>
 												{row.pct}%
 											</span>
 										</div>

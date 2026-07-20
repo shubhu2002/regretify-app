@@ -22,8 +22,8 @@ export function Providers({ children }: { children: React.ReactNode }) {
 	return (
 		<ThemeProvider
 			attribute='class'
-			defaultTheme='system'
-			enableSystem
+			defaultTheme='dark'
+			forcedTheme='dark'
 		>
 			<QueryClientProvider client={queryClient}>
 				<SessionProvider>
@@ -36,15 +36,15 @@ export function Providers({ children }: { children: React.ReactNode }) {
 					toastOptions={{
 						duration: 4000,
 						className:
-							'!bg-white/85 dark:!bg-slate-900/85 !backdrop-blur-xl !text-slate-900 dark:!text-white !border !border-violet-200 dark:!border-violet-800 !shadow-xl !py-2.5 !px-4',
+							'!bg-[#101013]/90 !backdrop-blur-xl !text-white !border !border-white/10 !shadow-2xl !shadow-black/60 !py-2.5 !px-4',
 						style: {
 							minWidth: '350px',
 							color: 'inherit',
 						},
 						success: {
 							iconTheme: {
-								primary: '#10b981',
-								secondary: '#fff',
+								primary: '#ffffff',
+								secondary: '#000000',
 							},
 						},
 						error: {

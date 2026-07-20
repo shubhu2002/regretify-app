@@ -32,18 +32,18 @@ ChartJS.register(
 );
 
 const COLORS = [
-	'rgba(99, 102, 241, 0.9)',
-	'rgba(16, 185, 129, 0.9)',
-	'rgba(244, 63, 94, 0.9)',
-	'rgba(245, 158, 11, 0.9)',
-	'rgba(14, 165, 233, 0.9)',
-	'rgba(168, 85, 247, 0.9)',
-	'rgba(236, 72, 153, 0.9)',
-	'rgba(34, 197, 94, 0.9)',
-	'rgba(251, 146, 60, 0.9)',
-	'rgba(132, 204, 22, 0.9)',
-	'rgba(59, 130, 246, 0.9)',
-	'rgba(217, 70, 239, 0.9)',
+	'#9294e5',
+	'#d39dbd',
+	'#cbf1fd',
+	'#f0f8e8',
+	'rgba(255, 255, 255, 0.85)',
+	'rgba(255, 255, 255, 0.65)',
+	'rgba(255, 255, 255, 0.5)',
+	'rgba(255, 255, 255, 0.38)',
+	'rgba(255, 255, 255, 0.28)',
+	'rgba(255, 255, 255, 0.2)',
+	'rgba(255, 255, 255, 0.14)',
+	'rgba(255, 255, 255, 0.1)',
 ];
 
 const formatCurrency = (value: number) => `₹${value.toLocaleString('en-IN')}`;
@@ -57,7 +57,7 @@ interface ExpenseChartsProps {
 export function CategoriesChart({ expenses }: ExpenseChartsProps) {
 	if (!expenses.length) {
 		return (
-			<div className='flex h-full items-center justify-center text-slate-400'>
+			<div className='flex h-full items-center justify-center text-white/40'>
 				No data available yet
 			</div>
 		);
@@ -97,7 +97,9 @@ export function CategoriesChart({ expenses }: ExpenseChartsProps) {
 		plugins: {
 			legend: { display: false },
 			tooltip: {
-				backgroundColor: 'rgba(15, 23, 42, 0.95)',
+				backgroundColor: '#101013',
+				borderColor: 'rgba(255, 255, 255, 0.1)',
+				borderWidth: 1,
 				padding: 12,
 				displayColors: false,
 				callbacks: {
@@ -141,11 +143,11 @@ export function CategoriesChart({ expenses }: ExpenseChartsProps) {
 									].replace('0.9)', '1)'),
 								}}
 							/>
-							<span className='text-sm text-slate-600 dark:text-slate-300 truncate'>
+							<span className='text-sm text-white/60 truncate'>
 								{cat}
 							</span>
 						</div>
-						<span className='text-sm font-semibold text-slate-700 dark:text-slate-200 shrink-0 tabular-nums'>
+						<span className='text-sm font-semibold text-white/80 shrink-0 tabular-nums'>
 							₹{amt.toLocaleString('en-IN')}
 						</span>
 					</div>
@@ -159,9 +161,9 @@ export function CategoriesChart({ expenses }: ExpenseChartsProps) {
 
 function createGradient(ctx: CanvasRenderingContext2D, area: { top: number; bottom: number }) {
 	const g = ctx.createLinearGradient(0, area.top, 0, area.bottom);
-	g.addColorStop(0, 'rgba(139, 92, 246, 0.35)');
-	g.addColorStop(0.5, 'rgba(139, 92, 246, 0.1)');
-	g.addColorStop(1, 'rgba(139, 92, 246, 0)');
+	g.addColorStop(0, 'rgba(146, 148, 229, 0.25)');
+	g.addColorStop(0.5, 'rgba(146, 148, 229, 0.07)');
+	g.addColorStop(1, 'rgba(146, 148, 229, 0)');
 	return g;
 }
 
@@ -180,7 +182,7 @@ const gradientPlugin = {
 export function TrendChart({ expenses }: ExpenseChartsProps) {
 	if (!expenses.length) {
 		return (
-			<div className='flex h-full items-center justify-center text-slate-400'>
+			<div className='flex h-full items-center justify-center text-white/40'>
 				No data available yet
 			</div>
 		);
@@ -212,15 +214,15 @@ export function TrendChart({ expenses }: ExpenseChartsProps) {
 			{
 				label: 'Daily Spending',
 				data: values,
-				borderColor: 'rgba(139, 92, 246, 1)',
-				backgroundColor: 'rgba(139, 92, 246, 0.15)',
+				borderColor: '#9294e5',
+				backgroundColor: 'rgba(146, 148, 229, 0.1)',
 				borderWidth: 2,
 				fill: true,
 				tension: 0.4,
 				pointRadius: 0,
 				pointHoverRadius: 5,
-				pointHoverBackgroundColor: '#fff',
-				pointHoverBorderColor: 'rgba(139, 92, 246, 1)',
+				pointHoverBackgroundColor: '#101013',
+				pointHoverBorderColor: '#ffffff',
 				pointHoverBorderWidth: 2.5,
 			},
 		],
@@ -237,15 +239,15 @@ export function TrendChart({ expenses }: ExpenseChartsProps) {
 		plugins: {
 			legend: { display: false },
 			tooltip: {
-				backgroundColor: 'rgba(15, 23, 42, 0.92)',
-				borderColor: 'rgba(139, 92, 246, 0.25)',
+				backgroundColor: '#101013',
+				borderColor: 'rgba(255, 255, 255, 0.1)',
 				borderWidth: 1,
 				padding: { top: 8, bottom: 8, left: 12, right: 12 },
 				cornerRadius: 8,
 				titleFont: { size: 11, weight: 'normal' },
-				titleColor: 'rgba(148, 163, 184, 0.8)',
+				titleColor: 'rgba(255, 255, 255, 0.4)',
 				bodyFont: { size: 13, weight: 'bold' },
-				bodyColor: '#c4b5fd',
+				bodyColor: '#ffffff',
 				displayColors: false,
 				callbacks: {
 					title: (items) => {
@@ -266,14 +268,14 @@ export function TrendChart({ expenses }: ExpenseChartsProps) {
 			y: {
 				beginAtZero: true,
 				grid: {
-					color: 'rgba(148, 163, 184, 0.06)',
+					color: 'rgba(255, 255, 255, 0.08)',
 					drawTicks: false,
 				},
 				border: { display: false },
 				ticks: {
 					padding: 8,
 					maxTicksLimit: 6,
-					color: 'rgba(148, 163, 184, 0.45)',
+					color: 'rgba(255, 255, 255, 0.4)',
 					font: { size: 10 },
 					callback: (val) => {
 						const v = Number(val);
@@ -286,7 +288,7 @@ export function TrendChart({ expenses }: ExpenseChartsProps) {
 				grid: { display: false },
 				border: { display: false },
 				ticks: {
-					color: 'rgba(148, 163, 184, 0.45)',
+					color: 'rgba(255, 255, 255, 0.4)',
 					font: { size: 10 },
 					maxRotation: 0,
 					autoSkip: true,
@@ -307,12 +309,12 @@ export function TrendChart({ expenses }: ExpenseChartsProps) {
 				<Line data={data} options={options} plugins={[gradientPlugin]} />
 			</div>
 			<div className='flex items-center gap-2.5 px-4 pt-2 pb-1'>
-				<span className='text-xs font-semibold text-slate-600 dark:text-slate-300 tabular-nums'>
+				<span className='text-xs font-semibold text-white/80 tabular-nums'>
 					{formatCurrency(total)}
 				</span>
-				<span className='text-[10px] text-slate-400 dark:text-slate-500'>total</span>
-				<span className='w-px h-3 bg-slate-200 dark:bg-slate-700/60' />
-				<span className='text-[10px] text-slate-400 dark:text-slate-500'>{monthName}</span>
+				<span className='text-[10px] text-white/40'>total</span>
+				<span className='w-px h-3 bg-white/10' />
+				<span className='text-[10px] text-white/40'>{monthName}</span>
 			</div>
 		</div>
 	);

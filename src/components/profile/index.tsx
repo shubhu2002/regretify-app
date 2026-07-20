@@ -224,9 +224,9 @@ export default function Profile() {
 	const inputBase =
 		'w-full py-2.5 rounded-xl border outline-none transition-all text-sm';
 	const inputEditing =
-		'border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800/60 text-slate-900 dark:text-white focus:ring-2 focus:ring-violet-500 focus:border-violet-500';
+		'border-white/10 bg-white/[0.06] text-white focus:ring-2 focus:ring-white/10 focus:border-white/30';
 	const inputReadonly =
-		'border-transparent bg-slate-100/80 dark:bg-slate-800/30 text-slate-700 dark:text-slate-300 cursor-default';
+		'border-transparent bg-white/[0.04] text-white/60 cursor-default';
 
 	return (
 		<div className='relative flex-1 w-full min-h-[calc(100vh-64px)] overflow-hidden'>
@@ -234,7 +234,7 @@ export default function Profile() {
 				{/* Back */}
 				<Link
 					href='/regrets'
-					className='inline-flex items-center gap-2 text-slate-500 hover:text-slate-800 dark:hover:text-slate-200 transition-colors mb-6 text-sm'
+					className='inline-flex items-center gap-2 text-white/50 hover:text-white transition-colors mb-6 text-sm'
 				>
 					<ArrowLeft size={16} />
 					<span className='font-medium'>Back</span>
@@ -244,10 +244,9 @@ export default function Profile() {
 				<motion.div
 					initial={{ opacity: 0, y: 12 }}
 					animate={{ opacity: 1, y: 0 }}
-					className='relative overflow-hidden rounded-3xl bg-linear-to-br from-violet-600 via-violet-700 to-indigo-800 p-4 sm:p-6 mb-6'
+					className='relative overflow-hidden card-aurora rounded-3xl p-4 sm:p-6 mb-6'
 				>
-					<div className='absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(255,255,255,0.1),transparent_60%)]' />
-					<div className='relative flex items-center gap-5'>
+										<div className='relative flex items-center gap-5'>
 						{/* Avatar */}
 						<div
 							className={`relative group/avatar shrink-0 ${isEditing ? 'cursor-pointer' : ''}`}
@@ -259,7 +258,7 @@ export default function Profile() {
 							<img
 								src={avatarUrl}
 								alt='Profile avatar'
-								className='w-20 h-20 sm:w-24 sm:h-24 rounded-2xl border-3 border-white/20 shadow-lg object-cover'
+								className='w-20 h-20 sm:w-24 sm:h-24 rounded-2xl border-3 border-white/10 bg-white/10 shadow-xl shadow-black/40 object-cover'
 							/>
 							{isEditing && (
 								<div className='absolute inset-0 bg-black/40 rounded-2xl flex items-center justify-center opacity-0 group-hover/avatar:opacity-100 transition-opacity'>
@@ -281,10 +280,10 @@ export default function Profile() {
 						</div>
 
 						<div className='flex-1 min-w-0'>
-							<h1 className='text-2xl sm:text-3xl font-bold text-white truncate'>
+							<h1 className='text-2xl sm:text-3xl font-semibold tracking-tight text-gradient truncate'>
 								{formData.name || 'Your Name'}
 							</h1>
-							<p className='text-violet-200 text-sm mt-0.5 truncate'>
+							<p className='text-white/50 text-sm mt-0.5 truncate'>
 								{formData.email}
 							</p>
 						</div>
@@ -293,7 +292,7 @@ export default function Profile() {
 							<button
 								type='button'
 								onClick={() => setIsEditing(true)}
-								className='shrink-0 flex items-center gap-1.5 px-4 py-2 text-sm font-medium text-white bg-white/15 hover:bg-white/25 border border-white/20 rounded-xl transition-all backdrop-blur-sm'
+								className='shrink-0 flex items-center gap-1.5 px-4 py-2 text-sm font-medium text-white/80 bg-white/[0.08] hover:bg-white/[0.14] border border-white/10 rounded-xl transition-all backdrop-blur-sm'
 							>
 								<Pencil size={14} />
 								<span className='hidden sm:inline'>Edit</span>
@@ -302,7 +301,7 @@ export default function Profile() {
 							<button
 								type='button'
 								onClick={handleCancelEdit}
-								className='shrink-0 flex items-center gap-1.5 px-4 py-2 text-sm font-medium text-white bg-white/15 hover:bg-white/25 border border-white/20 rounded-xl transition-all backdrop-blur-sm'
+								className='shrink-0 flex items-center gap-1.5 px-4 py-2 text-sm font-medium text-white/80 bg-white/[0.08] hover:bg-white/[0.14] border border-white/10 rounded-xl transition-all backdrop-blur-sm'
 							>
 								<X size={14} />
 								<span className='hidden sm:inline'>Cancel</span>
@@ -319,8 +318,8 @@ export default function Profile() {
 						transition={{ delay: 0.05 }}
 						className='lg:col-span-2'
 					>
-						<div className='bg-white/80 dark:bg-slate-900/60 backdrop-blur-xl border border-slate-200/80 dark:border-slate-800/50 rounded-2xl p-5 sm:p-6 shadow-sm'>
-							<h2 className='text-base font-semibold text-slate-800 dark:text-slate-200 mb-5'>
+						<div className='bg-[#1a191e] border border-white/[0.06] rounded-2xl p-5 sm:p-6'>
+							<h2 className='text-base font-semibold tracking-tight text-white mb-5'>
 								Personal Information
 							</h2>
 
@@ -328,12 +327,12 @@ export default function Profile() {
 								<div className='grid grid-cols-1 sm:grid-cols-2 gap-4'>
 									{/* Name */}
 									<div>
-										<label className='block text-xs font-medium text-slate-500 dark:text-slate-400 mb-1.5 uppercase tracking-wider'>
+										<label className='block text-xs font-medium text-white/50 mb-1.5 uppercase tracking-wider'>
 											Name
 										</label>
 										<div className='relative'>
 											<User
-												className='absolute left-3 top-1/2 -translate-y-1/2 text-slate-400'
+												className='absolute left-3 top-1/2 -translate-y-1/2 text-white/40'
 												size={15}
 											/>
 											<input
@@ -349,31 +348,31 @@ export default function Profile() {
 
 									{/* Email */}
 									<div>
-										<label className='block text-xs font-medium text-slate-500 dark:text-slate-400 mb-1.5 uppercase tracking-wider'>
+										<label className='block text-xs font-medium text-white/50 mb-1.5 uppercase tracking-wider'>
 											Email
 										</label>
 										<div className='relative'>
 											<Mail
-												className='absolute left-3 top-1/2 -translate-y-1/2 text-slate-400'
+												className='absolute left-3 top-1/2 -translate-y-1/2 text-white/40'
 												size={15}
 											/>
 											<input
 												type='email'
 												value={formData.email}
 												readOnly
-												className={`${inputBase} pl-9 pr-3 border-transparent bg-slate-100/80 dark:bg-slate-800/30 text-slate-500 dark:text-slate-400 cursor-not-allowed`}
+												className={`${inputBase} pl-9 pr-3 border-transparent bg-white/[0.04] text-white/40 cursor-not-allowed`}
 											/>
 										</div>
 									</div>
 
 									{/* Age */}
 									<div>
-										<label className='block text-xs font-medium text-slate-500 dark:text-slate-400 mb-1.5 uppercase tracking-wider'>
+										<label className='block text-xs font-medium text-white/50 mb-1.5 uppercase tracking-wider'>
 											Age
 										</label>
 										<div className='relative'>
 											<Calendar
-												className='absolute left-3 top-1/2 -translate-y-1/2 text-slate-400'
+												className='absolute left-3 top-1/2 -translate-y-1/2 text-white/40'
 												size={15}
 											/>
 											<input
@@ -389,7 +388,7 @@ export default function Profile() {
 
 									{/* Gender */}
 									<div>
-										<label className='block text-xs font-medium text-slate-500 dark:text-slate-400 mb-1.5 uppercase tracking-wider'>
+										<label className='block text-xs font-medium text-white/50 mb-1.5 uppercase tracking-wider'>
 											Gender
 										</label>
 										<CustomSelect
@@ -408,12 +407,12 @@ export default function Profile() {
 
 									{/* Contact */}
 									<div className='sm:col-span-2'>
-										<label className='block text-xs font-medium text-slate-500 dark:text-slate-400 mb-1.5 uppercase tracking-wider'>
+										<label className='block text-xs font-medium text-white/50 mb-1.5 uppercase tracking-wider'>
 											Contact Number
 										</label>
 										<div className='relative'>
 											<Phone
-												className='absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 z-10'
+												className='absolute left-3 top-1/2 -translate-y-1/2 text-white/40 z-10'
 												size={15}
 											/>
 											<div
@@ -438,18 +437,18 @@ export default function Profile() {
 								</div>
 
 								{isEditing && (
-									<div className='pt-4 border-t border-slate-100 dark:border-slate-800/50 flex justify-end gap-3'>
+									<div className='pt-4 border-t border-white/[0.08] flex justify-end gap-3'>
 										<button
 											type='button'
 											onClick={handleCancelEdit}
-											className='px-5 py-2.5 rounded-xl text-sm font-medium text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors'
+											className='px-5 py-2.5 rounded-xl text-sm font-medium text-white/50 hover:text-white hover:bg-white/[0.08] transition-colors'
 										>
 											Cancel
 										</button>
 										<button
 											type='submit'
 											disabled={saving || !hasChanges()}
-											className='bg-violet-600 hover:bg-violet-700 text-white px-6 py-2.5 rounded-xl text-sm font-medium transition-colors shadow-md shadow-violet-600/20 disabled:opacity-40 disabled:cursor-not-allowed'
+											className='bg-[#9294e5] hover:bg-[#a3a5ec] text-black px-6 py-2.5 rounded-xl text-sm font-semibold transition-colors shadow-[0_2px_24px_rgba(146,148,229,0.35)] disabled:opacity-40 disabled:cursor-not-allowed'
 										>
 											{saving ? 'Saving...' : 'Save Changes'}
 										</button>
@@ -467,21 +466,21 @@ export default function Profile() {
 						className='flex flex-col gap-4'
 					>
 						{/* Security */}
-						<div className='bg-white/80 dark:bg-slate-900/60 backdrop-blur-xl border border-slate-200/80 dark:border-slate-800/50 rounded-2xl p-5 shadow-sm'>
+						<div className='bg-[#1a191e] border border-white/[0.06] rounded-2xl p-5'>
 							<div className='flex items-center gap-2.5 mb-3'>
-								<div className='p-2 rounded-lg bg-violet-100 dark:bg-violet-500/15'>
-									<ShieldCheck size={16} className='text-violet-600 dark:text-violet-400' />
+								<div className='p-2 rounded-lg bg-[#9294e5]/15'>
+									<ShieldCheck size={16} className='text-[#b9baf1]' />
 								</div>
-								<h3 className='text-sm font-semibold text-slate-800 dark:text-slate-200'>
+								<h3 className='text-sm font-semibold tracking-tight text-white'>
 									App Lock
 								</h3>
 								{hasPasscode && (
-									<span className='ml-auto text-[10px] font-semibold uppercase tracking-wider text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-500/10 px-2 py-0.5 rounded-full'>
+									<span className='ml-auto text-[10px] font-semibold uppercase tracking-wider text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded-full'>
 										Active
 									</span>
 								)}
 							</div>
-							<p className='text-xs text-slate-500 dark:text-slate-400 mb-4 leading-relaxed'>
+							<p className='text-xs text-white/50 mb-4 leading-relaxed'>
 								{hasPasscode
 									? `Protected with a ${passcodeLength}-digit passcode`
 									: 'Add a passcode to protect your data'}
@@ -491,18 +490,18 @@ export default function Profile() {
 								<div className='space-y-2'>
 									<button
 										onClick={() => setPasscodeModalOpen(true)}
-										className='w-full flex items-center justify-between px-4 py-2.5 rounded-xl text-sm font-medium text-slate-700 dark:text-slate-300 bg-slate-50 dark:bg-slate-800/50 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors'
+										className='w-full flex items-center justify-between px-4 py-2.5 rounded-xl text-sm font-medium text-white/80 bg-white/[0.08] hover:bg-white/[0.14] border border-white/10 transition-colors'
 									>
 										<span className='flex items-center gap-2'>
 											<Lock size={14} />
 											Change Passcode
 										</span>
-										<ChevronRight size={14} className='text-slate-400' />
+										<ChevronRight size={14} className='text-white/40' />
 									</button>
 									<button
 										onClick={() => setRemoveConfirmOpen(true)}
 										disabled={removingPasscode}
-										className='w-full flex items-center justify-between px-4 py-2.5 rounded-xl text-sm font-medium text-rose-600 dark:text-rose-400 bg-rose-50/60 dark:bg-rose-500/5 hover:bg-rose-100 dark:hover:bg-rose-500/10 transition-colors disabled:opacity-50'
+										className='w-full flex items-center justify-between px-4 py-2.5 rounded-xl text-sm font-medium text-red-400 bg-red-500/10 hover:bg-red-500/20 transition-colors disabled:opacity-50'
 									>
 										<span>{removingPasscode ? 'Removing...' : 'Remove Lock'}</span>
 										<ChevronRight size={14} />
@@ -511,7 +510,7 @@ export default function Profile() {
 							) : (
 								<button
 									onClick={() => setPasscodeModalOpen(true)}
-									className='w-full bg-violet-600 hover:bg-violet-700 text-white py-2.5 rounded-xl text-sm font-medium transition-colors shadow-sm flex items-center justify-center gap-2'
+									className='w-full bg-[#9294e5] hover:bg-[#a3a5ec] text-black py-2.5 rounded-xl text-sm font-semibold transition-colors shadow-[0_2px_24px_rgba(146,148,229,0.35)] flex items-center justify-center gap-2'
 								>
 									<Lock size={14} />
 									Set Up App Lock
@@ -520,22 +519,22 @@ export default function Profile() {
 						</div>
 
 						{/* Danger Zone */}
-						<div className='bg-white/80 dark:bg-slate-900/60 backdrop-blur-xl border border-rose-200/60 dark:border-rose-900/30 rounded-2xl p-5 shadow-sm'>
+						<div className='bg-[#1a191e] border border-red-500/20 rounded-2xl p-5'>
 							<div className='flex items-center gap-2.5 mb-3'>
-								<div className='p-2 rounded-lg bg-rose-100 dark:bg-rose-500/15'>
-									<Trash2 size={16} className='text-rose-600 dark:text-rose-400' />
+								<div className='p-2 rounded-lg bg-red-500/10'>
+									<Trash2 size={16} className='text-red-400' />
 								</div>
-								<h3 className='text-sm font-semibold text-slate-800 dark:text-slate-200'>
+								<h3 className='text-sm font-semibold tracking-tight text-white'>
 									Danger Zone
 								</h3>
 							</div>
-							<p className='text-xs text-slate-500 dark:text-slate-400 mb-4 leading-relaxed'>
+							<p className='text-xs text-white/50 mb-4 leading-relaxed'>
 								Permanently clear all financial data. This cannot be undone.
 							</p>
 							<button
 								onClick={() => setConfirmOpen(true)}
 								disabled={clearing}
-								className='w-full flex items-center justify-between px-4 py-2.5 rounded-xl text-sm font-medium text-rose-600 dark:text-rose-400 bg-rose-50/60 dark:bg-rose-500/5 hover:bg-rose-100 dark:hover:bg-rose-500/10 transition-colors disabled:opacity-50'
+								className='w-full flex items-center justify-between px-4 py-2.5 rounded-xl text-sm font-medium text-red-400 bg-red-500/10 hover:bg-red-500/20 transition-colors disabled:opacity-50'
 							>
 								<span>{clearing ? 'Clearing...' : 'Clear Financial Data'}</span>
 								<ChevronRight size={14} />
@@ -545,13 +544,13 @@ export default function Profile() {
 						{/* Sign Out */}
 						<button
 							onClick={() => signOut({ callbackUrl: '/' })}
-							className='w-full flex items-center justify-between px-5 py-3.5 rounded-2xl text-sm font-medium text-slate-600 dark:text-slate-400 bg-white/80 dark:bg-slate-900/60 backdrop-blur-xl border border-slate-200/80 dark:border-slate-800/50 hover:bg-slate-50 dark:hover:bg-slate-800/60 transition-colors shadow-sm'
+							className='w-full flex items-center justify-between px-5 py-3.5 rounded-2xl text-sm font-medium text-white/80 bg-[#1a191e] border border-white/[0.06] hover:bg-white/[0.06] transition-colors'
 						>
 							<span className='flex items-center gap-2.5'>
 								<LogOut size={16} />
 								Sign Out
 							</span>
-							<ChevronRight size={14} className='text-slate-400' />
+							<ChevronRight size={14} className='text-white/40' />
 						</button>
 					</motion.div>
 				</div>

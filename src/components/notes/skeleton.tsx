@@ -1,6 +1,5 @@
 export const NotesSkeletonLoading = () => {
-	const shimmer =
-		'animate-pulse bg-slate-200/80 dark:bg-slate-700/50 rounded-xl';
+	const shimmer = 'animate-pulse bg-white/[0.06] rounded-xl';
 	return (
 		<div className='relative flex-1 w-full min-h-[calc(100vh-64px)] overflow-hidden'>
 			<div className='relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8'>
@@ -11,18 +10,20 @@ export const NotesSkeletonLoading = () => {
 					</div>
 					<div className={`${shimmer} h-11 w-36`} />
 				</div>
-				<div className='bg-violet-50/60 dark:bg-violet-900/20 border border-violet-100 dark:border-violet-800/30 rounded-3xl shadow-sm overflow-hidden flex h-[calc(100dvh-330px)] md:h-[calc(100dvh-250px)] min-h-105'>
-					<div className='w-full md:w-72 lg:w-80 shrink-0 md:border-r border-violet-100 dark:border-violet-800/30 p-3 space-y-3'>
+				<div className='card-aurora rounded-3xl overflow-hidden flex h-[calc(100dvh-330px)] md:h-[calc(100dvh-250px)] min-h-105'>
+					<div className='w-full md:w-72 lg:w-80 shrink-0 md:border-r border-white/10 p-3 space-y-3'>
 						<div className={`${shimmer} h-9 w-full`} />
-						{[...Array(5)].map((_, i) => (
-							<div key={i} className='p-3 space-y-2'>
-								<div className={`${shimmer} h-4 w-32`} />
-								<div className={`${shimmer} h-3 w-full`} />
-								<div className={`${shimmer} h-3 w-20`} />
-							</div>
-						))}
+						<div className='bg-[#1a191e] border border-white/[0.06] rounded-2xl overflow-hidden divide-y divide-white/[0.05]'>
+							{[...Array(5)].map((_, i) => (
+								<div key={i} className='px-4 py-3 space-y-2'>
+									<div className={`${shimmer} h-4 w-32`} />
+									<div className={`${shimmer} h-3 w-full`} />
+									<div className={`${shimmer} h-3 w-20`} />
+								</div>
+							))}
+						</div>
 					</div>
-					<div className='hidden md:flex flex-1 flex-col bg-white/50 dark:bg-slate-900/30 p-6 space-y-4'>
+					<div className='hidden md:flex flex-1 flex-col bg-white/[0.02] p-6 space-y-4'>
 						<div className='flex justify-between'>
 							<div className={`${shimmer} h-4 w-40`} />
 							<div className={`${shimmer} h-8 w-20`} />

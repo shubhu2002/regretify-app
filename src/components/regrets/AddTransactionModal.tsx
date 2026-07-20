@@ -200,10 +200,9 @@ export default function AddTransactionModal({
 	}, [amount, date, categorySource, otherCategory, type, name]);
 
 	const inputCls =
-		'w-full px-4 py-3 text-base md:text-sm bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-violet-500 focus:bg-slate-50 dark:focus:bg-slate-800 shadow-sm transition-shadow outline-none text-slate-900 dark:text-white';
+		'w-full px-4 py-3 text-base md:text-sm bg-white/[0.06] border border-white/10 rounded-xl focus:outline-none focus:ring-2 focus:ring-white/10 focus:border-white/30 transition-shadow outline-none text-white placeholder-white/30';
 
-	const labelCls =
-		'block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-1.5';
+	const labelCls = 'block text-sm font-semibold text-white/80 mb-1.5';
 
 	return (
 		<AnimatePresence>
@@ -213,26 +212,26 @@ export default function AddTransactionModal({
 						initial={{ opacity: 0 }}
 						animate={{ opacity: 1 }}
 						exit={{ opacity: 0 }}
-						className='fixed inset-0 bg-slate-900/60 backdrop-blur-md z-100 flex items-center justify-center h-full p-4'
+						className='fixed inset-0 bg-black/60 backdrop-blur-md z-100 flex items-center justify-center h-full p-4'
 					>
 						<motion.div
 							initial={{ scale: 0.95, opacity: 0, y: 20 }}
 							animate={{ scale: 1, opacity: 1, y: 0 }}
 							exit={{ scale: 0.95, opacity: 0, y: 20 }}
 							onClick={(e) => e.stopPropagation()}
-							className='bg-fuchsia-50/90 backdrop-blur-2xl dark:bg-fuchsia-950/30 w-full max-w-md border border-fuchsia-100 dark:border-fuchsia-800/30 overflow-hidden rounded-3xl shadow-2xl'
+							className='bg-[#101013]/95 backdrop-blur-2xl w-full max-w-md border border-white/10 overflow-hidden rounded-3xl shadow-2xl shadow-black/60'
 						>
-							<div className='p-4 sm:p-6 border-b border-fuchsia-100 dark:border-fuchsia-800/30 flex justify-between items-center bg-violet-50/50 dark:bg-violet-900/20'>
-								<h2 className='text-xl font-bold text-slate-900 dark:text-white flex items-center gap-2'>
+							<div className='p-4 sm:p-6 border-b border-white/10 flex justify-between items-center bg-white/[0.04]'>
+								<h2 className='text-xl font-semibold tracking-tight text-white flex items-center gap-2'>
 									<span
-										className={`w-3 h-3 rounded-full shadow-sm ${type === 'expense' ? 'bg-fuchsia-500' : 'bg-emerald-500'}`}
+										className={`w-3 h-3 rounded-full ${type === 'expense' ? 'bg-red-500' : 'bg-emerald-500'}`}
 									/>
 									{editItem ? 'Edit' : 'Add'}{' '}
 									{type === 'expense' ? 'Regret' : 'Income'}
 								</h2>
 								<button
 									onClick={onClose}
-									className='p-2 text-slate-400 border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700 shadow-sm rounded-full transition-colors hover:-translate-y-0.5 active:translate-y-0 active:translate-x-0'
+									className='p-2 text-white/50 hover:text-white border border-white/10 bg-white/[0.08] hover:bg-white/[0.14] rounded-full transition-colors hover:-translate-y-0.5 active:translate-y-0 active:translate-x-0'
 								>
 									<X
 										size={18}
@@ -248,7 +247,7 @@ export default function AddTransactionModal({
 								<div>
 									<label className={labelCls}>Amount</label>
 									<div className='relative'>
-										<span className='absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 font-bold text-lg'>
+										<span className='absolute left-4 top-1/2 -translate-y-1/2 text-white/40 font-semibold text-lg'>
 											₹
 										</span>
 										<input
@@ -259,7 +258,7 @@ export default function AddTransactionModal({
 											onChange={(e) =>
 												setAmount(e.target.value)
 											}
-											className='w-full pl-9 pr-4 py-3 bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-violet-500 focus:bg-slate-50 dark:focus:bg-slate-800 shadow-sm font-semibold text-base md:text-lg transition-shadow outline-none text-slate-900 dark:text-white'
+											className='w-full pl-9 pr-4 py-3 bg-white/[0.06] border border-white/10 rounded-xl focus:outline-none focus:ring-2 focus:ring-white/10 focus:border-white/30 font-semibold text-base md:text-lg transition-shadow outline-none text-white placeholder-white/30'
 											placeholder='e.g. 120+12'
 										/>
 									</div>
@@ -281,10 +280,10 @@ export default function AddTransactionModal({
 													y: -5,
 													height: 0,
 												}}
-												className='mt-2 flex items-center justify-between bg-violet-50/50 dark:bg-violet-900/20 px-4 py-2.5 rounded-xl border border-violet-100 dark:border-violet-800/30 overflow-hidden'
+												className='mt-2 flex items-center justify-between bg-white/[0.06] px-4 py-2.5 rounded-xl border border-white/10 overflow-hidden'
 											>
-												<span className='text-sm text-slate-700 dark:text-slate-200 font-semibold flex items-center gap-2'>
-													<span className='text-violet-500 dark:text-violet-400 font-bold'>
+												<span className='text-sm text-white/80 font-semibold flex items-center gap-2'>
+													<span className='text-white/50 font-semibold'>
 														=
 													</span>
 													₹{' '}
@@ -297,7 +296,7 @@ export default function AddTransactionModal({
 															calculatedAmount.toString(),
 														)
 													}
-													className='text-xs px-3 py-1.5 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-700 shadow-sm font-medium transition-all active:scale-95'
+													className='text-xs px-3 py-1.5 bg-white/[0.08] border border-white/10 text-white/80 rounded-lg hover:bg-white/[0.14] font-medium transition-all active:scale-95'
 												>
 													Use Value
 												</button>
@@ -408,14 +407,14 @@ export default function AddTransactionModal({
 										whileTap={{ scale: 0.98 }}
 										type='submit'
 										disabled={loading || isInvalid}
-										className={`w-full py-3 text-white rounded-xl font-medium text-lg flex items-center justify-center gap-2 shadow-sm transition-all disabled:opacity-50 disabled:cursor-not-allowed hover:shadow-md ${
+										className={`w-full py-3 text-white rounded-xl font-medium text-lg flex items-center justify-center gap-2 transition-all disabled:opacity-50 disabled:cursor-not-allowed ${
 											type === 'expense' ?
-												'bg-fuchsia-600 dark:bg-fuchsia-500 hover:bg-fuchsia-700'
-											:	'bg-emerald-600 dark:bg-emerald-500 hover:bg-emerald-700'
+												'bg-red-500 hover:bg-red-600'
+											:	'bg-emerald-500 hover:bg-emerald-600'
 										}`}
 									>
 										{loading ?
-											<div className='h-5 w-5 border-2 border-slate-200 border-t-transparent rounded-full animate-spin' />
+											<div className='h-5 w-5 border-2 border-white/60 border-t-transparent rounded-full animate-spin' />
 										:	<>
 												<CheckCircle2
 													size={20}

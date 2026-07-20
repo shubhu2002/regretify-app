@@ -1,0 +1,308 @@
+'use client';
+
+import { useState } from 'react';
+import { useSession } from 'next-auth/react';
+import Link from 'next/link';
+import { usePathname, useRouter } from 'next/navigation';
+import {
+	Ghost,
+	LogIn,
+	BookOpen,
+	Flame,
+	StickyNote,
+	User,
+	Search,
+	Plus,
+} from 'lucide-react';
+import { motion } from 'framer-motion';
+import { useQuery } from '@tanstack/react-query';
+
+import AuthModal from './landing-page/AuthModal';
+import AddTransactionModal from './regrets/AddTransactionModal';
+
+const NAV_LINKS = [
+	{ href: '/regrets', label: 'Regrets', icon: Flame },
+	{ href: '/ledger', label: 'Ledger', icon: BookOpen },
+	{ href: '/notes', label: 'Notes', icon: StickyNote },
+	{ href: '/profile', label: 'Profile', icon: User },
+];
+
+export default function AppShell({
+	children,
+}: {
+	children: React.ReactNode;
+}) {
+	const { data: session, status } = useSession();
+	const pathname = usePathname();
+	const router = useRouter();
+	const [isAuthOpen, setIsAuthOpen] = useState(false);
+	const [transactionOpen, setTransactionOpen] = useState(false);
+
+	const { data: dbUser } = useQuery({
+		queryKey: ['userProfile'],
+		queryFn: async () => {
+			const res = await fetch('/api/user');
+			if (!res.ok) return null;
+			const data = await res.json();
+			return data?.user || null;
+		},
+		enabled: !!session?.user,
+		staleTime: 5 * 60 * 1000,
+	});
+
+	const displayName = dbUser?.name || session?.user?.name || 'User';
+
+	const displayImage =
+		dbUser?.profile ||
+		session?.user?.image ||
+		'https://api.dicebear.com/7.x/avataaars/svg?seed=fallback';
+
+	const isLanding = pathname === '/';
+	const isApp = !isLanding && !!session;
+
+	/* ─── Marketing chrome (landing page / signed out) ─── */
+	if (!isApp) {
+		return (
+			<>
+				<nav className='fixed top-0 z-50 w-full bg-black/70 backdrop-blur-xl border-b border-white/[0.08]'>
+					<div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8'>
+						<div className='flex justify-between items-center h-14 sm:h-16'>
+							<Link
+								href='/'
+								className='flex items-center gap-2 group'
+							>
+								<motion.div
+									whileHover={{ rotate: 15 }}
+									whileTap={{ scale: 0.9 }}
+									className='bg-black p-1.5 sm:p-2 border border-white/15 rounded-full text-white shadow-[0_0_20px_rgba(255,255,255,0.12)]'
+								>
+									<Ghost
+										strokeWidth={2}
+										className='size-4 sm:size-5'
+									/>
+								</motion.div>
+								<span className='text-lg sm:text-xl font-semibold text-white tracking-tight'>
+									Regretify
+								</span>
+							</Link>
+
+							<div className='flex items-center gap-2 sm:gap-3'>
+								{status === 'loading' ? (
+									<div className='h-8 w-8 rounded-full animate-pulse bg-white/10' />
+								) : session ? (
+									<Link
+										href='/profile'
+										className='flex items-center gap-2 p-1 sm:p-1.5 sm:pr-4 bg-white/[0.06] border border-white/10 rounded-full hover:bg-white/10 transition-all'
+									>
+										{/* eslint-disable-next-line @next/next/no-img-element */}
+										<img
+											src={displayImage}
+											alt=''
+											className='w-8 h-8 rounded-full object-cover bg-white/10'
+										/>
+										<span className='text-sm font-medium hidden sm:block text-white/80'>
+											{displayName}
+										</span>
+									</Link>
+								) : (
+									<button
+										onClick={() => setIsAuthOpen(true)}
+										className='flex items-center gap-2 bg-white hover:bg-white/90 text-black px-4 py-2 rounded-xl text-sm font-medium glow-white-sm transition-all cursor-pointer'
+									>
+										<LogIn size={16} strokeWidth={2} />
+										<span>Sign In</span>
+									</button>
+								)}
+							</div>
+						</div>
+					</div>
+				</nav>
+
+				{children}
+
+				<AuthModal
+					isOpen={isAuthOpen}
+					onClose={() => setIsAuthOpen(false)}
+				/>
+			</>
+		);
+	}
+
+	/* ─── App chrome (signed in, app pages) — ultramail-style shell ─── */
+	return (
+		<>
+			{/* Soft white radial glow at the top, like the landing hero */}
+			<div className='fixed inset-0 pointer-events-none z-0 overflow-hidden'>
+				<div className='absolute top-0 left-1/2 -translate-x-1/2 w-[200vw] max-w-[2000px] h-[50vh] opacity-[0.07] bg-[radial-gradient(40.9%_81.1%_at_50%_0%,#ffffff_0%,rgba(0,0,0,0)_100%)]' />
+			</div>
+
+			{/* Top bar: logo badge + global search + profile pill */}
+			<header className='fixed top-0 inset-x-0 z-50 bg-black/70 backdrop-blur-xl border-b border-white/[0.08]'>
+				<div className='flex items-center gap-3 sm:gap-6 h-14 sm:h-16 px-4 sm:px-6'>
+					<Link
+						href='/'
+						className='shrink-0'
+					>
+						<motion.div
+							whileHover={{ rotate: 15 }}
+							whileTap={{ scale: 0.9 }}
+							className='bg-black p-2 border border-white/15 rounded-full text-white shadow-[0_0_20px_rgba(255,255,255,0.12)] w-fit'
+						>
+							<Ghost
+								strokeWidth={2}
+								className='size-4 sm:size-5'
+							/>
+						</motion.div>
+					</Link>
+
+					<form
+						className='flex-1 max-w-xl'
+						onSubmit={(e) => {
+							e.preventDefault();
+							const q = new FormData(e.currentTarget)
+								.get('q')
+								?.toString()
+								.trim();
+							router.push(
+								q ?
+									`/regrets?q=${encodeURIComponent(q)}`
+								:	'/regrets',
+							);
+						}}
+					>
+						<div className='flex items-center gap-2.5 bg-white/[0.06] border border-white/10 rounded-xl px-3.5 py-2 sm:py-2.5 transition-all focus-within:border-white/30 focus-within:ring-2 focus-within:ring-white/10'>
+							<Search
+								size={16}
+								className='text-white/40 shrink-0'
+							/>
+							<input
+								name='q'
+								placeholder='Search your regrets...'
+								autoComplete='off'
+								className='flex-1 bg-transparent outline-none text-sm text-white placeholder-white/35'
+							/>
+						</div>
+					</form>
+
+					<Link
+						href='/profile'
+						className='hidden md:flex shrink-0 items-center gap-2 p-1 pr-3.5 bg-white/[0.06] border border-white/10 rounded-full hover:bg-white/10 transition-all ml-auto'
+					>
+						{/* eslint-disable-next-line @next/next/no-img-element */}
+						<img
+							src={displayImage}
+							alt=''
+							className='w-7 h-7 rounded-full object-cover bg-white/10'
+						/>
+						<span className='text-sm font-medium text-white/80'>
+							{displayName}
+						</span>
+					</Link>
+				</div>
+			</header>
+
+			{/* Desktop sidebar */}
+			<aside className='hidden md:flex flex-col fixed left-0 top-14 sm:top-16 bottom-0 w-60 z-40 border-r border-white/[0.08] bg-black/40 backdrop-blur-xl p-4'>
+				<button
+					onClick={() => setTransactionOpen(true)}
+					className='w-full flex items-center justify-center gap-2 bg-[#9294e5] hover:bg-[#a3a5ec] text-black font-semibold rounded-xl px-4 py-3 mb-5 shadow-[0_2px_24px_rgba(146,148,229,0.35)] transition-colors cursor-pointer'
+				>
+					<Plus size={16} strokeWidth={2.5} />
+					Add Regret
+				</button>
+
+				<nav className='space-y-1'>
+					{NAV_LINKS.map((link) => {
+						const isActive = pathname === link.href;
+						return (
+							<Link
+								key={link.href}
+								href={link.href}
+								className={`relative flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm font-medium transition-all ${
+									isActive ?
+										'text-white'
+									:	'text-white/50 hover:text-white/80 hover:bg-white/[0.04]'
+								}`}
+							>
+								{isActive && (
+									<motion.div
+										layoutId='activeSidebarNav'
+										className='absolute inset-0 bg-white/[0.08] rounded-xl'
+										transition={{
+											type: 'spring',
+											bounce: 0.2,
+											duration: 0.4,
+										}}
+									/>
+								)}
+								<span className='relative z-10 flex items-center gap-3'>
+									<link.icon
+										size={16}
+										strokeWidth={2}
+									/>
+									{link.label}
+								</span>
+							</Link>
+						);
+					})}
+				</nav>
+			</aside>
+
+			{/* Content, offset for top bar + sidebar */}
+			<div className='pt-14 sm:pt-16 md:pl-60 flex-1 flex flex-col'>
+				{children}
+			</div>
+
+			{/* Mobile bottom navigation */}
+			<div className='md:hidden fixed bottom-0 left-0 right-0 z-50 bg-black/80 backdrop-blur-xl border-t border-white/[0.08] px-2 pb-[env(safe-area-inset-bottom)]'>
+				<div className='flex items-center justify-around h-14'>
+					{NAV_LINKS.map((link) => {
+						const isActive = pathname === link.href;
+						return (
+							<Link
+								key={link.href}
+								href={link.href}
+								className={`relative flex flex-col items-center gap-0.5 px-4 py-1.5 rounded-xl transition-all ${
+									isActive ? 'text-white' : 'text-white/40'
+								}`}
+							>
+								{isActive && (
+									<motion.div
+										layoutId='activeMobileNav'
+										className='absolute -top-1 left-1/2 -translate-x-1/2 w-6 h-1 bg-white rounded-full'
+										transition={{
+											type: 'spring',
+											bounce: 0.2,
+											duration: 0.4,
+										}}
+									/>
+								)}
+								<link.icon
+									size={20}
+									strokeWidth={isActive ? 2.5 : 2}
+								/>
+								<span className='text-[10px] font-semibold'>
+									{link.label}
+								</span>
+							</Link>
+						);
+					})}
+				</div>
+			</div>
+
+			<AddTransactionModal
+				isOpen={transactionOpen}
+				onClose={() => setTransactionOpen(false)}
+				type='expense'
+				userId={
+					(session!.user as any)?.id || session!.user?.email || ''
+				}
+				onSuccess={() => setTransactionOpen(false)}
+			/>
+			<AuthModal
+				isOpen={isAuthOpen}
+				onClose={() => setIsAuthOpen(false)}
+			/>
+		</>
+	);
+}

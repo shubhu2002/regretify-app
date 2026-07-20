@@ -131,31 +131,31 @@ export default function PasscodeSetupModal({
 					initial={{ opacity: 0 }}
 					animate={{ opacity: 1 }}
 					exit={{ opacity: 0 }}
-					className='fixed inset-0 bg-slate-900/40 backdrop-blur-md z-150 flex items-center justify-center p-4'
+					className='fixed inset-0 bg-black/60 backdrop-blur-md z-150 flex items-center justify-center p-4'
 				>
 					<motion.div
 						initial={{ scale: 0.95, opacity: 0, y: 15 }}
 						animate={{ scale: 1, opacity: 1, y: 0 }}
 						exit={{ scale: 0.95, opacity: 0, y: 15 }}
 						onClick={(e) => e.stopPropagation()}
-						className='w-full max-w-sm bg-white/90 dark:bg-slate-900/90 backdrop-blur-2xl border border-slate-200 dark:border-slate-800 rounded-3xl overflow-hidden shadow-2xl p-6'
+						className='w-full max-w-sm bg-[#101013]/95 backdrop-blur-2xl border border-white/10 rounded-3xl overflow-hidden shadow-2xl shadow-black/60 p-6'
 					>
 						{/* Header */}
 						<div className='flex items-center justify-between mb-5'>
 							<div className='flex items-center gap-3'>
-								<div className='p-2.5 rounded-xl bg-violet-50 dark:bg-violet-500/10'>
+								<div className='p-2.5 rounded-xl bg-[#cbf1fd]/10'>
 									<ShieldCheck
 										size={20}
-										className='text-violet-600 dark:text-violet-400'
+										className='text-[#cbf1fd]'
 									/>
 								</div>
 								<div>
-									<h3 className='text-lg font-bold text-slate-900 dark:text-white tracking-tight'>
+									<h3 className='text-lg font-semibold text-white tracking-tight'>
 										{step === 'choose' && 'Set Up App Lock'}
 										{step === 'enter' && 'Create Passcode'}
 										{step === 'confirm' && 'Confirm Passcode'}
 									</h3>
-									<p className='text-xs text-slate-500 dark:text-slate-400'>
+									<p className='text-xs text-white/50'>
 										{step === 'choose' && 'Choose your passcode length'}
 										{step === 'enter' && `Enter a ${length}-digit passcode`}
 										{step === 'confirm' && 'Re-enter to confirm'}
@@ -164,9 +164,9 @@ export default function PasscodeSetupModal({
 							</div>
 							<button
 								onClick={handleClose}
-								className='p-2 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors'
+								className='p-2 rounded-xl hover:bg-white/[0.08] transition-colors'
 							>
-								<X size={18} className='text-slate-400' />
+								<X size={18} className='text-white/50' />
 							</button>
 						</div>
 
@@ -176,7 +176,7 @@ export default function PasscodeSetupModal({
 								<div
 									key={s}
 									className={`h-1 flex-1 rounded-full transition-colors duration-300 ${
-										s <= stepNumber ? 'bg-violet-500' : 'bg-slate-200 dark:bg-slate-700'
+										s <= stepNumber ? 'bg-[#9294e5]' : 'bg-white/10'
 									}`}
 								/>
 							))}
@@ -193,23 +193,23 @@ export default function PasscodeSetupModal({
 									onClick={() => { setLength(4); setStep('enter'); }}
 									className={`w-full flex items-center gap-4 p-4 rounded-2xl border-2 transition-all ${
 										length === 4
-											? 'border-violet-500 bg-violet-50 dark:bg-violet-500/10'
-											: 'border-slate-200 dark:border-slate-700 hover:border-violet-300 dark:hover:border-violet-700'
+											? 'border-[#9294e5]/60 bg-[#9294e5]/10'
+											: 'border-white/10 hover:border-white/25'
 									}`}
 								>
 									<div className='flex gap-1.5'>
 										{[0, 1, 2, 3].map((d) => (
 											<div
 												key={d}
-												className='w-3 h-3 rounded-full bg-violet-500'
+												className='w-3 h-3 rounded-full bg-white'
 											/>
 										))}
 									</div>
 									<div className='text-left flex-1'>
-										<p className='text-sm font-semibold text-slate-800 dark:text-slate-200'>
+										<p className='text-sm font-semibold text-white'>
 											4-Digit Passcode
 										</p>
-										<p className='text-xs text-slate-500 dark:text-slate-400'>
+										<p className='text-xs text-white/50'>
 											Quick and easy to remember
 										</p>
 									</div>
@@ -219,23 +219,23 @@ export default function PasscodeSetupModal({
 									onClick={() => { setLength(6); setStep('enter'); }}
 									className={`w-full flex items-center gap-4 p-4 rounded-2xl border-2 transition-all ${
 										length === 6
-											? 'border-violet-500 bg-violet-50 dark:bg-violet-500/10'
-											: 'border-slate-200 dark:border-slate-700 hover:border-violet-300 dark:hover:border-violet-700'
+											? 'border-[#9294e5]/60 bg-[#9294e5]/10'
+											: 'border-white/10 hover:border-white/25'
 									}`}
 								>
 									<div className='flex gap-1.5'>
 										{[0, 1, 2, 3, 4, 5].map((d) => (
 											<div
 												key={d}
-												className='w-3 h-3 rounded-full bg-violet-500'
+												className='w-3 h-3 rounded-full bg-white'
 											/>
 										))}
 									</div>
 									<div className='text-left flex-1'>
-										<p className='text-sm font-semibold text-slate-800 dark:text-slate-200'>
+										<p className='text-sm font-semibold text-white'>
 											6-Digit Passcode
 										</p>
-										<p className='text-xs text-slate-500 dark:text-slate-400'>
+										<p className='text-xs text-white/50'>
 											More secure, recommended
 										</p>
 									</div>
@@ -266,8 +266,8 @@ export default function PasscodeSetupModal({
 											transition={{ duration: 0.15 }}
 											className={`w-3 h-3 rounded-full transition-colors duration-150 ${
 												i < code.length
-													? 'bg-violet-600 dark:bg-violet-400'
-													: 'border-2 border-slate-300 dark:border-slate-600'
+													? 'bg-white'
+													: 'bg-white/[0.06] border border-white/10'
 											}`}
 										/>
 									))}
@@ -281,7 +281,7 @@ export default function PasscodeSetupModal({
 												initial={{ opacity: 0, y: -4 }}
 												animate={{ opacity: 1, y: 0 }}
 												exit={{ opacity: 0 }}
-												className='text-xs text-rose-500 font-medium'
+												className='text-xs text-red-400 font-medium'
 											>
 												{error}
 											</motion.p>
@@ -301,7 +301,7 @@ export default function PasscodeSetupModal({
 													key={i}
 													onClick={handleDelete}
 													disabled={saving || code.length === 0}
-													className='h-14 rounded-2xl flex items-center justify-center text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800/60 active:bg-slate-200 dark:active:bg-slate-800 transition-colors disabled:opacity-30'
+													className='h-14 rounded-2xl flex items-center justify-center text-white/50 hover:text-white hover:bg-white/[0.08] active:bg-white/10 transition-colors disabled:opacity-30'
 												>
 													<Delete size={20} />
 												</button>
@@ -313,7 +313,7 @@ export default function PasscodeSetupModal({
 												whileTap={{ scale: 0.92 }}
 												onClick={() => handlePress(key)}
 												disabled={saving || code.length >= length}
-												className='h-14 rounded-2xl bg-slate-50 dark:bg-slate-800/40 border border-slate-200 dark:border-slate-700/50 text-xl font-semibold text-slate-800 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800/60 active:bg-violet-50 dark:active:bg-violet-900/20 transition-colors disabled:opacity-40'
+												className='h-14 rounded-2xl bg-white/[0.06] border border-white/10 text-xl font-semibold text-white hover:bg-white/10 active:bg-white/[0.14] transition-colors disabled:opacity-40'
 											>
 												{key}
 											</motion.button>
@@ -322,7 +322,7 @@ export default function PasscodeSetupModal({
 								</div>
 
 								{saving && (
-									<div className='flex items-center justify-center gap-2 mt-4 text-sm text-slate-400'>
+									<div className='flex items-center justify-center gap-2 mt-4 text-sm text-white/40'>
 										<Lock size={14} className='animate-pulse' />
 										Setting up...
 									</div>

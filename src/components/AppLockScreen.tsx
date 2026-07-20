@@ -86,9 +86,9 @@ export default function AppLockScreen({ onUnlock, passcodeLength }: AppLockScree
 		<motion.div
 			initial={{ opacity: 0 }}
 			animate={{ opacity: 1 }}
-			className='fixed inset-0 z-200 flex flex-col items-center justify-center bg-slate-50 dark:bg-slate-950'
+			className='fixed inset-0 z-200 flex flex-col items-center justify-center bg-black'
 		>
-			<div className='absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(139,92,246,0.08),transparent_70%)]' />
+			<div className='absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(255,255,255,0.05),transparent_70%)]' />
 
 			<motion.div
 				initial={{ y: 20, opacity: 0 }}
@@ -97,16 +97,16 @@ export default function AppLockScreen({ onUnlock, passcodeLength }: AppLockScree
 				className='relative flex flex-col items-center gap-8 w-full max-w-xs px-4'
 			>
 				<div className='flex flex-col items-center gap-3'>
-					<div className='w-16 h-16 rounded-2xl bg-violet-100 dark:bg-violet-900/30 flex items-center justify-center'>
+					<div className='w-16 h-16 bg-black rounded-full border border-white/15 shadow-[0_0_40px_rgba(255,255,255,0.12)] flex items-center justify-center'>
 						<Fingerprint
 							size={32}
-							className='text-violet-600 dark:text-violet-400'
+							className='text-white/80'
 						/>
 					</div>
-					<h1 className='text-xl font-bold text-slate-900 dark:text-white'>
+					<h1 className='text-xl font-semibold tracking-tight text-white'>
 						Enter Passcode
 					</h1>
-					<p className='text-sm text-slate-500 dark:text-slate-400 text-center'>
+					<p className='text-sm text-white/50 text-center'>
 						Enter your {passcodeLength}-digit passcode to unlock
 					</p>
 				</div>
@@ -128,8 +128,8 @@ export default function AppLockScreen({ onUnlock, passcodeLength }: AppLockScree
 							transition={{ duration: 0.15 }}
 							className={`w-3.5 h-3.5 rounded-full transition-colors duration-150 ${
 								i < code.length ?
-									'bg-violet-600 dark:bg-violet-400'
-								:	'border-2 border-slate-300 dark:border-slate-600'
+									'bg-white'
+								:	'bg-white/[0.06] border border-white/10'
 							}`}
 						/>
 					))}
@@ -142,7 +142,7 @@ export default function AppLockScreen({ onUnlock, passcodeLength }: AppLockScree
 							initial={{ opacity: 0, y: -4 }}
 							animate={{ opacity: 1, y: 0 }}
 							exit={{ opacity: 0 }}
-							className='text-sm text-rose-500 font-medium -mt-4'
+							className='text-sm text-red-400 font-medium -mt-4'
 						>
 							{error}
 						</motion.p>
@@ -161,7 +161,7 @@ export default function AppLockScreen({ onUnlock, passcodeLength }: AppLockScree
 									key={i}
 									onClick={handleDelete}
 									disabled={verifying || code.length === 0}
-									className='h-16 rounded-2xl flex items-center justify-center text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800/60 active:bg-slate-200 dark:active:bg-slate-800 transition-colors disabled:opacity-30'
+									className='h-16 rounded-2xl flex items-center justify-center text-white/50 hover:text-white hover:bg-white/[0.08] active:bg-white/10 transition-colors disabled:opacity-30'
 								>
 									<Delete size={22} />
 								</button>
@@ -173,7 +173,7 @@ export default function AppLockScreen({ onUnlock, passcodeLength }: AppLockScree
 								whileTap={{ scale: 0.92 }}
 								onClick={() => handlePress(key)}
 								disabled={verifying || code.length >= passcodeLength}
-								className='h-16 rounded-2xl bg-white dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800 text-2xl font-semibold text-slate-800 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800/60 active:bg-violet-50 dark:active:bg-violet-900/20 transition-colors shadow-sm disabled:opacity-40'
+								className='h-16 rounded-2xl bg-white/[0.06] border border-white/10 text-2xl font-semibold text-white hover:bg-white/10 active:bg-white/[0.14] transition-colors disabled:opacity-40'
 							>
 								{key}
 							</motion.button>
@@ -182,7 +182,7 @@ export default function AppLockScreen({ onUnlock, passcodeLength }: AppLockScree
 				</div>
 
 				{verifying && (
-					<div className='flex items-center gap-2 text-sm text-slate-400'>
+					<div className='flex items-center gap-2 text-sm text-white/40'>
 						<Lock size={14} className='animate-pulse' />
 						Verifying...
 					</div>
