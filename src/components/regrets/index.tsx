@@ -6,11 +6,20 @@ import { motion } from 'framer-motion';
 import { useQuery } from '@tanstack/react-query';
 import toast from 'react-hot-toast';
 import axios from 'axios';
-import { Plus, ArrowDownRight, ArrowUpRight, CalendarDays } from 'lucide-react';
+import {
+	Plus,
+	ArrowDownRight,
+	ArrowUpRight,
+	CalendarDays,
+	Wallet,
+	Percent,
+	PieChart,
+	BarChart3,
+} from 'lucide-react';
 import CustomSelect from '@/components/ui/CustomSelect';
 
 import AddTransactionModal from './AddTransactionModal';
-import { CategoriesChart, TrendChart } from './ExpenseCharts';
+import { CategoriesChart, CategoryBars, TrendChart } from './ExpenseCharts';
 import TransactionsTable from './TransactionsTable';
 import ConfirmModal from '../ConfirmModal';
 import { Expense, Income, Transaction } from '@/types';
@@ -19,6 +28,7 @@ import { MONTHS } from '@/constants';
 export default function Regrets({ session }: { session: Session }) {
 	const [modalOpen, setModalOpen] = useState(false);
 	const [modalType, setModalType] = useState<'income' | 'expense'>('expense');
+	const [catView, setCatView] = useState<'donut' | 'bars'>('donut');
 	const [editItem, setEditItem] = useState<Transaction | null>(null);
 	const [confirmModal, setConfirmModal] = useState<{
 		isOpen: boolean;
@@ -164,12 +174,19 @@ export default function Regrets({ session }: { session: Session }) {
 	return (
 		<div className='relative flex-1 w-full min-h-[calc(100vh-64px)] overflow-hidden'>
 			<div className='relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8'>
-				<header className='flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8'>
+				<motion.header
+					initial={{ opacity: 0, y: 14 }}
+					animate={{ opacity: 1, y: 0 }}
+					className='flex flex-col md:flex-row md:items-end justify-between gap-5 mb-8'
+				>
 					<div>
-						<h1 className='text-3xl font-semibold tracking-tight text-white text-gradient'>
+						<span className='text-xs font-semibold tracking-[0.25em] uppercase text-accent-gradient'>
+							Every rupee, remembered
+						</span>
+						<h1 className='text-4xl font-semibold tracking-tight text-gradient mt-2'>
 							Wall of Regret
 						</h1>
-						<p className='text-white/50 mt-1'>
+						<p className='text-white/50 mt-1.5'>
 							Welcome back, {session.user?.name}
 						</p>
 					</div>
@@ -187,47 +204,70 @@ export default function Regrets({ session }: { session: Session }) {
 						/>
 
 						<div className='flex items-center gap-1.5 sm:gap-3'>
-							<button
-							onClick={() => {
-								setModalType('income');
-								setEditItem(null);
-								setModalOpen(true);
-							}}
-							className='bg-white/[0.08] hover:bg-white/[0.14] border border-white/10 px-4 py-2.5 rounded-xl font-medium text-white/80 flex items-center gap-2 transition-colors'
-						>
-							<Plus
-								size={18}
-								className='text-emerald-400'
-							/>
-							<span>Rare Windfall</span>
-						</button>
-						<button
-							onClick={() => {
-								setModalType('expense');
-								setEditItem(null);
-								setModalOpen(true);
-							}}
-							className='bg-[#9294e5] hover:bg-[#a3a5ec] text-black shadow-[0_2px_24px_rgba(146,148,229,0.35)] px-4 py-2.5 rounded-xl font-semibold flex items-center gap-2 transition-colors'
-						>
-							<Plus size={18} />
-							<span>Add Regret</span>
-						</button>
+							<motion.button
+								whileHover={{ scale: 1.03 }}
+								whileTap={{ scale: 0.97 }}
+								onClick={() => {
+									setModalType('income');
+									setEditItem(null);
+									setModalOpen(true);
+								}}
+								className='bg-white/[0.08] hover:bg-white/[0.14] border border-white/10 px-4 py-2.5 rounded-xl font-medium text-white/80 flex items-center gap-2 transition-colors cursor-pointer'
+							>
+								<Plus
+									size={18}
+									className='text-emerald-400'
+								/>
+								<span>Rare Windfall</span>
+							</motion.button>
+							<motion.button
+								whileHover={{ scale: 1.03 }}
+								whileTap={{ scale: 0.97 }}
+								onClick={() => {
+									setModalType('expense');
+									setEditItem(null);
+									setModalOpen(true);
+								}}
+								className='bg-[#9294e5] hover:bg-[#a3a5ec] text-black shadow-[0_2px_24px_rgba(146,148,229,0.35)] px-4 py-2.5 rounded-xl font-semibold flex items-center gap-2 transition-colors cursor-pointer group/new'
+							>
+								<Plus
+									size={18}
+									className='transition-transform duration-300 group-hover/new:rotate-90'
+								/>
+								<span>Add Regret</span>
+							</motion.button>
 						</div>
 					</div>
-				</header>
+				</motion.header>
 
 				{loading ?
 					<RegretsSkeleton />
 				:	<>
-						{/* Stats Cards */}
-						<div className='grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8 relative z-10'>
+						{/* Stats Bar — one footer-style pill container */}
+						<motion.div
+							initial='hidden'
+							animate='show'
+							variants={{
+								hidden: { opacity: 0, y: 14 },
+								show: {
+									opacity: 1,
+									y: 0,
+									transition: {
+										staggerChildren: 0.07,
+										delayChildren: 0.1,
+									},
+								},
+							}}
+							className='bg-[#0b0b0d] border border-white/[0.08] rounded-2xl px-2 sm:px-4 py-5 mb-8 relative z-10 grid grid-cols-2 lg:grid-cols-4 gap-y-6 lg:gap-y-0 lg:divide-x divide-white/[0.06]'
+						>
 							<StatCard
 								title='Brief Joy (Income)'
 								amount={`₹${totalIncome.toLocaleString()}`}
 								type='income'
+								chipClass='bg-[#f0f8e8]/10 text-[#f0f8e8]'
 								icon={
 									<ArrowDownRight
-										size={20}
+										size={22}
 										className='text-emerald-400'
 									/>
 								}
@@ -236,9 +276,10 @@ export default function Regrets({ session }: { session: Session }) {
 								title='Money Wasted'
 								amount={`₹${totalExpense.toLocaleString()}`}
 								type='expense'
+								chipClass='bg-[#d39dbd]/15 text-[#e7c1d8]'
 								icon={
 									<ArrowUpRight
-										size={20}
+										size={22}
 										className='text-red-400'
 									/>
 								}
@@ -247,17 +288,21 @@ export default function Regrets({ session }: { session: Session }) {
 								title='Remaining Illusion'
 								amount={`₹${remaining.toLocaleString()}`}
 								type='neutral'
+								chipClass='bg-[#9294e5]/15 text-[#b9baf1]'
+								icon={<Wallet size={22} />}
 							/>
 							<StatCard
 								title='Damage Done (%)'
 								amount={`${percentageUsed}%`}
 								type='neutral'
+								chipClass='bg-[#cbf1fd]/10 text-[#cbf1fd]'
+								icon={<Percent size={22} />}
 							/>
-						</div>
+						</motion.div>
 
 						{/* Charts Layout */}
 						<div className='grid grid-cols-1 lg:grid-cols-3 gap-6 relative z-10'>
-							<div className='lg:col-span-2 card-ultra rounded-3xl px-2 py-4 sm:p-6 min-h-100 flex flex-col'>
+							<div className='lg:col-span-2 card-aurora rounded-3xl px-2 py-4 sm:p-6 min-h-100 flex flex-col'>
 								<h3 className='text-lg font-semibold tracking-tight mb-6 text-white px-4'>
 									Expense Over Time
 								</h3>
@@ -266,12 +311,40 @@ export default function Regrets({ session }: { session: Session }) {
 								</div>
 							</div>
 
-							<div className='card-ultra rounded-3xl p-4 sm:p-6 min-h-100 flex flex-col'>
-								<h3 className='text-lg font-semibold tracking-tight mb-6 text-white'>
-									Categories
-								</h3>
+							<div className='card-aurora rounded-3xl p-4 sm:p-6 min-h-100 flex flex-col'>
+								<div className='flex items-center justify-between mb-6'>
+									<h3 className='text-lg font-semibold tracking-tight text-white'>
+										Categories
+									</h3>
+									<div className='flex items-center gap-0.5 bg-white/[0.06] border border-white/[0.08] rounded-lg p-1'>
+										<button
+											onClick={() => setCatView('donut')}
+											title='Donut view'
+											className={`p-1.5 rounded-md transition-colors cursor-pointer ${
+												catView === 'donut' ?
+													'bg-white/10 text-white'
+												:	'text-white/40 hover:text-white/70'
+											}`}
+										>
+											<PieChart size={14} />
+										</button>
+										<button
+											onClick={() => setCatView('bars')}
+											title='Bars view'
+											className={`p-1.5 rounded-md transition-colors cursor-pointer ${
+												catView === 'bars' ?
+													'bg-white/10 text-white'
+												:	'text-white/40 hover:text-white/70'
+											}`}
+										>
+											<BarChart3 size={14} />
+										</button>
+									</div>
+								</div>
 								<div className='flex-1 relative'>
-									<CategoriesChart expenses={expenses} />
+									{catView === 'donut' ?
+										<CategoriesChart expenses={expenses} />
+									:	<CategoryBars expenses={expenses} />}
 								</div>
 							</div>
 						</div>
@@ -319,11 +392,13 @@ function StatCard({
 	amount,
 	type,
 	icon,
+	chipClass = 'bg-[#9294e5]/15 text-[#b9baf1]',
 }: {
 	title: string;
 	amount: string;
 	type: 'income' | 'expense' | 'neutral';
 	icon?: React.ReactNode;
+	chipClass?: string;
 }) {
 	const colorClass =
 		type === 'income' ? 'text-emerald-400'
@@ -332,29 +407,37 @@ function StatCard({
 
 	return (
 		<motion.div
-			initial={{ opacity: 0, scale: 0.9 }}
-			animate={{ opacity: 1, scale: 1 }}
-			whileHover={{ y: -4 }}
-			className='card-ultra p-4 sm:p-6 rounded-3xl transition-all hover:-translate-y-1 relative overflow-hidden group'
+			variants={{
+				hidden: { opacity: 0, y: 14 },
+				show: {
+					opacity: 1,
+					y: 0,
+					transition: {
+						type: 'spring' as const,
+						bounce: 0.25,
+						duration: 0.6,
+					},
+				},
+			}}
+			className='flex items-center gap-3.5 sm:gap-4 px-4 sm:px-6'
 		>
-			<div className='absolute -inset-2 bg-linear-to-r from-transparent via-white/5 to-transparent skew-x-12 translate-x-[-150%] group-hover:translate-x-[150%] transition-transform duration-700 pointer-events-none' />
-			<div className='flex items-center justify-between mb-2 relative z-10'>
-				<h3 className='text-sm font-medium text-white/50'>
+			{icon && (
+				<div
+					className={`w-11 h-11 sm:w-12 sm:h-12 rounded-xl flex items-center justify-center shrink-0 ${chipClass}`}
+				>
+					{icon}
+				</div>
+			)}
+			<div className='min-w-0'>
+				<h3 className='text-xs sm:text-sm font-medium text-white/50 truncate'>
 					{title}
 				</h3>
-				{icon && (
-					<span
-						className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 ${
-							type === 'income' ?
-								'bg-[#f0f8e8]/10'
-							:	'bg-[#d39dbd]/15'
-						}`}
-					>
-						{icon}
-					</span>
-				)}
+				<div
+					className={`text-xl sm:text-2xl font-semibold tracking-tight tabular-nums ${colorClass}`}
+				>
+					{amount}
+				</div>
 			</div>
-			<div className={`text-3xl font-semibold tracking-tight ${colorClass}`}>{amount}</div>
 		</motion.div>
 	);
 }
@@ -363,20 +446,18 @@ function RegretsSkeleton() {
 	const shimmer = 'animate-pulse bg-white/[0.06] rounded-xl';
 	return (
 		<div className='space-y-8'>
-			{/* Stat Cards Skeleton */}
-			<div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6'>
+			{/* Stats Bar Skeleton */}
+			<div className='bg-[#0b0b0d] border border-white/[0.08] rounded-2xl px-2 sm:px-4 py-5 grid grid-cols-2 lg:grid-cols-4 gap-y-6 lg:gap-y-0 lg:divide-x divide-white/[0.06]'>
 				{[...Array(4)].map((_, i) => (
 					<div
 						key={i}
-						className='card-ultra p-6 rounded-3xl'
+						className='flex items-center gap-4 px-4 sm:px-6'
 					>
-						<div className='flex items-center justify-between mb-3'>
-							<div className={`${shimmer} h-4 w-24`} />
-							<div
-								className={`${shimmer} h-5 w-5 rounded-full`}
-							/>
+						<div className={`${shimmer} w-12 h-12 shrink-0`} />
+						<div className='min-w-0 flex-1'>
+							<div className={`${shimmer} h-3.5 w-24 mb-2`} />
+							<div className={`${shimmer} h-7 w-28`} />
 						</div>
-						<div className={`${shimmer} h-9 w-32`} />
 					</div>
 				))}
 			</div>
@@ -504,6 +585,27 @@ type MonthRow = {
 	pct: number;
 };
 
+const barClasses = (pct: number) =>
+	pct > 80 ? 'bg-red-500 shadow-[0_0_12px_rgba(239,68,68,0.45)]'
+	: pct > 50 ? 'bg-amber-400 shadow-[0_0_12px_rgba(251,191,36,0.45)]'
+	: 'bg-emerald-500 shadow-[0_0_12px_rgba(16,185,129,0.45)]';
+
+function DamageBar({ pct, className }: { pct: number; className: string }) {
+	return (
+		<div
+			className={`bg-white/10 rounded-full overflow-hidden ${className}`}
+		>
+			<motion.div
+				initial={{ width: 0 }}
+				whileInView={{ width: `${Math.min(pct, 100)}%` }}
+				viewport={{ once: true }}
+				transition={{ duration: 0.9, ease: 'easeOut' }}
+				className={`h-full rounded-full ${barClasses(pct)}`}
+			/>
+		</div>
+	);
+}
+
 function MonthlyBreakdown({ data }: { data: MonthRow[] }) {
 	if (!data.length) return null;
 
@@ -520,20 +622,24 @@ function MonthlyBreakdown({ data }: { data: MonthRow[] }) {
 	return (
 		<motion.div
 			layout
-			className='card-ultra rounded-3xl p-4 sm:p-6 mt-6 relative z-10'
+			initial={{ opacity: 0, y: 24 }}
+			whileInView={{ opacity: 1, y: 0 }}
+			viewport={{ once: true, margin: '-60px' }}
+			className='card-aurora rounded-3xl p-4 sm:p-6 mt-6 relative z-10'
 		>
-			<h3 className='text-xl font-semibold tracking-tight text-white mb-6 px-1'>
-				Annual Regret Timeline ({currentYear})
-			</h3>
+			<div className='flex items-center gap-3 mb-6 px-1'>
+				<div className='w-10 h-10 rounded-xl bg-[#9294e5]/15 text-[#b9baf1] flex items-center justify-center'>
+					<CalendarDays size={18} />
+				</div>
+				<h3 className='text-xl font-semibold tracking-tight text-white'>
+					Annual Regret Timeline ({currentYear})
+				</h3>
+			</div>
 
 			{/* Mobile cards */}
 			<div className='md:hidden flex flex-col gap-3'>
 				<div className='order-2 max-h-120 overflow-y-auto bg-[#1a191e] border border-white/[0.06] rounded-2xl divide-y divide-white/[0.05]'>
 				{data.map((row) => {
-					const barColor =
-						row.pct > 80 ? 'bg-red-500'
-						: row.pct > 50 ? 'bg-amber-400'
-						: 'bg-emerald-500';
 					return (
 						<div
 							key={row.key}
@@ -580,14 +686,7 @@ function MonthlyBreakdown({ data }: { data: MonthRow[] }) {
 									</p>
 								</div>
 							</div>
-							<div className='h-1.5 bg-white/10 rounded-full overflow-hidden'>
-								<div
-									className={`h-full rounded-full ${barColor}`}
-									style={{
-										width: `${Math.min(row.pct, 100)}%`,
-									}}
-								/>
-							</div>
+							<DamageBar pct={row.pct} className='h-1.5' />
 						</div>
 					);
 				})}
@@ -636,18 +735,7 @@ function MonthlyBreakdown({ data }: { data: MonthRow[] }) {
 							<span>Annual Damage</span>
 							<span>{anualDamage}%</span>
 						</div>
-						<div className='h-2 bg-white/10 rounded-full overflow-hidden'>
-							<div
-								className={`h-full rounded-full transition-all duration-1000 ${
-									anualDamage > 80 ? 'bg-red-500'
-									: anualDamage > 50 ? 'bg-amber-400'
-									: 'bg-emerald-500'
-								}`}
-								style={{
-									width: `${Math.min(anualDamage, 100)}%`,
-								}}
-							/>
-						</div>
+						<DamageBar pct={anualDamage} className='h-2' />
 					</div>
 				</div>
 			</div>
@@ -687,19 +775,10 @@ function MonthlyBreakdown({ data }: { data: MonthRow[] }) {
 							</td>
 							<td className='px-6 py-4'>
 								<div className='flex items-center gap-2'>
-									<div className='flex-1 min-w-15 h-2.5 bg-white/10 rounded-full overflow-hidden'>
-										<div
-											className={`h-full rounded-full ${
-												anualDamage > 80 ? 'bg-red-500'
-												: anualDamage > 50 ?
-													'bg-amber-400'
-												:	'bg-emerald-500'
-											}`}
-											style={{
-												width: `${Math.min(anualDamage, 100)}%`,
-											}}
-										/>
-									</div>
+									<DamageBar
+										pct={anualDamage}
+										className='flex-1 min-w-15 h-2.5'
+									/>
 									<span className='text-xs font-semibold text-white/80 uppercase tabular-nums'>
 										{anualDamage}%
 									</span>
@@ -709,10 +788,6 @@ function MonthlyBreakdown({ data }: { data: MonthRow[] }) {
 					</tbody>
 					<tbody className='divide-y divide-white/[0.05]'>
 						{data.map((row) => {
-							const barColor =
-								row.pct > 80 ? 'bg-red-500'
-								: row.pct > 50 ? 'bg-amber-400'
-								: 'bg-emerald-500';
 							return (
 								<tr
 									key={row.key}
@@ -739,14 +814,10 @@ function MonthlyBreakdown({ data }: { data: MonthRow[] }) {
 									</td>
 									<td className='px-6 py-4 min-w-30'>
 										<div className='flex items-center gap-2'>
-											<div className='flex-1 min-w-15 h-2 bg-white/10 rounded-full overflow-hidden'>
-												<div
-													className={`h-full rounded-full ${barColor}`}
-													style={{
-														width: `${Math.min(row.pct, 100)}%`,
-													}}
-												/>
-											</div>
+											<DamageBar
+												pct={row.pct}
+												className='flex-1 min-w-15 h-2'
+											/>
 											<span className='text-xs font-medium text-white/50 tabular-nums w-10'>
 												{row.pct}%
 											</span>

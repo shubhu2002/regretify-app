@@ -23,7 +23,11 @@ import AddAccountModal from './AddAccountModal';
 import AddEntryModal from './AddEntryModal';
 import ConfirmModal from '../ConfirmModal';
 import LedgerBooks from './LedgerBooks';
-import { EntriesSkeletonLoading, LedgerSkeletonMainLoading } from './skeleton';
+import {
+	EntriesSkeletonLoading,
+	LedgerSkeletonMainLoading,
+	LedgerAccountsSkeletonLoading,
+} from './skeleton';
 
 import { useLedger } from '@/hooks/useLedger';
 import { useLedgerEntries } from '@/hooks/useLedgerEntries';
@@ -169,8 +173,12 @@ export default function Ledger() {
 	};
 
 	// ---------- Loading Skeleton ----------
+	// Match the skeleton to the view being loaded: books grid when no book is
+	// selected, the two-panel accounts layout when entering a book.
 	if (isLoading && !data) {
-		return <LedgerSkeletonMainLoading />;
+		return selectedBook ?
+				<LedgerAccountsSkeletonLoading />
+			:	<LedgerSkeletonMainLoading />;
 	}
 
 	// ---------- LEDGER BOOKS VIEW (no book selected) ----------
@@ -255,7 +263,7 @@ export default function Ledger() {
 									<BookOpen size={12} className='text-[#b9baf1]' />
 									Ledger book
 								</span>
-								<h1 className='text-3xl sm:text-4xl font-semibold tracking-tight text-gradient mt-1.5'>
+								<h1 className='text-3xl sm:text-4xl font-semibold tracking-tight text-white mt-1.5'>
 									{selectedBook.name}
 								</h1>
 								{selectedBook.description && (

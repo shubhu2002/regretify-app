@@ -282,7 +282,7 @@ export default function TransactionsTable({
 	return (
 		<motion.div
 			layout
-			className='card-ultra rounded-3xl p-4 sm:p-6 mt-6 relative z-10'
+			className='card-aurora rounded-3xl p-4 sm:p-6 mt-6 relative z-10'
 		>
 			<div className='flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6'>
 				<h3 className='text-xl font-semibold tracking-tight text-white'>

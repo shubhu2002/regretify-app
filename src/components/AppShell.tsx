@@ -107,7 +107,7 @@ export default function AppShell({
 								) : (
 									<button
 										onClick={() => setIsAuthOpen(true)}
-										className='flex items-center gap-2 bg-white hover:bg-white/90 text-black px-4 py-2 rounded-xl text-sm font-medium glow-white-sm transition-all cursor-pointer'
+										className='flex items-center gap-2 bg-[#9294e5] hover:bg-[#a3a5ec] text-black px-4 py-2 rounded-xl text-sm font-semibold glow-periwinkle-sm transition-all cursor-pointer'
 									>
 										<LogIn size={16} strokeWidth={2} />
 										<span>Sign In</span>

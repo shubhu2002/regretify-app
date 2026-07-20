@@ -95,6 +95,14 @@ body {
   box-shadow: 0 2px 24px 0 rgba(255, 255, 255, 0.2);
 }
 
+/* Periwinkle glow for the primary accent buttons */
+.glow-periwinkle {
+  box-shadow: 0 4px 52px 0 rgba(146, 148, 229, 0.55);
+}
+.glow-periwinkle-sm {
+  box-shadow: 0 2px 24px 0 rgba(146, 148, 229, 0.35);
+}
+
 /* Card surfaces */
 .card-surface {
   background: rgba(26, 26, 29, 0.5);
