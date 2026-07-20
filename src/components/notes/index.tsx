@@ -310,10 +310,21 @@ export default function Notes() {
 			<motion.button
 				whileTap={{ scale: 0.98 }}
 				onClick={() => selectNote(note)}
-				className={`w-full text-left px-4 py-3 transition-colors cursor-pointer group ${
+				className={`relative w-full text-left px-4 py-3 transition-colors cursor-pointer group ${
 					isSelected ? 'bg-white/[0.06]' : 'hover:bg-white/[0.03]'
 				}`}
 			>
+				{isSelected && (
+					<motion.div
+						layoutId='activeNoteBar'
+						className='absolute left-0 top-2.5 bottom-2.5 w-1 rounded-r-full bg-[#9294e5]'
+						transition={{
+							type: 'spring',
+							bounce: 0.25,
+							duration: 0.45,
+						}}
+					/>
+				)}
 				<div className='flex items-center justify-between gap-2'>
 					<h3 className='text-white font-semibold text-sm truncate'>
 						{title}
@@ -367,24 +378,45 @@ export default function Notes() {
 		<>
 			<div className='relative flex-1 w-full min-h-[calc(100dvh-24px)] sm:min-h-[calc(100dvh-64px)] overflow-hidden'>
 				<div className='relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 pb-24 md:pb-8'>
-					<header className='flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6'>
+					<motion.header
+						initial={{ opacity: 0, y: 14 }}
+						animate={{ opacity: 1, y: 0 }}
+						className='flex flex-col md:flex-row md:items-end justify-between gap-5 mb-6'
+					>
 						<div>
-							<h1 className='text-3xl font-semibold tracking-tight text-white text-gradient'>
+							<span className='text-xs font-semibold tracking-[0.25em] uppercase text-accent-gradient'>
+								Thoughts, lists &amp; reminders
+							</span>
+							<h1 className='text-4xl font-semibold tracking-tight text-gradient mt-2'>
 								Notes
 							</h1>
-							<p className='text-white/50 mt-1'>
-								Capture thoughts, ideas & reminders
+							<p className='text-white/50 mt-1.5'>
+								Capture thoughts, ideas &amp; reminders
 							</p>
 						</div>
-						<button
-							onClick={createNote}
-							disabled={creating}
-							className='w-fit bg-[#9294e5] hover:bg-[#a3a5ec] text-black shadow-[0_2px_24px_rgba(146,148,229,0.35)] px-4 py-2.5 rounded-xl font-semibold flex items-center gap-2 transition-colors cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed'
-						>
-							<Plus size={18} />
-							<span>New Note</span>
-						</button>
-					</header>
+						<div className='flex items-center gap-3'>
+							{allNotes.length > 0 && (
+								<span className='hidden sm:inline-flex items-center gap-1.5 bg-white/[0.06] border border-white/[0.08] rounded-lg px-3 py-1.5 text-xs text-white/50'>
+									<StickyNote size={12} />
+									{allNotes.length}{' '}
+									{allNotes.length === 1 ? 'note' : 'notes'}
+								</span>
+							)}
+							<motion.button
+								whileHover={{ scale: 1.03 }}
+								whileTap={{ scale: 0.97 }}
+								onClick={createNote}
+								disabled={creating}
+								className='w-fit bg-[#9294e5] hover:bg-[#a3a5ec] text-black shadow-[0_2px_24px_rgba(146,148,229,0.35)] px-5 py-2.5 rounded-xl font-semibold flex items-center gap-2 transition-colors cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed group/new'
+							>
+								<Plus
+									size={18}
+									className='transition-transform duration-300 group-hover/new:rotate-90'
+								/>
+								<span>New Note</span>
+							</motion.button>
+						</div>
+					</motion.header>
 
 					{/* Apple Notes style split panel */}
 					<div className='card-aurora rounded-3xl overflow-hidden flex h-[calc(100dvh-330px)] md:h-[calc(100dvh-250px)] min-h-105'>
@@ -415,14 +447,21 @@ export default function Notes() {
 									<div className='text-center pt-12 px-4'>
 										{allNotes.length === 0 ?
 											<>
-												<StickyNote
-													className='mx-auto text-white/20 mb-3'
-													size={36}
-												/>
-												<p className='text-white/50 font-medium'>
+												<motion.div
+													animate={{ y: [0, -6, 0] }}
+													transition={{
+														duration: 3,
+														repeat: Infinity,
+														ease: 'easeInOut',
+													}}
+													className='w-12 h-12 mx-auto mb-4 rounded-xl bg-[#f0f8e8]/10 text-[#f0f8e8] flex items-center justify-center'
+												>
+													<StickyNote size={22} />
+												</motion.div>
+												<p className='text-white/60 font-semibold'>
 													No notes yet
 												</p>
-												<p className='text-white/40 text-sm mt-1'>
+												<p className='text-white/35 text-sm mt-1'>
 													Create a note to save your thoughts
 												</p>
 											</>
@@ -592,20 +631,39 @@ export default function Notes() {
 
 							{!selectedNote && (
 								<div className='flex-1 flex flex-col items-center justify-center text-center p-8'>
-									<StickyNote
-										className='text-white/20 mb-4'
-										size={48}
-									/>
-									<p className='text-white/50 text-lg font-medium'>
+									<motion.div
+										animate={{ y: [0, -8, 0] }}
+										transition={{
+											duration: 3,
+											repeat: Infinity,
+											ease: 'easeInOut',
+										}}
+										className='w-16 h-16 mb-5 rounded-2xl bg-[#9294e5]/15 text-[#b9baf1] flex items-center justify-center'
+									>
+										<StickyNote size={28} />
+									</motion.div>
+									<p className='text-white text-xl font-semibold tracking-tight'>
 										{allNotes.length === 0 ?
 											'No notes yet'
 										:	'Select a note'}
 									</p>
-									<p className='text-white/40 text-sm mt-1'>
+									<p className='text-white/40 text-sm mt-1.5 max-w-xs'>
 										{allNotes.length === 0 ?
-											'Create a note to save your thoughts'
-										:	'Choose a note from the list or create a new one'}
+											'Create a note to save your thoughts, ideas and checklists.'
+										:	'Choose a note from the list or create a new one.'}
 									</p>
+									<motion.button
+										whileHover={{ scale: 1.03 }}
+										whileTap={{ scale: 0.97 }}
+										onClick={createNote}
+										disabled={creating}
+										className='mt-7 bg-[#9294e5] hover:bg-[#a3a5ec] text-black shadow-[0_2px_24px_rgba(146,148,229,0.35)] px-6 py-3 rounded-xl font-semibold inline-flex items-center gap-2 transition-colors cursor-pointer disabled:opacity-50'
+									>
+										<Plus size={16} />
+										{allNotes.length === 0 ?
+											'Create your first note'
+										:	'New note'}
+									</motion.button>
 								</div>
 							)}
 						</div>
