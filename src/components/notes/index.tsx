@@ -387,7 +387,7 @@ export default function Notes() {
 					</header>
 
 					{/* Apple Notes style split panel */}
-					<div className='card-ultra rounded-3xl overflow-hidden flex h-[calc(100dvh-330px)] md:h-[calc(100dvh-250px)] min-h-105'>
+					<div className='card-aurora rounded-3xl overflow-hidden flex h-[calc(100dvh-330px)] md:h-[calc(100dvh-250px)] min-h-105'>
 						{/* Sidebar — note list */}
 						<div
 							className={`${

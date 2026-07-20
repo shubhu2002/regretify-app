@@ -10,7 +10,7 @@ export const NotesSkeletonLoading = () => {
 					</div>
 					<div className={`${shimmer} h-11 w-36`} />
 				</div>
-				<div className='card-ultra rounded-3xl overflow-hidden flex h-[calc(100dvh-330px)] md:h-[calc(100dvh-250px)] min-h-105'>
+				<div className='card-aurora rounded-3xl overflow-hidden flex h-[calc(100dvh-330px)] md:h-[calc(100dvh-250px)] min-h-105'>
 					<div className='w-full md:w-72 lg:w-80 shrink-0 md:border-r border-white/10 p-3 space-y-3'>
 						<div className={`${shimmer} h-9 w-full`} />
 						<div className='bg-[#1a191e] border border-white/[0.06] rounded-2xl overflow-hidden divide-y divide-white/[0.05]'>

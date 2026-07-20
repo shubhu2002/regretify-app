@@ -281,7 +281,7 @@ export default function Ledger() {
 						<motion.div
 							initial={{ opacity: 0, y: 20 }}
 							animate={{ opacity: 1, y: 0 }}
-							className='card-ultra rounded-3xl p-12 text-center'
+							className='card-aurora rounded-3xl p-12 text-center'
 						>
 							<div className='w-16 h-16 mx-auto mb-4 rounded-2xl bg-[#d39dbd]/15 text-[#e7c1d8] flex items-center justify-center'>
 								<Users size={28} />
@@ -295,7 +295,7 @@ export default function Ledger() {
 						</motion.div>
 					:	<div className='grid grid-cols-1 lg:grid-cols-3 gap-6 relative z-10'>
 							{/* Accounts Panel */}
-							<div className='lg:col-span-1 card-ultra rounded-3xl p-4 sm:p-5 h-[42vh] sm:h-[70vh] flex flex-col'>
+							<div className='lg:col-span-1 card-aurora rounded-3xl p-4 sm:p-5 h-[42vh] sm:h-[70vh] flex flex-col'>
 								<h3 className='text-sm font-semibold text-white/50 uppercase tracking-wide mb-4 px-1 shrink-0'>
 									Accounts ({accounts.length})
 								</h3>

@@ -49,7 +49,7 @@ export default function LedgerBooks({
 						<motion.div
 							initial={{ opacity: 0, y: 20 }}
 							animate={{ opacity: 1, y: 0 }}
-							className='card-ultra rounded-3xl p-12 text-center'
+							className='card-aurora rounded-3xl p-12 text-center'
 						>
 							<div className='w-16 h-16 mx-auto mb-4 rounded-2xl bg-[#9294e5]/15 text-[#b9baf1] flex items-center justify-center'>
 								<BookOpen size={28} />
