@@ -263,7 +263,7 @@ export default function Ledger() {
 									<BookOpen size={12} className='text-[#b9baf1]' />
 									Ledger book
 								</span>
-								<h1 className='text-3xl sm:text-4xl font-semibold tracking-tight text-gradient mt-1.5'>
+								<h1 className='text-3xl sm:text-4xl font-semibold tracking-tight text-white mt-1.5'>
 									{selectedBook.name}
 								</h1>
 								{selectedBook.description && (
