@@ -236,8 +236,12 @@ export default function Ledger() {
 			<div className='relative flex-1 w-full min-h-[calc(100vh-64px)] overflow-hidden'>
 				<div className='relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8'>
 					{/* Header */}
-					<header className='flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8'>
-						<div className='flex items-center gap-3'>
+					<motion.header
+						initial={{ opacity: 0, y: 14 }}
+						animate={{ opacity: 1, y: 0 }}
+						className='flex flex-col md:flex-row md:items-end justify-between gap-5 mb-8'
+					>
+						<div className='flex items-start gap-3'>
 							<Button
 								onClick={() => {
 									setSelectedBook(null);
@@ -247,15 +251,13 @@ export default function Ledger() {
 								<ChevronLeft size={18} />
 							</Button>
 							<div>
-								<div className='flex items-center gap-2'>
-									<BookOpen
-										size={20}
-										className='text-white/80'
-									/>
-									<h1 className='text-3xl font-semibold tracking-tight text-gradient'>
-										{selectedBook.name}
-									</h1>
-								</div>
+								<span className='text-xs font-semibold tracking-[0.25em] uppercase text-accent-gradient flex items-center gap-2'>
+									<BookOpen size={12} className='text-[#b9baf1]' />
+									Ledger book
+								</span>
+								<h1 className='text-3xl sm:text-4xl font-semibold tracking-tight text-gradient mt-1.5'>
+									{selectedBook.name}
+								</h1>
 								{selectedBook.description && (
 									<p className='text-white/50 mt-1'>
 										{selectedBook.description}
@@ -264,18 +266,32 @@ export default function Ledger() {
 							</div>
 						</div>
 						<div className='flex items-center gap-3'>
-							<button
+							{accounts.length > 0 && (
+								<span className='hidden sm:inline-flex items-center gap-1.5 bg-white/[0.06] border border-white/[0.08] rounded-lg px-3 py-1.5 text-xs text-white/50'>
+									<Users size={12} />
+									{accounts.length}{' '}
+									{accounts.length === 1 ?
+										'account'
+									:	'accounts'}
+								</span>
+							)}
+							<motion.button
+								whileHover={{ scale: 1.03 }}
+								whileTap={{ scale: 0.97 }}
 								onClick={() => {
 									setEditAccount(null);
 									setAccountModalOpen(true);
 								}}
-								className='cursor-pointer bg-[#9294e5] hover:bg-[#a3a5ec] text-black shadow-[0_2px_24px_rgba(146,148,229,0.35)] px-4 py-2.5 rounded-xl font-semibold flex items-center gap-2 transition-colors'
+								className='cursor-pointer bg-[#9294e5] hover:bg-[#a3a5ec] text-black shadow-[0_2px_24px_rgba(146,148,229,0.35)] px-5 py-2.5 rounded-xl font-semibold flex items-center gap-2 transition-colors group/new'
 							>
-								<Plus size={18} />
+								<Plus
+									size={18}
+									className='transition-transform duration-300 group-hover/new:rotate-90'
+								/>
 								<span>Add Account</span>
-							</button>
+							</motion.button>
 						</div>
-					</header>
+					</motion.header>
 
 					{accounts.length === 0 ?
 						<motion.div
@@ -283,22 +299,55 @@ export default function Ledger() {
 							animate={{ opacity: 1, y: 0 }}
 							className='card-aurora rounded-3xl p-12 text-center'
 						>
-							<div className='w-16 h-16 mx-auto mb-4 rounded-2xl bg-[#d39dbd]/15 text-[#e7c1d8] flex items-center justify-center'>
+							<motion.div
+								animate={{ y: [0, -8, 0] }}
+								transition={{
+									duration: 3,
+									repeat: Infinity,
+									ease: 'easeInOut',
+								}}
+								className='w-16 h-16 mx-auto mb-5 rounded-2xl bg-[#d39dbd]/15 text-[#e7c1d8] flex items-center justify-center'
+							>
 								<Users size={28} />
-							</div>
-							<p className='text-white/50 text-lg font-medium'>
+							</motion.div>
+							<p className='text-white text-xl font-semibold tracking-tight'>
 								No accounts yet
 							</p>
-							<p className='text-white/40 text-sm mt-1'>
-								Add an account to start tracking
+							<p className='text-white/40 text-sm mt-1.5 max-w-xs mx-auto'>
+								Add friends &amp; family to start logging every
+								give and take.
 							</p>
+							<motion.button
+								whileHover={{ scale: 1.03 }}
+								whileTap={{ scale: 0.97 }}
+								onClick={() => {
+									setEditAccount(null);
+									setAccountModalOpen(true);
+								}}
+								className='mt-7 bg-[#9294e5] hover:bg-[#a3a5ec] text-black shadow-[0_2px_24px_rgba(146,148,229,0.35)] px-6 py-3 rounded-xl font-semibold inline-flex items-center gap-2 transition-colors cursor-pointer'
+							>
+								<Plus size={16} />
+								Add your first account
+							</motion.button>
 						</motion.div>
 					:	<div className='grid grid-cols-1 lg:grid-cols-3 gap-6 relative z-10'>
 							{/* Accounts Panel */}
 							<div className='lg:col-span-1 card-aurora rounded-3xl p-4 sm:p-5 h-[42vh] sm:h-[70vh] flex flex-col'>
-								<h3 className='text-sm font-semibold text-white/50 uppercase tracking-wide mb-4 px-1 shrink-0'>
-									Accounts ({accounts.length})
-								</h3>
+								<div className='flex items-center justify-between mb-4 px-1 shrink-0'>
+									<h3 className='text-sm font-semibold text-white/50 uppercase tracking-wide'>
+										Accounts ({accounts.length})
+									</h3>
+									<button
+										onClick={() => {
+											setEditAccount(null);
+											setAccountModalOpen(true);
+										}}
+										className='p-1.5 text-white/40 hover:text-white bg-white/[0.06] hover:bg-white/10 rounded-lg transition-colors cursor-pointer'
+										title='Add account'
+									>
+										<Plus size={14} />
+									</button>
+								</div>
 								<div className='overflow-y-auto flex-1 pr-1'>
 									<div className='bg-[#1a191e] border border-white/[0.06] rounded-2xl overflow-hidden divide-y divide-white/[0.05]'>
 										{accounts.map((account) => {
@@ -314,17 +363,28 @@ export default function Ledger() {
 															account,
 														)
 													}
-													className={`px-4 py-3 cursor-pointer transition-colors ${
+													className={`relative px-4 py-3 cursor-pointer transition-colors ${
 														isSelected ?
 															'bg-white/[0.06] text-white'
 														:	'hover:bg-white/[0.03]'
 													}`}
 												>
+													{isSelected && (
+														<motion.div
+															layoutId='activeAccountBar'
+															className='absolute left-0 top-2.5 bottom-2.5 w-1 rounded-r-full bg-[#9294e5]'
+															transition={{
+																type: 'spring',
+																bounce: 0.25,
+																duration: 0.45,
+															}}
+														/>
+													)}
 													<div className='flex items-center gap-3'>
 														<img
 															src={`https://api.dicebear.com/9.x/bottts/svg?seed=${encodeURIComponent(account.name)}`}
 															alt={account.name}
-															className='w-9 h-9 rounded-xl bg-white/10 shrink-0'
+															className={`w-9 h-9 rounded-xl bg-white/10 shrink-0 transition-all ${isSelected ? 'ring-2 ring-[#9294e5]/50' : ''}`}
 														/>
 														<div className='flex-1 min-w-0'>
 															<p className='font-medium text-white/90 truncate text-sm'>
@@ -450,14 +510,32 @@ export default function Ledger() {
 										</div>
 
 										{/* Balance Card */}
-										<div className='mb-5 p-4 card-ultra rounded-2xl shrink-0'>
-											<div className='flex items-center justify-between'>
+										<div className='mb-5 p-5 card-ultra rounded-2xl shrink-0 relative overflow-hidden'>
+											<div
+												className={`absolute inset-0 pointer-events-none ${
+													balance > 0 ?
+														'bg-[radial-gradient(90%_120%_at_0%_0%,rgba(16,185,129,0.12),transparent_60%)]'
+													: balance < 0 ?
+														'bg-[radial-gradient(90%_120%_at_0%_0%,rgba(239,68,68,0.12),transparent_60%)]'
+													:	''
+												}`}
+											/>
+											<div className='relative flex items-center justify-between'>
 												<div>
-													<p className='text-xs font-semibold text-white/50 uppercase tracking-wide'>
+													<p className='text-xs font-semibold text-white/50 uppercase tracking-[0.15em]'>
 														Balance
 													</p>
-													<p
-														className={`text-2xl font-semibold mt-1 ${balance >= 0 ? 'text-emerald-400' : 'text-red-400'}`}
+													<motion.p
+														key={balance}
+														initial={{
+															opacity: 0,
+															y: 6,
+														}}
+														animate={{
+															opacity: 1,
+															y: 0,
+														}}
+														className={`text-3xl font-semibold tracking-tight mt-1 tabular-nums ${balance >= 0 ? 'text-emerald-400' : 'text-red-400'}`}
 													>
 														{balance >= 0 ?
 															'+'
@@ -466,15 +544,23 @@ export default function Ledger() {
 														{Math.abs(
 															balance,
 														).toLocaleString()}
-													</p>
+													</motion.p>
 												</div>
-												<p className='text-xs text-white/40 text-right max-w-37.5'>
+												<span
+													className={`text-xs font-medium px-3 py-1.5 rounded-full border ${
+														balance > 0 ?
+															'text-emerald-400 bg-emerald-500/10 border-emerald-500/20'
+														: balance < 0 ?
+															'text-red-400 bg-red-500/10 border-red-500/20'
+														:	'text-white/50 bg-white/[0.06] border-white/10'
+													}`}
+												>
 													{balance > 0 ?
 														`${selectedAccount.name} owes you`
 													: balance < 0 ?
 														`You owe ${selectedAccount.name}`
 													:	'All settled up!'}
-												</p>
+												</span>
 											</div>
 										</div>
 
@@ -484,13 +570,29 @@ export default function Ledger() {
 												<EntriesSkeletonLoading />
 											: entries.length === 0 ?
 												<div className='text-center py-16'>
-													<p className='text-white/40 font-medium'>
+													<div className='w-14 h-14 mx-auto mb-4 rounded-2xl bg-[#cbf1fd]/10 text-[#cbf1fd] flex items-center justify-center'>
+														<Plus size={24} />
+													</div>
+													<p className='text-white/60 font-semibold'>
 														No entries yet
 													</p>
-													<p className='text-white/30 text-sm mt-1'>
-														Add an entry to get
-														started
+													<p className='text-white/35 text-sm mt-1'>
+														Log the first give or
+														take with{' '}
+														{selectedAccount.name}
 													</p>
+													<button
+														onClick={() => {
+															setEditEntry(null);
+															setEntryModalOpen(
+																true,
+															);
+														}}
+														className='mt-6 bg-[#9294e5] hover:bg-[#a3a5ec] text-black shadow-[0_2px_24px_rgba(146,148,229,0.35)] px-5 py-2.5 rounded-xl text-sm font-semibold inline-flex items-center gap-2 transition-colors cursor-pointer'
+													>
+														<Plus size={14} />
+														Add first entry
+													</button>
 												</div>
 											:	<>
 													{/* Desktop Table */}

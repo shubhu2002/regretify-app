@@ -12,7 +12,7 @@ export const LedgerSkeletonMainLoading = () => {
 				</div>
 				<div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4'>
 					{[...Array(6)].map((_, i) => (
-						<div key={i} className='card-ultra rounded-3xl p-6'>
+						<div key={i} className='card-aurora rounded-3xl p-6'>
 							<div className={`${shimmer} h-5 w-32 mb-3`} />
 							<div className={`${shimmer} h-3 w-48 mb-4`} />
 							<div className={`${shimmer} h-6 w-20`} />
