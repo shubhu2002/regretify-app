@@ -243,20 +243,22 @@ export default function Regrets({ session }: { session: Session }) {
 				{loading ?
 					<RegretsSkeleton />
 				:	<>
-						{/* Stats Cards */}
+						{/* Stats Bar — one footer-style pill container */}
 						<motion.div
 							initial='hidden'
 							animate='show'
 							variants={{
-								hidden: {},
+								hidden: { opacity: 0, y: 14 },
 								show: {
+									opacity: 1,
+									y: 0,
 									transition: {
 										staggerChildren: 0.07,
-										delayChildren: 0.05,
+										delayChildren: 0.1,
 									},
 								},
 							}}
-							className='grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8 relative z-10'
+							className='bg-[#0b0b0d] border border-white/[0.08] rounded-2xl px-2 sm:px-4 py-5 mb-8 relative z-10 grid grid-cols-2 lg:grid-cols-4 gap-y-6 lg:gap-y-0 lg:divide-x divide-white/[0.06]'
 						>
 							<StatCard
 								title='Brief Joy (Income)'
@@ -406,7 +408,7 @@ function StatCard({
 	return (
 		<motion.div
 			variants={{
-				hidden: { opacity: 0, y: 20 },
+				hidden: { opacity: 0, y: 14 },
 				show: {
 					opacity: 1,
 					y: 0,
@@ -417,23 +419,21 @@ function StatCard({
 					},
 				},
 			}}
-			whileHover={{ y: -4 }}
-			className='card-ultra p-5 sm:p-6 rounded-2xl transition-all relative overflow-hidden group'
+			className='flex items-center gap-3.5 sm:gap-4 px-4 sm:px-6'
 		>
-			<div className='absolute -inset-2 bg-linear-to-r from-transparent via-white/5 to-transparent skew-x-12 translate-x-[-150%] group-hover:translate-x-[150%] transition-transform duration-700 pointer-events-none' />
-			<div className='relative z-10'>
-				{icon && (
-					<div
-						className={`w-12 h-12 rounded-xl flex items-center justify-center mb-4 sm:mb-5 ${chipClass}`}
-					>
-						{icon}
-					</div>
-				)}
-				<h3 className='text-sm font-medium text-white/50 mb-1'>
+			{icon && (
+				<div
+					className={`w-11 h-11 sm:w-12 sm:h-12 rounded-xl flex items-center justify-center shrink-0 ${chipClass}`}
+				>
+					{icon}
+				</div>
+			)}
+			<div className='min-w-0'>
+				<h3 className='text-xs sm:text-sm font-medium text-white/50 truncate'>
 					{title}
 				</h3>
 				<div
-					className={`text-2xl sm:text-3xl font-semibold tracking-tight ${colorClass}`}
+					className={`text-xl sm:text-2xl font-semibold tracking-tight tabular-nums ${colorClass}`}
 				>
 					{amount}
 				</div>
@@ -446,21 +446,18 @@ function RegretsSkeleton() {
 	const shimmer = 'animate-pulse bg-white/[0.06] rounded-xl';
 	return (
 		<div className='space-y-8'>
-			{/* Stat Cards Skeleton */}
-			<div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6'>
+			{/* Stats Bar Skeleton */}
+			<div className='bg-[#0b0b0d] border border-white/[0.08] rounded-2xl px-2 sm:px-4 py-5 grid grid-cols-2 lg:grid-cols-4 gap-y-6 lg:gap-y-0 lg:divide-x divide-white/[0.06]'>
 				{[...Array(4)].map((_, i) => (
 					<div
 						key={i}
-						className='card-ultra p-6 rounded-2xl'
+						className='flex items-center gap-4 px-4 sm:px-6'
 					>
-						<div className={`${shimmer} w-12 h-12 mb-5`} />
-						<div className='flex items-center justify-between mb-3'>
-							<div className={`${shimmer} h-4 w-24`} />
-							<div
-								className={`${shimmer} h-5 w-5 rounded-full`}
-							/>
+						<div className={`${shimmer} w-12 h-12 shrink-0`} />
+						<div className='min-w-0 flex-1'>
+							<div className={`${shimmer} h-3.5 w-24 mb-2`} />
+							<div className={`${shimmer} h-7 w-28`} />
 						</div>
-						<div className={`${shimmer} h-9 w-32`} />
 					</div>
 				))}
 			</div>
