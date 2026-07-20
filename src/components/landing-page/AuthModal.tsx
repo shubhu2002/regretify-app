@@ -338,7 +338,7 @@ export default function AuthModal({
 										<button
 											type='submit'
 											disabled={loading}
-											className='w-full bg-white hover:bg-white/90 text-black py-3 rounded-xl font-medium glow-white-sm transition-all disabled:opacity-70'
+											className='w-full bg-[#9294e5] hover:bg-[#a3a5ec] text-black py-3 rounded-xl font-semibold glow-periwinkle-sm transition-all disabled:opacity-70'
 										>
 											{loading ?
 												'Signing in...'
@@ -551,7 +551,7 @@ export default function AuthModal({
 									<button
 										type='submit'
 										disabled={loading}
-										className='w-full bg-white hover:bg-white/90 text-black py-3 rounded-xl font-medium glow-white-sm transition-all disabled:opacity-70 mt-1'
+										className='w-full bg-[#9294e5] hover:bg-[#a3a5ec] text-black py-3 rounded-xl font-semibold glow-periwinkle-sm transition-all disabled:opacity-70 mt-1'
 									>
 										{loading ?
 											'Creating account...'

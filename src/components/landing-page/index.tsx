@@ -91,7 +91,7 @@ export default function LandingPage() {
 								:	setIsAuthOpen(true)
 							}
 							disabled={status === "loading"}
-							className='bg-white hover:bg-white/90 text-black glow-white px-8 py-4 rounded-xl font-medium text-lg flex items-center gap-2 transition-all disabled:opacity-70 disabled:cursor-not-allowed'
+							className='bg-[#9294e5] hover:bg-[#a3a5ec] text-black glow-periwinkle px-8 py-4 rounded-xl font-semibold text-lg flex items-center gap-2 transition-all disabled:opacity-70 disabled:cursor-not-allowed'
 						>
 							{session ? 'View My Regrets' : status=== "loading" ? "Loading...." :  'Start Regretting'}{' '}
 							<ArrowRight size={20} />
@@ -331,7 +331,7 @@ export default function LandingPage() {
 											router.push('/regrets')
 										:	setIsAuthOpen(true)
 									}
-									className='w-full sm:max-w-md bg-white hover:bg-white/90 text-black font-medium px-8 py-5 rounded-2xl text-xl glow-white transition-all flex items-center justify-between gap-4'
+									className='w-full sm:max-w-md bg-[#9294e5] hover:bg-[#a3a5ec] text-black font-semibold px-8 py-5 rounded-2xl text-xl glow-periwinkle transition-all flex items-center justify-between gap-4'
 								>
 									<span>
 										{session ?

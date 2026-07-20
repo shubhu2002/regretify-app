@@ -72,7 +72,7 @@ export default function ConfirmModal({
 									className={`flex-1 px-4 py-2.5 rounded-xl font-medium transition-colors ${
 										isDanger ?
 											'bg-red-500 hover:bg-red-600 text-white'
-										:	'bg-white hover:bg-white/90 text-black glow-white-sm'
+										:	'bg-[#9294e5] hover:bg-[#a3a5ec] text-black glow-periwinkle-sm'
 									}`}
 								>
 									{confirmLabel}

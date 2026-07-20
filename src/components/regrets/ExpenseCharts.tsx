@@ -17,6 +17,7 @@ import {
 	TooltipItem,
 } from 'chart.js';
 import { Line, Doughnut } from 'react-chartjs-2';
+import { motion } from 'framer-motion';
 
 ChartJS.register(
 	CategoryScale,
@@ -50,6 +51,80 @@ const formatCurrency = (value: number) => `₹${value.toLocaleString('en-IN')}`;
 
 interface ExpenseChartsProps {
 	expenses: Expense[];
+}
+
+/* -------------------- CATEGORY BARS (ranked list view) -------------------- */
+
+export function CategoryBars({ expenses }: ExpenseChartsProps) {
+	if (!expenses.length) {
+		return (
+			<div className='flex h-full items-center justify-center text-white/40'>
+				No data available yet
+			</div>
+		);
+	}
+
+	const categoriesMap = expenses.reduce<Record<string, number>>(
+		(acc, curr) => {
+			acc[curr.category] = (acc[curr.category] || 0) + curr.amount;
+			return acc;
+		},
+		{},
+	);
+
+	const sorted = Object.entries(categoriesMap).sort((a, b) => b[1] - a[1]);
+	const total = sorted.reduce((s, [, v]) => s + v, 0);
+	const max = sorted[0]?.[1] || 1;
+
+	return (
+		<div className='absolute inset-0 overflow-y-auto pr-1 space-y-3.5'>
+			{sorted.map(([name, value], i) => {
+				const color = COLORS[i % COLORS.length];
+				const pctOfTotal =
+					total > 0 ? Math.round((value / total) * 100) : 0;
+				return (
+					<div key={name}>
+						<div className='flex items-center justify-between gap-3 text-sm mb-1.5'>
+							<span className='flex items-center gap-2 text-white/80 font-medium truncate min-w-0'>
+								<span
+									className='w-2.5 h-2.5 rounded-full shrink-0'
+									style={{ backgroundColor: color }}
+								/>
+								<span className='truncate'>{name}</span>
+							</span>
+							<span className='text-white font-semibold tabular-nums shrink-0'>
+								{formatCurrency(value)}
+								<span className='text-white/35 font-medium text-xs ml-1.5'>
+									{pctOfTotal}%
+								</span>
+							</span>
+						</div>
+						<div className='h-2 bg-white/10 rounded-full overflow-hidden'>
+							<motion.div
+								initial={{ width: 0 }}
+								animate={{
+									width: `${(value / max) * 100}%`,
+								}}
+								transition={{
+									duration: 0.8,
+									ease: 'easeOut',
+									delay: i * 0.05,
+								}}
+								className='h-full rounded-full'
+								style={{
+									backgroundColor: color,
+									boxShadow:
+										color.startsWith('#') ?
+											`0 0 10px ${color}66`
+										:	'none',
+								}}
+							/>
+						</div>
+					</div>
+				);
+			})}
+		</div>
+	);
 }
 
 /* -------------------- CATEGORY CHART -------------------- */
