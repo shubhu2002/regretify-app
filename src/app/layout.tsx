@@ -1,12 +1,12 @@
 import type { Metadata } from 'next';
-import { Geist, Geist_Mono } from 'next/font/google';
+import { Inter_Tight, Geist_Mono } from 'next/font/google';
 import './globals.css';
 import { Providers } from '@/providers/Providers';
-import Navbar from '@/components/Navbar';
+import AppShell from '@/components/AppShell';
 import Background from '@/components/background';
 
-const geistSans = Geist({
-	variable: '--font-geist-sans',
+const interTight = Inter_Tight({
+	variable: '--font-inter-tight',
 	subsets: ['latin'],
 });
 
@@ -79,15 +79,14 @@ export default function RootLayout({
 	return (
 		<html
 			lang='en'
-			className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+			className={`${interTight.variable} ${geistMono.variable} antialiased`}
 			suppressHydrationWarning
 		>
-			<body className='relative min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-50 flex flex-col mb-0'>
+			<body className='relative min-h-screen bg-black text-white flex flex-col mb-0'>
 				<Providers>
-					<Background />
+					{/* <Background /> */}
 					<main className='flex-1 flex flex-col relative'>
-					<Navbar />
-						{children}
+						<AppShell>{children}</AppShell>
 					</main>
 				</Providers>
 			</body>

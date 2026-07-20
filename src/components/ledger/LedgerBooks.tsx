@@ -17,22 +17,28 @@ export default function LedgerBooks({
 	onEdit,
 	onDelete,
 }: LedgerBooksProps) {
+	const chipTints = [
+		'bg-[#9294e5]/15 text-[#b9baf1]',
+		'bg-[#d39dbd]/15 text-[#e7c1d8]',
+		'bg-[#cbf1fd]/10 text-[#cbf1fd]',
+		'bg-[#f0f8e8]/10 text-[#f0f8e8]',
+	];
 	return (
 		<>
 			<div className='relative flex-1 w-full min-h-[calc(100dvh-24px)] sm:min-h-[calc(100dvh-64px)] overflow-hidden'>
 				<div className='relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8'>
 					<header className='flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8'>
 						<div>
-							<h1 className='text-3xl font-bold bg-clip-text text-transparent bg-linear-to-r from-violet-600 to-fuchsia-600 dark:from-violet-400 dark:to-fuchsia-400'>
+							<h1 className='text-3xl font-semibold tracking-tight text-gradient'>
 								Ledger
 							</h1>
-							<p className='text-slate-500 dark:text-slate-400 mt-1'>
+							<p className='text-white/50 mt-1'>
 								Manage your ledger books, accounts & entries
 							</p>
 						</div>
 						<button
 							onClick={onCreate}
-							className='w-fit bg-violet-600 hover:bg-violet-700 text-white shadow-md shadow-violet-600/20 px-4 py-2.5 rounded-xl font-medium flex items-center gap-2 transition-all'
+							className='w-fit bg-[#9294e5] hover:bg-[#a3a5ec] text-black shadow-[0_2px_24px_rgba(146,148,229,0.35)] px-4 py-2.5 rounded-xl font-semibold flex items-center gap-2 transition-colors'
 						>
 							<Plus size={18} />
 							<span>New Ledger</span>
@@ -43,36 +49,36 @@ export default function LedgerBooks({
 						<motion.div
 							initial={{ opacity: 0, y: 20 }}
 							animate={{ opacity: 1, y: 0 }}
-							className='bg-violet-50/60 backdrop-blur-xl dark:bg-violet-900/20 border border-violet-100 dark:border-violet-800/30 rounded-3xl p-12 shadow-sm text-center'
+							className='card-ultra rounded-3xl p-12 text-center'
 						>
-							<BookOpen
-								className='mx-auto text-slate-300 dark:text-slate-600 mb-4'
-								size={48}
-							/>
-							<p className='text-slate-500 dark:text-slate-400 text-lg font-medium'>
+							<div className='w-16 h-16 mx-auto mb-4 rounded-2xl bg-[#9294e5]/15 text-[#b9baf1] flex items-center justify-center'>
+								<BookOpen size={28} />
+							</div>
+							<p className='text-white/50 text-lg font-medium'>
 								No ledgers yet
 							</p>
-							<p className='text-slate-400 dark:text-slate-500 text-sm mt-1'>
+							<p className='text-white/40 text-sm mt-1'>
 								Create a ledger to start tracking money
 							</p>
 						</motion.div>
 					:	<div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4'>
-							{books.map((book) => (
+							{books.map((book, i) => (
 								<motion.div
 									key={book.id}
 									whileTap={{ scale: 0.98 }}
 									onClick={() => onSelect(book)}
-									className='p-5 rounded-3xl border cursor-pointer transition-all group relative overflow-hidden bg-white/70 dark:bg-slate-900/50 border-violet-100 dark:border-violet-800/30 hover:bg-white dark:hover:bg-slate-800/60 hover:shadow-md'
+									className='p-5 card-ultra rounded-3xl cursor-pointer transition-all group relative overflow-hidden'
 								>
-									<div className='absolute -inset-2 bg-linear-to-r from-transparent via-white/40 to-transparent dark:via-white/5 skew-x-12 translate-x-[-150%] group-hover:translate-x-[150%] transition-transform duration-700 pointer-events-none' />
+									<div className='absolute -inset-2 bg-linear-to-r from-transparent via-white/5 to-transparent skew-x-12 translate-x-[-150%] group-hover:translate-x-[150%] transition-transform duration-700 pointer-events-none' />
 									<div className='relative z-10'>
 										<div className='flex items-start justify-between mb-2'>
 											<div className='flex items-center gap-2'>
-												<BookOpen
-													size={18}
-													className='text-violet-500'
-												/>
-												<h3 className='font-bold text-slate-900 dark:text-white text-lg'>
+												<div
+													className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 ${chipTints[i % chipTints.length]}`}
+												>
+													<BookOpen size={16} />
+												</div>
+												<h3 className='font-semibold text-white text-lg'>
 													{book.name}
 												</h3>
 											</div>
@@ -81,7 +87,7 @@ export default function LedgerBooks({
 													onClick={(e) =>
 														onEdit(book, e)
 													}
-													className='p-1.5 text-slate-300 hover:text-violet-500 rounded-lg transition-colors opacity-0 group-hover:opacity-100'
+													className='p-1.5 text-white/30 hover:text-white rounded-lg transition-colors opacity-0 group-hover:opacity-100'
 												>
 													<Pencil size={14} />
 												</button>
@@ -90,19 +96,19 @@ export default function LedgerBooks({
 														e.stopPropagation();
 														onDelete(book, e);
 													}}
-													className='p-1.5 text-slate-300 hover:text-rose-400 rounded-lg transition-colors opacity-0 group-hover:opacity-100'
+													className='p-1.5 text-white/30 hover:text-red-400 rounded-lg transition-colors opacity-0 group-hover:opacity-100'
 												>
 													<Trash2 size={14} />
 												</button>
 											</div>
 										</div>
 										{book.description && (
-											<p className='text-sm text-slate-400 dark:text-slate-500 mb-3 line-clamp-2'>
+											<p className='text-sm text-white/40 mb-3 line-clamp-2'>
 												{book.description}
 											</p>
 										)}
 										<div className='flex items-center justify-between mt-3'>
-											<span className='text-xs text-slate-400 dark:text-slate-500'>
+											<span className='text-xs text-white/40'>
 												{new Date(
 													book.created_at,
 												).toLocaleDateString('en-IN', {
@@ -113,7 +119,7 @@ export default function LedgerBooks({
 											</span>
 											<ChevronRight
 												size={16}
-												className='text-slate-400'
+												className='text-white/40'
 											/>
 										</div>
 									</div>

@@ -1,4 +1,5 @@
 import { useState, useMemo, useRef, useEffect } from 'react';
+import { useSearchParams } from 'next/navigation';
 import { format } from 'date-fns';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
@@ -35,6 +36,11 @@ export default function TransactionsTable({
 	const [filterType, setFilterType] = useState<'all' | 'income' | 'expense'>(
 		'all',
 	);
+	const searchParams = useSearchParams();
+	useEffect(() => {
+		const q = searchParams.get('q');
+		if (q !== null) setSearchTerm(q);
+	}, [searchParams]);
 	const [sortConfig, setSortConfig] = useState<{
 		key: string;
 		direction: 'asc' | 'desc';
@@ -205,7 +211,7 @@ export default function TransactionsTable({
 			startY: 28,
 			theme: 'striped',
 			styles: { fontSize: 9 },
-			headStyles: { fillColor: [124, 58, 237] }, // Violet 600
+			headStyles: { fillColor: [16, 16, 19] }, // Near-black brand surface
 			didParseCell: (data) => {
 				if (data.section === 'body' && data.column.index === 5) {
 					// Index 5 is the Amount column
@@ -213,7 +219,7 @@ export default function TransactionsTable({
 					if (rawVal.startsWith('+')) {
 						data.cell.styles.textColor = [16, 185, 129]; // Emerald 500
 					} else if (rawVal.startsWith('-')) {
-						data.cell.styles.textColor = [244, 63, 94]; // Rose 500
+						data.cell.styles.textColor = [239, 68, 68]; // Red 500
 					}
 					data.cell.styles.fontStyle = 'bold';
 				}
@@ -248,10 +254,10 @@ export default function TransactionsTable({
 			tableWidth: 100, // Compact boxed layout
 			margin: { left: 14 },
 			headStyles: {
-				fillColor: [124, 58, 237],
+				fillColor: [16, 16, 19],
 				textColor: [255, 255, 255],
 				fontStyle: 'bold',
-			}, // Violet matching main table
+			}, // Near-black matching main table
 			columnStyles: {
 				0: { fontStyle: 'normal', cellWidth: 55, halign: 'left' },
 				1: { fontStyle: 'bold', cellWidth: 45, halign: 'right' },
@@ -263,7 +269,7 @@ export default function TransactionsTable({
 						data.cell.styles.textColor = [16, 185, 129]; // Emerald Green
 					// Expense Row
 					if (data.row.index === 1)
-						data.cell.styles.textColor = [244, 63, 94]; // Rose Red
+						data.cell.styles.textColor = [239, 68, 68]; // Red 500
 				}
 			},
 		});
@@ -276,17 +282,17 @@ export default function TransactionsTable({
 	return (
 		<motion.div
 			layout
-			className='bg-violet-50/60 backdrop-blur-xl dark:bg-violet-900/20 border border-violet-100 dark:border-violet-800/30 rounded-3xl p-4 sm:p-6 shadow-sm mt-6 relative z-10'
+			className='card-ultra rounded-3xl p-4 sm:p-6 mt-6 relative z-10'
 		>
 			<div className='flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6'>
-				<h3 className='text-xl font-bold bg-clip-text text-transparent bg-linear-to-r from-violet-600 to-fuchsia-600 dark:from-violet-400 dark:to-fuchsia-400'>
+				<h3 className='text-xl font-semibold tracking-tight text-white'>
 					Regretify History
 				</h3>
 
 				<div className='flex flex-col sm:flex-row items-center gap-3'>
 					<div className='relative w-full sm:w-auto'>
 						<Search
-							className='absolute left-3 top-1/2 -translate-y-1/2 text-slate-400'
+							className='absolute left-3 top-1/2 -translate-y-1/2 text-white/40'
 							size={16}
 						/>
 						<input
@@ -297,14 +303,14 @@ export default function TransactionsTable({
 								setSearchTerm(e.target.value);
 								setVisibleCount(itemsPerPage);
 							}}
-							className='w-full sm:w-64 pl-9 pr-3 py-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/50 text-slate-900 dark:text-white focus:ring-2 focus:ring-violet-500 outline-none text-base md:text-sm transition-all'
+							className='w-full sm:w-64 pl-9 pr-3 py-2 rounded-xl border border-white/10 bg-white/[0.06] text-white placeholder-white/35 focus:border-white/30 focus:ring-2 focus:ring-white/10 outline-none text-base md:text-sm transition-all'
 						/>
 					</div>
 
 					<div className='relative w-full sm:w-auto flex items-center gap-1 sm:gap-2'>
 						<Filter
 							size={16}
-							className='text-slate-400 hidden sm:block'
+							className='text-white/40 hidden sm:block'
 						/>
 						<CustomSelect
 							value={filterMonth}
@@ -329,7 +335,7 @@ export default function TransactionsTable({
 
 						<button
 							onClick={exportToPDF}
-							className='w-full flex-1 sm:w-auto flex items-center justify-center gap-2 group px-2 py-1.5 sm:px-3 sm:py-2 bg-indigo-50 dark:bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 border border-indigo-200 dark:border-indigo-500/20 hover:bg-indigo-100 dark:hover:bg-indigo-500/20 rounded-xl text-sm font-semibold transition-all active:scale-95'
+							className='w-full flex-1 sm:w-auto flex items-center justify-center gap-2 group px-2 py-1.5 sm:px-3 sm:py-2 bg-white/[0.08] hover:bg-white/[0.14] text-white/80 border border-white/10 rounded-xl text-sm font-semibold transition-all active:scale-95'
 						>
 							<Download
 								size={16}
@@ -353,26 +359,26 @@ export default function TransactionsTable({
 						animate={{ opacity: 1, y: 0 }}
 						exit={{ opacity: 0, y: -5 }}
 						transition={{ duration: 0.15 }}
-						className='space-y-2 '
+						className='bg-[#1a191e] border border-white/[0.06] rounded-2xl overflow-hidden divide-y divide-white/[0.05]'
 					>
 						{currentData.length > 0 ?
 							currentData.map((item) => (
 								<div
 									key={`${item.type}-${item.id}`}
-									className='bg-white/70 dark:bg-slate-800/50 backdrop-blur-sm rounded-2xl p-3 border border-violet-100 dark:border-violet-800/30 shadow-sm'
+									className='px-4 py-3 transition-colors hover:bg-white/[0.03]'
 								>
 									{/* Row 1: dot + title + amount */}
 									<div className='flex items-center justify-between gap-2'>
 										<div className='flex items-center gap-2 flex-1 min-w-0 overflow-hidden'>
 											<span
-												className={`w-2.5 h-2.5 rounded-full shrink-0 ${item.type === 'income' ? 'bg-emerald-500' : 'bg-fuchsia-500'}`}
+												className={`w-2.5 h-2.5 rounded-full shrink-0 ${item.type === 'income' ? 'bg-emerald-500' : 'bg-red-500'}`}
 											/>
-											<span className='font-semibold text-sm text-slate-900 dark:text-white truncate min-w-0'>
+											<span className='font-semibold text-sm text-white truncate min-w-0'>
 												{item.title}
 											</span>
 										</div>
 										<span
-											className={`font-bold text-sm shrink-0 ${item.type === 'income' ? 'text-emerald-600 dark:text-emerald-400' : 'text-rose-500 dark:text-rose-400'}`}
+											className={`font-semibold text-sm shrink-0 ${item.type === 'income' ? 'text-emerald-400' : 'text-red-400'}`}
 										>
 											{item.type === 'income' ? '+' : '-'}
 											₹{item.amount.toLocaleString()}
@@ -382,16 +388,16 @@ export default function TransactionsTable({
 									{/* Row 2: badges + date + actions */}
 									<div className='mt-2 flex items-center justify-between gap-2'>
 										<div className='flex flex-wrap items-center gap-1.5 min-w-0'>
-											<span className='px-2 py-0.5 rounded-md bg-slate-100 dark:bg-slate-700/70 text-slate-600 dark:text-slate-300 text-xs font-medium'>
+											<span className='inline-flex items-center gap-1.5 bg-white/[0.06] border border-white/[0.08] rounded-lg px-2.5 py-1 text-xs text-white/50'>
 												{item.category}
 											</span>
 											{item.type === 'expense' &&
 												item.payment_type && (
-													<span className='px-2 py-0.5 rounded-md bg-slate-100 dark:bg-slate-700/70 text-slate-500 dark:text-slate-400 text-xs'>
+													<span className='inline-flex items-center gap-1.5 bg-white/[0.06] border border-white/[0.08] rounded-lg px-2.5 py-1 text-xs text-white/50'>
 														{item.payment_type}
 													</span>
 												)}
-											<span className='text-xs text-slate-400 dark:text-slate-500'>
+											<span className='text-xs text-white/35'>
 												{format(
 													new Date(item.date),
 													'MMM dd, yy',
@@ -401,7 +407,7 @@ export default function TransactionsTable({
 										<div className='flex items-center gap-1 shrink-0'>
 											<button
 												onClick={() => onEdit(item)}
-												className='p-1.5 text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400 hover:bg-indigo-50 dark:hover:bg-indigo-900/30 rounded-lg transition-colors'
+												className='p-1.5 text-white/40 hover:text-white hover:bg-white/[0.08] rounded-lg transition-colors'
 												title='Edit'
 											>
 												<Edit2 size={14} />
@@ -413,7 +419,7 @@ export default function TransactionsTable({
 														item.type as any,
 													)
 												}
-												className='p-1.5 text-slate-400 hover:text-rose-600 dark:hover:text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-900/30 rounded-lg transition-colors'
+												className='p-1.5 text-white/40 hover:text-red-400 hover:bg-red-500/10 rounded-lg transition-colors'
 												title='Delete'
 											>
 												<Trash2 size={14} />
@@ -422,7 +428,7 @@ export default function TransactionsTable({
 									</div>
 								</div>
 							))
-						:	<div className='py-12 text-center text-slate-500 dark:text-slate-400 text-sm'>
+						:	<div className='py-12 text-center text-white/50 text-sm'>
 								No transactions found. Look at you go.
 							</div>
 						}
@@ -435,8 +441,8 @@ export default function TransactionsTable({
 					className='flex items-center justify-center min-h-1'
 				>
 					{loadingMore && hasMore && (
-						<div className='flex items-center gap-2 py-3 text-sm font-medium text-slate-500 dark:text-slate-400'>
-							<div className='h-4 w-4 border-2 border-violet-500 border-t-transparent rounded-full animate-spin' />
+						<div className='flex items-center gap-2 py-3 text-sm font-medium text-white/50'>
+							<div className='h-4 w-4 border-2 border-white/60 border-t-transparent rounded-full animate-spin' />
 							Loading more regrets...
 						</div>
 					)}
@@ -448,13 +454,13 @@ export default function TransactionsTable({
 			     the sentinel briefly intersect the scroll root, cascading batches ── */}
 			<div
 				ref={desktopScrollRef}
-				className='hidden md:block overflow-x-auto overflow-y-auto max-h-112 w-full rounded-xl border border-violet-100 dark:border-violet-800/30 shadow-sm bg-white/40 dark:bg-slate-950/40'
+				className='hidden md:block overflow-x-auto overflow-y-auto max-h-112 w-full rounded-2xl border border-white/[0.06] bg-[#1a191e]'
 			>
 				<table className='w-full text-left text-sm whitespace-nowrap'>
-					<thead className='sticky top-0 z-10 bg-white dark:bg-slate-950 bg-linear-to-b from-violet-100/80 to-violet-100/80 dark:from-violet-800/40 dark:to-violet-800/40 text-slate-500 dark:text-slate-400 uppercase text-xs font-semibold'>
+					<thead className='sticky top-0 z-10 bg-[#141317] text-white/40 uppercase text-xs font-semibold'>
 						<tr>
 							<th
-								className='px-4 py-3 cursor-pointer hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors'
+								className='px-4 py-3 cursor-pointer hover:bg-white/[0.08] transition-colors'
 								onClick={() => handleSort('date')}
 							>
 								<div className='flex items-center gap-1'>
@@ -462,7 +468,7 @@ export default function TransactionsTable({
 								</div>
 							</th>
 							<th
-								className='px-4 py-3 cursor-pointer hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors'
+								className='px-4 py-3 cursor-pointer hover:bg-white/[0.08] transition-colors'
 								onClick={() => handleSort('title')}
 							>
 								<div className='flex items-center gap-1'>
@@ -473,7 +479,7 @@ export default function TransactionsTable({
 							<th className='px-4 py-3'>Excuse</th>
 							<th className='px-4 py-3'>Method</th>
 							<th
-								className='px-4 py-3 cursor-pointer hover:bg-slate-100/50 dark:hover:bg-slate-800/50 transition-colors text-right'
+								className='px-4 py-3 cursor-pointer hover:bg-white/[0.08] transition-colors text-right'
 								onClick={() => handleSort('amount')}
 							>
 								<div className='flex items-center justify-end gap-1'>
@@ -490,21 +496,21 @@ export default function TransactionsTable({
 							animate={{ opacity: 1, y: 0 }}
 							exit={{ opacity: 0, y: -5 }}
 							transition={{ duration: 0.15 }}
-							className='divide-y divide-violet-200/50 dark:divide-violet-800/30 bg-white/20 dark:bg-slate-900/20 backdrop-blur-sm'
+							className='divide-y divide-white/[0.05]'
 						>
 							{currentData.length > 0 ?
 								currentData.map((item) => (
 									<tr
 										key={`${item.type}-${item.id}`}
-										className='hover:bg-white/60 dark:hover:bg-slate-800/40 transition-colors group'
+										className='hover:bg-white/[0.03] transition-colors group'
 									>
-										<td className='px-4 py-3 text-slate-500 dark:text-slate-400'>
+										<td className='px-4 py-3 text-white/50'>
 											{format(
 												new Date(item.date),
 												'MMM dd, yyyy h:mm a',
 											)}
 										</td>
-										<td className='px-4 py-3 font-medium text-slate-900 dark:text-slate-200'>
+										<td className='px-4 py-3 font-semibold text-white'>
 											<div className='flex items-center gap-2'>
 												<span
 													className={`w-2 h-2 rounded-full ${item.type === 'income' ? 'bg-emerald-500' : 'bg-red-500'}`}
@@ -513,15 +519,15 @@ export default function TransactionsTable({
 											</div>
 										</td>
 										<td className='px-4 py-3'>
-											<span className='inline-flex items-center px-2.5 py-1 rounded-md text-xs font-medium bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-300'>
+											<span className='inline-flex items-center gap-1.5 bg-white/[0.06] border border-white/[0.08] rounded-lg px-2.5 py-1 text-xs text-white/50'>
 												{item.category}
 											</span>
 										</td>
-										<td className='px-4 py-3 text-slate-500 dark:text-slate-400 font-medium capitalize'>
+										<td className='px-4 py-3 text-white/50 font-medium capitalize'>
 											{item.payment_type}
 										</td>
 										<td
-											className={`px-4 py-3 text-center font-medium text-base w-32 ${item.type === 'income' ? 'text-emerald-600 dark:text-emerald-400' : 'text-rose-500 dark:text-rose-400'}`}
+											className={`px-4 py-3 text-center font-medium text-base w-32 ${item.type === 'income' ? 'text-emerald-400' : 'text-red-400'}`}
 										>
 											{item.type === 'income' ? '+' : '-'}
 											₹{item.amount.toLocaleString()}
@@ -530,7 +536,7 @@ export default function TransactionsTable({
 											<div className='flex items-center justify-end gap-1'>
 												<button
 													onClick={() => onEdit(item)}
-													className='p-1.5 text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400 hover:bg-indigo-50 dark:hover:bg-indigo-900/30 rounded-lg transition-colors'
+													className='p-1.5 text-white/40 hover:text-white hover:bg-white/[0.08] rounded-lg transition-colors'
 													title='Edit entry'
 												>
 													<Edit2 size={16} />
@@ -542,7 +548,7 @@ export default function TransactionsTable({
 															item.type as any,
 														)
 													}
-													className='p-1.5 text-slate-400 hover:text-rose-600 dark:hover:text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-900/30 rounded-lg transition-colors'
+													className='p-1.5 text-white/40 hover:text-red-400 hover:bg-red-500/10 rounded-lg transition-colors'
 													title='Delete entry'
 												>
 													<Trash2 size={16} />
@@ -554,7 +560,7 @@ export default function TransactionsTable({
 							:	<tr>
 									<td
 										colSpan={6}
-										className='px-4 py-12 text-center text-slate-500 dark:text-slate-400 bg-transparent'
+										className='px-4 py-12 text-center text-white/50 bg-transparent'
 									>
 										No transactions found. Look at you go.
 									</td>
@@ -570,8 +576,8 @@ export default function TransactionsTable({
 					className='flex items-center justify-center min-h-1'
 				>
 					{loadingMore && hasMore && (
-						<div className='flex items-center gap-2 py-3 text-sm font-medium text-slate-500 dark:text-slate-400'>
-							<div className='h-4 w-4 border-2 border-violet-500 border-t-transparent rounded-full animate-spin' />
+						<div className='flex items-center gap-2 py-3 text-sm font-medium text-white/50'>
+							<div className='h-4 w-4 border-2 border-white/60 border-t-transparent rounded-full animate-spin' />
 							Loading more regrets...
 						</div>
 					)}
@@ -582,13 +588,13 @@ export default function TransactionsTable({
 				layout
 				className='flex items-center justify-center mt-4'
 			>
-				<p className='text-sm font-medium text-slate-500 dark:text-slate-400'>
+				<p className='text-sm font-medium text-white/50'>
 					Showing{' '}
-					<span className='font-semibold text-slate-900 dark:text-slate-200'>
+					<span className='font-semibold text-white'>
 						{currentData.length}
 					</span>{' '}
 					of{' '}
-					<span className='font-semibold text-slate-900 dark:text-slate-200'>
+					<span className='font-semibold text-white'>
 						{processedData.length}
 					</span>{' '}
 					results

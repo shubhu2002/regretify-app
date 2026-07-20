@@ -250,30 +250,30 @@ export default function Ledger() {
 								<div className='flex items-center gap-2'>
 									<BookOpen
 										size={20}
-										className='text-violet-500'
+										className='text-white/80'
 									/>
-									<h1 className='text-3xl font-bold bg-clip-text text-transparent bg-linear-to-r from-violet-600 to-fuchsia-600 dark:from-violet-400 dark:to-fuchsia-400'>
+									<h1 className='text-3xl font-semibold tracking-tight text-gradient'>
 										{selectedBook.name}
 									</h1>
 								</div>
 								{selectedBook.description && (
-									<p className='text-slate-500 dark:text-slate-400 mt-1'>
+									<p className='text-white/50 mt-1'>
 										{selectedBook.description}
 									</p>
 								)}
 							</div>
 						</div>
 						<div className='flex items-center gap-3'>
-							<Button
+							<button
 								onClick={() => {
 									setEditAccount(null);
 									setAccountModalOpen(true);
 								}}
-								variant="gradient"
+								className='cursor-pointer bg-[#9294e5] hover:bg-[#a3a5ec] text-black shadow-[0_2px_24px_rgba(146,148,229,0.35)] px-4 py-2.5 rounded-xl font-semibold flex items-center gap-2 transition-colors'
 							>
 								<Plus size={18} />
 								<span>Add Account</span>
-							</Button>
+							</button>
 						</div>
 					</header>
 
@@ -281,91 +281,97 @@ export default function Ledger() {
 						<motion.div
 							initial={{ opacity: 0, y: 20 }}
 							animate={{ opacity: 1, y: 0 }}
-							className='bg-violet-50/60 backdrop-blur-xl dark:bg-violet-900/20 border border-violet-100 dark:border-violet-800/30 rounded-3xl p-12 shadow-sm text-center'
+							className='card-ultra rounded-3xl p-12 text-center'
 						>
-							<Users
-								className='mx-auto text-slate-300 dark:text-slate-600 mb-4'
-								size={48}
-							/>
-							<p className='text-slate-500 dark:text-slate-400 text-lg font-medium'>
+							<div className='w-16 h-16 mx-auto mb-4 rounded-2xl bg-[#d39dbd]/15 text-[#e7c1d8] flex items-center justify-center'>
+								<Users size={28} />
+							</div>
+							<p className='text-white/50 text-lg font-medium'>
 								No accounts yet
 							</p>
-							<p className='text-slate-400 dark:text-slate-500 text-sm mt-1'>
+							<p className='text-white/40 text-sm mt-1'>
 								Add an account to start tracking
 							</p>
 						</motion.div>
 					:	<div className='grid grid-cols-1 lg:grid-cols-3 gap-6 relative z-10'>
 							{/* Accounts Panel */}
-							<div className='lg:col-span-1 bg-violet-50/60 backdrop-blur-xl dark:bg-violet-900/20 border border-violet-100 dark:border-violet-800/30 rounded-3xl p-4 sm:p-5 shadow-sm h-[42vh] sm:h-[70vh] flex flex-col'>
-								<h3 className='text-sm font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wide mb-4 px-1 shrink-0'>
+							<div className='lg:col-span-1 card-ultra rounded-3xl p-4 sm:p-5 h-[42vh] sm:h-[70vh] flex flex-col'>
+								<h3 className='text-sm font-semibold text-white/50 uppercase tracking-wide mb-4 px-1 shrink-0'>
 									Accounts ({accounts.length})
 								</h3>
-								<div className='space-y-2 overflow-y-auto flex-1 pr-1'>
-									{accounts.map((account) => {
-										const isSelected =
-											selectedAccount?.id === account.id;
-										return (
-											<motion.div
-												key={account.id}
-												whileTap={{ scale: 0.98 }}
-												onClick={() =>
-													setSelectedAccount(account)
-												}
-												className={`p-3.5 rounded-2xl border cursor-pointer transition-all group relative overflow-hidden ${
-													isSelected ?
-														'bg-white dark:bg-slate-800/80 border-violet-300 dark:border-violet-700 shadow-md shadow-violet-500/10'
-													:	'bg-white/70 dark:bg-slate-900/50 border-violet-100 dark:border-violet-800/30 hover:bg-white dark:hover:bg-slate-800/60 hover:shadow-sm'
-												}`}
-											>
-												<div className='absolute -inset-2 bg-linear-to-r from-transparent via-white/40 to-transparent dark:via-white/5 skew-x-12 translate-x-[-150%] group-hover:translate-x-[150%] transition-transform duration-700 pointer-events-none' />
-												<div className='flex items-center gap-3 relative z-10'>
-													<img
-														src={`https://api.dicebear.com/9.x/bottts/svg?seed=${encodeURIComponent(account.name)}`}
-														alt={account.name}
-														className='w-9 h-9 rounded-xl bg-violet-100 dark:bg-violet-800/30 shrink-0'
-													/>
-													<div className='flex-1 min-w-0'>
-														<p className='font-semibold text-slate-900 dark:text-white truncate text-sm'>
-															{account.name}
-														</p>
-														{account.contact_number && (
-															<p className='text-[11px] text-slate-400 dark:text-slate-500 flex items-center gap-1 mt-0.5'>
-																<Phone
-																	size={9}
-																/>
-																{
-																	account.contact_number
-																}
+								<div className='overflow-y-auto flex-1 pr-1'>
+									<div className='bg-[#1a191e] border border-white/[0.06] rounded-2xl overflow-hidden divide-y divide-white/[0.05]'>
+										{accounts.map((account) => {
+											const isSelected =
+												selectedAccount?.id ===
+												account.id;
+											return (
+												<motion.div
+													key={account.id}
+													whileTap={{ scale: 0.98 }}
+													onClick={() =>
+														setSelectedAccount(
+															account,
+														)
+													}
+													className={`px-4 py-3 cursor-pointer transition-colors ${
+														isSelected ?
+															'bg-white/[0.06] text-white'
+														:	'hover:bg-white/[0.03]'
+													}`}
+												>
+													<div className='flex items-center gap-3'>
+														<img
+															src={`https://api.dicebear.com/9.x/bottts/svg?seed=${encodeURIComponent(account.name)}`}
+															alt={account.name}
+															className='w-9 h-9 rounded-xl bg-white/10 shrink-0'
+														/>
+														<div className='flex-1 min-w-0'>
+															<p className='font-medium text-white/90 truncate text-sm'>
+																{account.name}
 															</p>
-														)}
-													</div>
-													<p
-														className={`text-sm font-bold ${
-															(
+															{account.contact_number && (
+																<p className='text-[11px] text-white/40 flex items-center gap-1 mt-0.5'>
+																	<Phone
+																		size={9}
+																	/>
+																	{
+																		account.contact_number
+																	}
+																</p>
+															)}
+														</div>
+														<p
+															className={`text-sm font-semibold ${
+																(
+																	account.balance >=
+																	0
+																) ?
+																	'text-emerald-400'
+																:	'text-red-400'
+															}`}
+														>
+															{(
 																account.balance >=
 																0
 															) ?
-																'text-emerald-600 dark:text-emerald-400'
-															:	'text-rose-600 dark:text-rose-400'
-														}`}
-													>
-														{account.balance >= 0 ?
-															'+'
-														:	'-'}
-														₹
-														{Math.abs(
-															account.balance,
-														).toLocaleString()}
-													</p>
-												</div>
-											</motion.div>
-										);
-									})}
+																'+'
+															:	'-'}
+															₹
+															{Math.abs(
+																account.balance,
+															).toLocaleString()}
+														</p>
+													</div>
+												</motion.div>
+											);
+										})}
+									</div>
 								</div>
 							</div>
 
 							{/* Entries Panel */}
-							<div className='lg:col-span-2 bg-fuchsia-50/60 backdrop-blur-xl dark:bg-fuchsia-900/10 border border-fuchsia-100 dark:border-fuchsia-800/20 rounded-3xl p-4 sm:p-6 shadow-sm h-[70vh] flex flex-col'>
+							<div className='lg:col-span-2 card-aurora rounded-3xl p-4 sm:p-6 h-[70vh] flex flex-col'>
 								{selectedAccount ?
 									<div className='flex flex-col h-full'>
 										{/* Account header */}
@@ -375,21 +381,21 @@ export default function Ledger() {
 													onClick={() =>
 														setSelectedAccount(null)
 													}
-													className='lg:hidden p-2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl transition-colors'
+													className='lg:hidden p-2 text-white/50 hover:text-white bg-white/[0.08] hover:bg-white/[0.14] border border-white/10 rounded-xl transition-colors'
 												>
 													<ChevronLeft size={18} />
 												</button>
 												<img
 													src={`https://api.dicebear.com/9.x/bottts/svg?seed=${encodeURIComponent(selectedAccount.name)}`}
 													alt={selectedAccount.name}
-													className='w-10 h-10 rounded-xl bg-violet-100 dark:bg-violet-800/30 shrink-0'
+													className='w-10 h-10 rounded-xl bg-white/10 shrink-0'
 												/>
 												<div>
-													<h2 className='text-lg font-bold text-slate-900 dark:text-white'>
+													<h2 className='text-lg font-semibold text-white'>
 														{selectedAccount.name}
 													</h2>
 													{selectedAccount.contact_number && (
-														<p className='text-xs text-slate-400 flex items-center gap-1'>
+														<p className='text-xs text-white/40 flex items-center gap-1'>
 															<Phone size={10} />
 															{
 																selectedAccount.contact_number
@@ -404,7 +410,7 @@ export default function Ledger() {
 														setEditEntry(null);
 														setEntryModalOpen(true);
 													}}
-													className='bg-violet-600 hover:bg-violet-700 text-white shadow-md shadow-violet-600/20 px-3 py-2 rounded-xl text-sm font-semibold flex items-center gap-1.5 transition-all'
+													className='cursor-pointer bg-[#9294e5] hover:bg-[#a3a5ec] text-black shadow-[0_2px_24px_rgba(146,148,229,0.35)] px-3 py-2 rounded-xl text-sm font-semibold flex items-center gap-1.5 transition-colors'
 												>
 													<Plus
 														size={14}
@@ -424,7 +430,7 @@ export default function Ledger() {
 															true,
 														);
 													}}
-													className='p-2 text-slate-400 hover:text-violet-500 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl hover:bg-violet-50 dark:hover:bg-violet-900/20 transition-colors'
+													className='p-2 text-white/50 hover:text-white bg-white/[0.08] border border-white/10 rounded-xl hover:bg-white/[0.14] transition-colors'
 												>
 													<Pencil size={16} />
 												</button>
@@ -436,7 +442,7 @@ export default function Ledger() {
 															type: 'account',
 														})
 													}
-													className='p-2 text-rose-400 hover:text-rose-500 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl hover:bg-rose-50 dark:hover:bg-rose-900/20 transition-colors'
+													className='p-2 text-red-400 hover:text-red-300 bg-white/[0.08] border border-white/10 rounded-xl hover:bg-red-500/10 transition-colors'
 												>
 													<Trash2 size={16} />
 												</button>
@@ -444,14 +450,14 @@ export default function Ledger() {
 										</div>
 
 										{/* Balance Card */}
-										<div className='mb-5 p-4 rounded-2xl bg-white/70 dark:bg-slate-900/50 border border-fuchsia-100 dark:border-fuchsia-800/30 shrink-0'>
+										<div className='mb-5 p-4 card-ultra rounded-2xl shrink-0'>
 											<div className='flex items-center justify-between'>
 												<div>
-													<p className='text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wide'>
+													<p className='text-xs font-semibold text-white/50 uppercase tracking-wide'>
 														Balance
 													</p>
 													<p
-														className={`text-2xl font-bold mt-1 ${balance >= 0 ? 'text-emerald-600 dark:text-emerald-400' : 'text-rose-600 dark:text-rose-400'}`}
+														className={`text-2xl font-semibold mt-1 ${balance >= 0 ? 'text-emerald-400' : 'text-red-400'}`}
 													>
 														{balance >= 0 ?
 															'+'
@@ -462,7 +468,7 @@ export default function Ledger() {
 														).toLocaleString()}
 													</p>
 												</div>
-												<p className='text-xs text-slate-400 dark:text-slate-500 text-right max-w-37.5'>
+												<p className='text-xs text-white/40 text-right max-w-37.5'>
 													{balance > 0 ?
 														`${selectedAccount.name} owes you`
 													: balance < 0 ?
@@ -478,10 +484,10 @@ export default function Ledger() {
 												<EntriesSkeletonLoading />
 											: entries.length === 0 ?
 												<div className='text-center py-16'>
-													<p className='text-slate-400 dark:text-slate-500 font-medium'>
+													<p className='text-white/40 font-medium'>
 														No entries yet
 													</p>
-													<p className='text-slate-300 dark:text-slate-600 text-sm mt-1'>
+													<p className='text-white/30 text-sm mt-1'>
 														Add an entry to get
 														started
 													</p>
@@ -490,10 +496,10 @@ export default function Ledger() {
 													{/* Desktop Table */}
 													<div
 														ref={desktopScrollRef}
-														className='hidden md:block overflow-x-auto overflow-y-auto flex-1 min-h-0 rounded-xl border border-fuchsia-100 dark:border-fuchsia-800/30 bg-white/40 dark:bg-slate-950/40'
+														className='hidden md:block overflow-x-auto overflow-y-auto flex-1 min-h-0 rounded-2xl border border-white/[0.06] bg-[#1a191e]'
 													>
 														<table className='w-full text-sm text-left table-auto'>
-															<thead className='bg-fuchsia-100/50 dark:bg-fuchsia-800/20 border-b border-fuchsia-100 dark:border-fuchsia-800/30 text-slate-500 dark:text-slate-400 uppercase text-xs font-bold'>
+															<thead className='bg-[#141317] border-b border-white/[0.05] text-white/40 uppercase text-xs font-semibold'>
 																<tr>
 																	<th className='px-5 py-3.5'>
 																		Type
@@ -513,14 +519,14 @@ export default function Ledger() {
 																	</th>
 																</tr>
 															</thead>
-															<tbody className='divide-y divide-fuchsia-200/50 dark:divide-fuchsia-800/30 bg-white/20 dark:bg-slate-900/20'>
+															<tbody className='divide-y divide-white/[0.05]'>
 																{entries.map(
 																	(entry) => (
 																		<tr
 																			key={
 																				entry.id
 																			}
-																			className='hover:bg-white/60 dark:hover:bg-slate-800/40 transition-colors group/row'
+																			className='hover:bg-white/[0.03] transition-colors group/row'
 																		>
 																			<td className='px-5 py-3.5'>
 																				<div
@@ -529,8 +535,8 @@ export default function Ledger() {
 																							entry.type ===
 																							'give'
 																						) ?
-																							'bg-rose-50 dark:bg-rose-900/20 text-rose-600 dark:text-rose-400'
-																						:	'bg-emerald-50 dark:bg-emerald-900/20 text-emerald-600 dark:text-emerald-400'
+																							'bg-red-500/10 text-red-400'
+																						:	'bg-emerald-500/10 text-emerald-400'
 																					}`}
 																				>
 																					{(
@@ -563,11 +569,11 @@ export default function Ledger() {
 																					}
 																				</div>
 																			</td>
-																			<td className='px-5 py-3.5 font-medium text-slate-800 dark:text-slate-200'>
+																			<td className='px-5 py-3.5 font-medium text-white/80'>
 																				{entry.description ||
 																					'-'}
 																			</td>
-																			<td className='px-5 py-3.5 text-slate-500 dark:text-slate-400 tabular-nums whitespace-nowrap'>
+																			<td className='px-5 py-3.5 text-white/50 tabular-nums whitespace-nowrap'>
 																				<div>
 																					{new Date(
 																						entry.date,
@@ -580,7 +586,7 @@ export default function Ledger() {
 																						},
 																					)}
 																				</div>
-																				<div className='text-[11px] text-slate-400 dark:text-slate-500'>
+																				<div className='text-[11px] text-white/40'>
 																					{new Date(
 																						entry.date,
 																					).toLocaleTimeString(
@@ -594,13 +600,13 @@ export default function Ledger() {
 																				</div>
 																			</td>
 																			<td
-																				className={`px-5 py-3.5 text-right font-bold tabular-nums whitespace-nowrap ${
+																				className={`px-5 py-3.5 text-right font-semibold tabular-nums whitespace-nowrap ${
 																					(
 																						entry.type ===
 																						'give'
 																					) ?
-																						'text-rose-600 dark:text-rose-400'
-																					:	'text-emerald-600 dark:text-emerald-400'
+																						'text-red-400'
+																					:	'text-emerald-400'
 																				}`}
 																			>
 																				{(
@@ -610,7 +616,6 @@ export default function Ledger() {
 																					'-'
 																				:	'+'
 																				}
-
 																				₹
 																				{Number(
 																					entry.amount,
@@ -629,7 +634,7 @@ export default function Ledger() {
 																								entry.starred
 																							) ?
 																								'text-amber-400'
-																							:	'text-slate-300 hover:text-amber-400'
+																							:	'text-white/30 hover:text-amber-400'
 																						}`}
 																					>
 																						<Star
@@ -651,7 +656,7 @@ export default function Ledger() {
 																								entry,
 																							)
 																						}
-																						className='p-1.5 text-slate-300 hover:text-violet-500 rounded-lg transition-colors'
+																						className='p-1.5 text-white/30 hover:text-white rounded-lg transition-colors'
 																					>
 																						<Pencil
 																							size={
@@ -669,7 +674,7 @@ export default function Ledger() {
 																								},
 																							)
 																						}
-																						className='p-1.5 text-slate-300 hover:text-rose-400 rounded-lg transition-colors'
+																						className='p-1.5 text-white/30 hover:text-red-400 rounded-lg transition-colors'
 																					>
 																						<Trash2
 																							size={
@@ -691,8 +696,8 @@ export default function Ledger() {
 															className='hidden md:flex justify-center py-4'
 														>
 															{isFetchingNextPage && (
-																<div className='flex items-center gap-2 text-sm text-slate-500'>
-																	<div className='h-4 w-4 border-2 border-violet-500 border-t-transparent rounded-full animate-spin' />
+																<div className='flex items-center gap-2 text-sm text-white/50'>
+																	<div className='h-4 w-4 border-2 border-white/40 border-t-transparent rounded-full animate-spin' />
 																	Loading
 																	more...
 																</div>
@@ -703,13 +708,13 @@ export default function Ledger() {
 													{/* Mobile Cards */}
 													<div
 														ref={mobileScrollRef}
-														className='md:hidden space-y-2 overflow-y-auto flex-1 min-h-0 '
+														className='md:hidden overflow-y-auto flex-1 min-h-0'
 													>
 														<div
 															ref={
 																mobileSentinelRef
 															}
-															className='flex space-y-2 flex-col justify-center py-4'
+															className='bg-[#1a191e] border border-white/[0.06] rounded-2xl overflow-hidden divide-y divide-white/[0.05]'
 														>
 															{entries.map(
 																(entry) => (
@@ -725,7 +730,7 @@ export default function Ledger() {
 																			opacity: 1,
 																			y: 0,
 																		}}
-																		className='p-4 rounded-2xl bg-white/70 dark:bg-slate-800/50 border border-fuchsia-100 dark:border-fuchsia-800/30 shadow-sm'
+																		className='px-4 py-3 transition-colors hover:bg-white/[0.03]'
 																	>
 																		<div className='flex items-center justify-between mb-2'>
 																			<div
@@ -734,8 +739,8 @@ export default function Ledger() {
 																						entry.type ===
 																						'give'
 																					) ?
-																						'bg-rose-50 dark:bg-rose-900/20 text-rose-600 dark:text-rose-400'
-																					:	'bg-emerald-50 dark:bg-emerald-900/20 text-emerald-600 dark:text-emerald-400'
+																						'bg-red-500/10 text-red-400'
+																					:	'bg-emerald-500/10 text-emerald-400'
 																				}`}
 																			>
 																				{(
@@ -768,13 +773,13 @@ export default function Ledger() {
 																				}
 																			</div>
 																			<span
-																				className={`font-bold text-sm tabular-nums ${
+																				className={`font-semibold text-sm tabular-nums ${
 																					(
 																						entry.type ===
 																						'give'
 																					) ?
-																						'text-rose-600 dark:text-rose-400'
-																					:	'text-emerald-600 dark:text-emerald-400'
+																						'text-red-400'
+																					:	'text-emerald-400'
 																				}`}
 																			>
 																				{(
@@ -784,7 +789,6 @@ export default function Ledger() {
 																					'-'
 																				:	'+'
 																				}
-
 																				₹
 																				{Number(
 																					entry.amount,
@@ -793,11 +797,11 @@ export default function Ledger() {
 																		</div>
 																		<div className='flex items-center justify-between'>
 																			<div>
-																				<p className='font-medium text-slate-800 dark:text-slate-200 text-sm'>
+																				<p className='font-medium text-white/80 text-sm'>
 																					{entry.description ||
 																						'-'}
 																				</p>
-																				<p className='text-[11px] text-slate-400 dark:text-slate-500 mt-0.5'>
+																				<p className='text-[11px] text-white/40 mt-0.5'>
 																					{new Date(
 																						entry.date,
 																					).toLocaleDateString(
@@ -832,7 +836,7 @@ export default function Ledger() {
 																							entry.starred
 																						) ?
 																							'text-amber-400'
-																						:	'text-slate-300 hover:text-amber-400'
+																						:	'text-white/30 hover:text-amber-400'
 																					}`}
 																				>
 																					<Star
@@ -854,7 +858,7 @@ export default function Ledger() {
 																							entry,
 																						)
 																					}
-																					className='p-1.5 text-slate-300 hover:text-violet-500 rounded-lg transition-colors'
+																					className='p-1.5 text-white/30 hover:text-white rounded-lg transition-colors'
 																				>
 																					<Pencil
 																						size={
@@ -872,7 +876,7 @@ export default function Ledger() {
 																							},
 																						)
 																					}
-																					className='p-1.5 text-slate-300 hover:text-rose-400 rounded-lg transition-colors'
+																					className='p-1.5 text-white/30 hover:text-red-400 rounded-lg transition-colors'
 																				>
 																					<Trash2
 																						size={
@@ -894,8 +898,8 @@ export default function Ledger() {
 												className='flex md:hidden justify-center py-4'
 											>
 												{isFetchingNextPage && (
-													<div className='flex items-center gap-2 text-sm text-slate-500'>
-														<div className='h-4 w-4 border-2 border-violet-500 border-t-transparent rounded-full animate-spin' />
+													<div className='flex items-center gap-2 text-sm text-white/50'>
+														<div className='h-4 w-4 border-2 border-white/40 border-t-transparent rounded-full animate-spin' />
 														Loading more...
 													</div>
 												)}
@@ -904,7 +908,7 @@ export default function Ledger() {
 
 										{/* Pagination */}
 									</div>
-								:	<div className='flex items-center justify-center h-full min-h-100 text-slate-400 dark:text-slate-500'>
+								:	<div className='flex items-center justify-center h-full min-h-100 text-white/40'>
 										<div className='text-center'>
 											<motion.div
 												className='relative w-32 h-32 mx-auto mb-6'
@@ -917,10 +921,10 @@ export default function Ledger() {
 											>
 												<NotesDoddle />
 											</motion.div>
-											<p className='font-semibold text-slate-500 dark:text-slate-400 text-base'>
+											<p className='font-semibold text-white/50 text-base'>
 												Pick someone from the left
 											</p>
-											<p className='text-sm text-slate-400 dark:text-slate-500 mt-1'>
+											<p className='text-sm text-white/40 mt-1'>
 												Their entries will show up right
 												here
 											</p>

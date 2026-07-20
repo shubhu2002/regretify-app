@@ -126,7 +126,7 @@ export default function Notes() {
 		shouldRerenderOnTransaction: true,
 		editorProps: {
 			attributes: {
-				class: 'note-editor flex-1 px-4 sm:px-6 pt-1.5 pb-10 text-[15px] sm:text-base leading-relaxed text-slate-700 dark:text-slate-300',
+				class: 'note-editor flex-1 px-4 sm:px-6 pt-1.5 pb-10 text-[15px] sm:text-base leading-relaxed text-white/80',
 			},
 		},
 		onUpdate: ({ editor }) => {
@@ -310,33 +310,25 @@ export default function Notes() {
 			<motion.button
 				whileTap={{ scale: 0.98 }}
 				onClick={() => selectNote(note)}
-				className={`w-full text-left p-3 rounded-2xl border shadow-sm transition-all cursor-pointer group ${
-					isSelected
-						? 'bg-violet-100/80 dark:bg-violet-900/40 border-violet-200 dark:border-violet-700/50'
-						: 'bg-white/60 dark:bg-slate-900/40 border-violet-100 dark:border-violet-800/30 hover:bg-white dark:hover:bg-slate-800/60'
+				className={`w-full text-left px-4 py-3 transition-colors cursor-pointer group ${
+					isSelected ? 'bg-white/[0.06]' : 'hover:bg-white/[0.03]'
 				}`}
 			>
 				<div className='flex items-center justify-between gap-2'>
-					<h3
-						className={`font-semibold text-sm truncate ${
-							isSelected
-								? 'text-violet-900 dark:text-violet-100'
-								: 'text-slate-900 dark:text-white'
-						}`}
-					>
+					<h3 className='text-white font-semibold text-sm truncate'>
 						{title}
 					</h3>
 					{note.pinned && (
 						<Pin
 							size={12}
-							className='shrink-0 fill-violet-500 text-violet-500'
+							className='shrink-0 fill-amber-400 text-amber-400'
 						/>
 					)}
 				</div>
-				<p className='text-xs text-slate-400 dark:text-slate-500 line-clamp-2 mt-0.5 whitespace-pre-line'>
+				<p className='text-xs text-white/40 line-clamp-2 mt-0.5 whitespace-pre-line'>
 					{preview || 'No additional text'}
 				</p>
-				<p className='text-[11px] text-slate-400 dark:text-slate-500 mt-1.5'>
+				<p className='text-xs text-white/35 mt-1.5'>
 					{new Date(note.updated_at).toLocaleDateString('en-IN', {
 						day: 'numeric',
 						month: 'short',
@@ -348,7 +340,7 @@ export default function Notes() {
 	};
 
 	const sectionLabelCls =
-		'px-3 pt-3 pb-1 text-[11px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500 flex items-center gap-1';
+		'px-3 pt-3 pb-1 text-[11px] font-semibold uppercase tracking-wider text-white/40 flex items-center gap-1';
 
 	const formatButtons = [
 		{
@@ -377,17 +369,17 @@ export default function Notes() {
 				<div className='relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 pb-24 md:pb-8'>
 					<header className='flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6'>
 						<div>
-							<h1 className='text-3xl font-bold bg-clip-text text-transparent bg-linear-to-r from-violet-600 to-fuchsia-600 dark:from-violet-400 dark:to-fuchsia-400'>
+							<h1 className='text-3xl font-semibold tracking-tight text-white text-gradient'>
 								Notes
 							</h1>
-							<p className='text-slate-500 dark:text-slate-400 mt-1'>
+							<p className='text-white/50 mt-1'>
 								Capture thoughts, ideas & reminders
 							</p>
 						</div>
 						<button
 							onClick={createNote}
 							disabled={creating}
-							className='w-fit bg-violet-600 hover:bg-violet-700 text-white shadow-md shadow-violet-600/20 px-4 py-2.5 rounded-xl font-medium flex items-center gap-2 transition-all cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed'
+							className='w-fit bg-[#9294e5] hover:bg-[#a3a5ec] text-black shadow-[0_2px_24px_rgba(146,148,229,0.35)] px-4 py-2.5 rounded-xl font-semibold flex items-center gap-2 transition-colors cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed'
 						>
 							<Plus size={18} />
 							<span>New Note</span>
@@ -395,24 +387,24 @@ export default function Notes() {
 					</header>
 
 					{/* Apple Notes style split panel */}
-					<div className='bg-violet-50/60 backdrop-blur-xl dark:bg-violet-900/20 border border-violet-100 dark:border-violet-800/30 rounded-3xl shadow-sm overflow-hidden flex h-[calc(100dvh-330px)] md:h-[calc(100dvh-250px)] min-h-105'>
+					<div className='card-ultra rounded-3xl overflow-hidden flex h-[calc(100dvh-330px)] md:h-[calc(100dvh-250px)] min-h-105'>
 						{/* Sidebar — note list */}
 						<div
 							className={`${
 								selectedId !== null ? 'hidden md:flex' : 'flex'
-							} w-full md:w-72 lg:w-80 shrink-0 md:border-r border-violet-100 dark:border-violet-800/30 flex-col`}
+							} w-full md:w-72 lg:w-80 shrink-0 md:border-r border-white/10 flex-col`}
 						>
 							<div className='p-3 pb-2'>
 								<div className='relative'>
 									<Search
 										size={15}
-										className='absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none'
+										className='absolute left-3 top-1/2 -translate-y-1/2 text-white/40 pointer-events-none'
 									/>
 									<input
 										type='text'
 										value={search}
 										onChange={(e) => setSearch(e.target.value)}
-										className='w-full pl-9 pr-4 py-2 text-base md:text-sm bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-violet-500 focus:bg-slate-50 dark:focus:bg-slate-800 shadow-sm transition-shadow outline-none text-slate-900 dark:text-white'
+										className='w-full pl-9 pr-4 py-2 text-base md:text-sm bg-white/[0.06] border border-white/10 rounded-xl placeholder-white/35 focus:outline-none focus:ring-2 focus:ring-white/10 focus:border-white/30 transition-shadow outline-none text-white'
 										placeholder='Search notes...'
 									/>
 								</div>
@@ -424,25 +416,25 @@ export default function Notes() {
 										{allNotes.length === 0 ?
 											<>
 												<StickyNote
-													className='mx-auto text-slate-300 dark:text-slate-600 mb-3'
+													className='mx-auto text-white/20 mb-3'
 													size={36}
 												/>
-												<p className='text-slate-500 dark:text-slate-400 font-medium'>
+												<p className='text-white/50 font-medium'>
 													No notes yet
 												</p>
-												<p className='text-slate-400 dark:text-slate-500 text-sm mt-1'>
+												<p className='text-white/40 text-sm mt-1'>
 													Create a note to save your thoughts
 												</p>
 											</>
 										:	<>
 												<Search
-													className='mx-auto text-slate-300 dark:text-slate-600 mb-3'
+													className='mx-auto text-white/20 mb-3'
 													size={36}
 												/>
-												<p className='text-slate-500 dark:text-slate-400 font-medium'>
+												<p className='text-white/50 font-medium'>
 													No matching notes
 												</p>
-												<p className='text-slate-400 dark:text-slate-500 text-sm mt-1'>
+												<p className='text-white/40 text-sm mt-1'>
 													Try a different search term
 												</p>
 											</>
@@ -455,9 +447,11 @@ export default function Notes() {
 													<Pin size={11} />
 													Pinned
 												</p>
-												{pinnedNotes.map((note) => (
-													<NoteListItem key={note.id} note={note} />
-												))}
+												<div className='bg-[#1a191e] border border-white/[0.06] rounded-2xl overflow-hidden divide-y divide-white/[0.05]'>
+													{pinnedNotes.map((note) => (
+														<NoteListItem key={note.id} note={note} />
+													))}
+												</div>
 											</>
 										)}
 										{otherNotes.length > 0 && (
@@ -465,9 +459,11 @@ export default function Notes() {
 												{pinnedNotes.length > 0 && (
 													<p className={sectionLabelCls}>Notes</p>
 												)}
-												{otherNotes.map((note) => (
-													<NoteListItem key={note.id} note={note} />
-												))}
+												<div className='bg-[#1a191e] border border-white/[0.06] rounded-2xl overflow-hidden divide-y divide-white/[0.05]'>
+													{otherNotes.map((note) => (
+														<NoteListItem key={note.id} note={note} />
+													))}
+												</div>
 											</>
 										)}
 									</>
@@ -479,7 +475,7 @@ export default function Notes() {
 						<div
 							className={`${
 								selectedId !== null ? 'flex' : 'hidden md:flex'
-							} flex-1 min-w-0 flex-col bg-white/50 dark:bg-slate-900/30`}
+							} flex-1 min-w-0 flex-col bg-white/[0.02]`}
 						>
 							{selectedNote && (
 								<>
@@ -490,17 +486,17 @@ export default function Notes() {
 												flushSave();
 												setSelectedId(null);
 											}}
-											className='md:hidden p-2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl transition-colors cursor-pointer'
+											className='md:hidden p-2 text-white/50 hover:text-white hover:bg-white/[0.08] bg-white/[0.06] border border-white/10 rounded-xl transition-colors cursor-pointer'
 										>
 											<ChevronLeft size={16} />
 										</button>
 
-										<div className='hidden sm:flex items-center gap-1.5 text-[11px] text-slate-400 dark:text-slate-500 min-w-0'>
+										<div className='hidden sm:flex items-center gap-1.5 text-[11px] text-white/40 min-w-0'>
 											{saveState === 'saved' ?
 												<Cloud size={12} className='shrink-0' />
 											:	<CloudUpload
 													size={12}
-													className='shrink-0 animate-pulse text-violet-400'
+													className='shrink-0 animate-pulse text-[#b9baf1]'
 												/>
 											}
 											<span className='truncate'>
@@ -522,31 +518,31 @@ export default function Notes() {
 													key={btn.title}
 													onClick={btn.action}
 													title={btn.title}
-													className={`p-2 rounded-xl border shadow-sm transition-colors cursor-pointer ${
+													className={`p-2 rounded-lg transition-colors cursor-pointer ${
 														btn.isActive
-															? 'text-violet-500 bg-violet-50 dark:bg-violet-900/30 border-violet-200 dark:border-violet-700/50'
-															: 'text-slate-400 hover:text-violet-500 bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700'
+															? 'bg-white/10 text-white'
+															: 'text-white/50 hover:text-white hover:bg-white/[0.08]'
 													}`}
 												>
 													<btn.icon size={15} />
 												</button>
 											))}
 
-											<div className='w-px h-5 bg-slate-200 dark:bg-slate-700 mx-1' />
+											<div className='w-px h-5 bg-white/10 mx-1' />
 
 											<button
 												onClick={() => togglePin(selectedNote)}
 												title={selectedNote.pinned ? 'Unpin note' : 'Pin note'}
-												className={`p-2 rounded-xl border shadow-sm transition-colors cursor-pointer ${
+												className={`p-2 rounded-lg transition-colors cursor-pointer ${
 													selectedNote.pinned
-														? 'text-violet-500 bg-violet-50 dark:bg-violet-900/30 border-violet-200 dark:border-violet-700/50'
-														: 'text-slate-400 hover:text-violet-500 bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700'
+														? 'bg-white/10 text-white'
+														: 'text-white/50 hover:text-white hover:bg-white/[0.08]'
 												}`}
 											>
 												<Pin
 													size={15}
 													className={
-														selectedNote.pinned ? 'fill-violet-500' : ''
+														selectedNote.pinned ? 'fill-amber-400 text-amber-400' : ''
 													}
 												/>
 											</button>
@@ -558,7 +554,7 @@ export default function Notes() {
 													})
 												}
 												title='Delete note'
-												className='p-2 text-slate-400 hover:text-rose-400 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl shadow-sm transition-colors cursor-pointer'
+												className='p-2 text-white/50 hover:text-red-400 hover:bg-red-500/10 rounded-lg transition-colors cursor-pointer'
 											>
 												<Trash2 size={15} />
 											</button>
@@ -577,7 +573,7 @@ export default function Notes() {
 												editor?.commands.focus('start');
 											}
 										}}
-										className='w-full bg-transparent outline-none px-4 sm:px-6 pt-4 pb-1 text-xl sm:text-2xl font-bold text-slate-900 dark:text-white placeholder:text-slate-300 dark:placeholder:text-slate-600'
+										className='w-full bg-transparent outline-none px-4 sm:px-6 pt-4 pb-1 text-xl sm:text-2xl font-semibold tracking-tight text-white placeholder:text-white/30'
 										placeholder='Title'
 									/>
 								</>
@@ -597,15 +593,15 @@ export default function Notes() {
 							{!selectedNote && (
 								<div className='flex-1 flex flex-col items-center justify-center text-center p-8'>
 									<StickyNote
-										className='text-slate-300 dark:text-slate-600 mb-4'
+										className='text-white/20 mb-4'
 										size={48}
 									/>
-									<p className='text-slate-500 dark:text-slate-400 text-lg font-medium'>
+									<p className='text-white/50 text-lg font-medium'>
 										{allNotes.length === 0 ?
 											'No notes yet'
 										:	'Select a note'}
 									</p>
-									<p className='text-slate-400 dark:text-slate-500 text-sm mt-1'>
+									<p className='text-white/40 text-sm mt-1'>
 										{allNotes.length === 0 ?
 											'Create a note to save your thoughts'
 										:	'Choose a note from the list or create a new one'}

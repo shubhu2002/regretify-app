@@ -194,9 +194,8 @@ export default function AuthModal({
 	};
 
 	const inputCls =
-		'w-full pl-9 pr-3 py-3 text-sm bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-violet-500 focus:bg-slate-50 dark:focus:bg-slate-800 shadow-sm transition-shadow outline-none text-slate-900 dark:text-white';
-	const labelCls =
-		'block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-1.5';
+		'w-full pl-9 pr-3 py-3 text-sm bg-white/[0.06] border border-white/10 rounded-xl text-white placeholder-white/30 focus:border-white/30 focus:ring-2 focus:ring-white/10 focus:outline-none transition-shadow outline-none';
+	const labelCls = 'block text-sm font-medium text-white/70 mb-1.5';
 
 	return (
 		<AnimatePresence>
@@ -206,31 +205,31 @@ export default function AuthModal({
 						initial={{ opacity: 0 }}
 						animate={{ opacity: 1 }}
 						exit={{ opacity: 0 }}
-						className='absolute inset-0 bg-slate-900/60 backdrop-blur-sm'
+						className='absolute inset-0 bg-black/60 backdrop-blur-md'
 					/>
 					<motion.div
 						initial={{ opacity: 0, scale: 0.95, y: 20 }}
 						animate={{ opacity: 1, scale: 1, y: 0 }}
 						exit={{ opacity: 0, scale: 0.95, y: 20 }}
-						className='relative w-full max-w-md my-4 bg-violet-50/90 backdrop-blur-2xl dark:bg-violet-950/40 rounded-3xl shadow-2xl border border-violet-100 dark:border-violet-800/30 overflow-hidden'
+						className='relative w-full max-w-md my-4 bg-[#101013]/95 backdrop-blur-2xl rounded-3xl shadow-2xl shadow-black/60 border border-white/10 overflow-hidden'
 					>
 						{/* Header */}
-						<div className='p-6 text-center border-b border-violet-100/50 dark:border-violet-800/30 relative'>
+						<div className='p-6 text-center border-b border-white/10 relative'>
 							<button
 								onClick={onClose}
-								className='absolute right-4 top-4 p-2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition-colors bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 rounded-full'
+								className='absolute right-4 top-4 p-2 text-white/50 hover:text-white transition-colors bg-white/[0.08] hover:bg-white/[0.14] rounded-full'
 							>
 								<X size={18} />
 							</button>
 							<div className='flex justify-center mb-3'>
-								<div className='bg-violet-600 p-2.5 rounded-xl text-white shadow-lg shadow-violet-600/20'>
+								<div className='bg-black p-2.5 rounded-full text-white border border-white/15 shadow-[0_0_24px_rgba(255,255,255,0.15)]'>
 									<Ghost size={22} />
 								</div>
 							</div>
-							<h2 className='text-2xl font-bold bg-clip-text text-transparent bg-linear-to-r from-violet-600 to-fuchsia-600 dark:from-violet-400 dark:to-fuchsia-400 tracking-tight'>
+							<h2 className='text-2xl font-semibold text-gradient text-white tracking-tight'>
 								Regretify
 							</h2>
-							<p className='text-sm text-slate-500 mt-1'>
+							<p className='text-sm text-white/50 mt-1'>
 								{mode === 'signin' ?
 									'Welcome back to your financial miseries.'
 								:	'Create an account to track your regrets.'}
@@ -248,7 +247,7 @@ export default function AuthModal({
 												callbackUrl: '/regrets',
 											})
 										}
-										className='w-full flex items-center justify-center gap-2 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 px-4 py-2.5 rounded-xl hover:bg-slate-50 dark:hover:bg-slate-700 transition-all font-medium text-sm shadow-sm'
+										className='w-full flex items-center justify-center gap-2 bg-white/[0.06] border border-white/10 text-white/80 px-4 py-2.5 rounded-xl hover:bg-white/10 transition-all font-medium text-sm'
 									>
 										<svg
 											viewBox='0 0 24 24'
@@ -279,11 +278,11 @@ export default function AuthModal({
 									</button>
 
 									<div className='flex items-center'>
-										<div className='flex-1 border-t border-slate-200 dark:border-slate-800' />
-										<span className='px-3 text-xs text-slate-400 bg-transparent'>
+										<div className='flex-1 border-t border-white/10' />
+										<span className='px-3 text-xs text-white/40 bg-transparent'>
 											OR
 										</span>
-										<div className='flex-1 border-t border-slate-200 dark:border-slate-800' />
+										<div className='flex-1 border-t border-white/10' />
 									</div>
 
 									<form
@@ -296,7 +295,7 @@ export default function AuthModal({
 											</label>
 											<div className='relative'>
 												<Mail
-													className='absolute left-3 top-1/2 -translate-y-1/2 text-slate-400'
+													className='absolute left-3 top-1/2 -translate-y-1/2 text-white/40'
 													size={16}
 												/>
 												<input
@@ -319,7 +318,7 @@ export default function AuthModal({
 											</label>
 											<div className='relative'>
 												<Lock
-													className='absolute left-3 top-1/2 -translate-y-1/2 text-slate-400'
+													className='absolute left-3 top-1/2 -translate-y-1/2 text-white/40'
 													size={16}
 												/>
 												<input
@@ -339,7 +338,7 @@ export default function AuthModal({
 										<button
 											type='submit'
 											disabled={loading}
-											className='w-full bg-violet-600 hover:bg-violet-700 text-white py-3 rounded-xl font-semibold transition-colors disabled:opacity-70 shadow-md shadow-violet-600/20'
+											className='w-full bg-white hover:bg-white/90 text-black py-3 rounded-xl font-medium glow-white-sm transition-all disabled:opacity-70'
 										>
 											{loading ?
 												'Signing in...'
@@ -347,11 +346,11 @@ export default function AuthModal({
 										</button>
 									</form>
 
-									<p className='text-center text-sm text-slate-600 dark:text-slate-400'>
+									<p className='text-center text-sm text-white/50'>
 										Don&apos;t have an account?{' '}
 										<button
 											onClick={() => switchMode('signup')}
-											className='text-violet-600 dark:text-violet-400 font-semibold hover:underline'
+											className='text-white font-medium hover:underline'
 										>
 											Create Account
 										</button>
@@ -376,7 +375,7 @@ export default function AuthModal({
 													'https://api.dicebear.com/7.x/avataaars/svg?seed=new-user'
 												}
 												alt='avatar preview'
-												className='w-20 h-20 rounded-full object-cover border-2 border-violet-200 dark:border-violet-700 shadow'
+												className='w-20 h-20 rounded-full object-cover border-2 border-white/15 bg-white/10'
 											/>
 											<div className='absolute inset-0 bg-black/50 rounded-full flex items-center justify-center opacity-0 group-hover/av:opacity-100 transition-opacity'>
 												<Camera
@@ -385,7 +384,7 @@ export default function AuthModal({
 												/>
 											</div>
 										</div>
-										<span className='text-xs text-slate-400'>
+										<span className='text-xs text-white/40'>
 											Click to pick a profile photo
 										</span>
 										<input
@@ -404,7 +403,7 @@ export default function AuthModal({
 											</label>
 											<div className='relative'>
 												<User
-													className='absolute left-3 top-1/2 -translate-y-1/2 text-slate-400'
+													className='absolute left-3 top-1/2 -translate-y-1/2 text-white/40'
 													size={14}
 												/>
 												<input
@@ -424,7 +423,7 @@ export default function AuthModal({
 											</label>
 											<div className='relative'>
 												<Calendar
-													className='absolute left-3 top-1/2 -translate-y-1/2 text-slate-400'
+													className='absolute left-3 top-1/2 -translate-y-1/2 text-white/40'
 													size={14}
 												/>
 												<input
@@ -462,7 +461,7 @@ export default function AuthModal({
 										<label className={labelCls}>
 											Contact Number
 										</label>
-										<div className='w-full px-4 py-3 bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl shadow-sm focus-within:ring-2 focus-within:ring-violet-500 transition-shadow'>
+										<div className='w-full px-4 py-3 bg-white/[0.06] border border-white/10 rounded-xl focus-within:border-white/30 focus-within:ring-2 focus-within:ring-white/10 transition-shadow'>
 											<PhoneInput
 												international
 												defaultCountry={
@@ -476,7 +475,7 @@ export default function AuthModal({
 															val || '',
 													}))
 												}
-												className='w-full outline-none text-sm text-slate-900 dark:text-white'
+												className='w-full outline-none text-sm text-white'
 											/>
 										</div>
 									</div>
@@ -487,7 +486,7 @@ export default function AuthModal({
 										</label>
 										<div className='relative'>
 											<Mail
-												className='absolute left-3 top-1/2 -translate-y-1/2 text-slate-400'
+												className='absolute left-3 top-1/2 -translate-y-1/2 text-white/40'
 												size={14}
 											/>
 											<input
@@ -509,7 +508,7 @@ export default function AuthModal({
 											</label>
 											<div className='relative'>
 												<Lock
-													className='absolute left-3 top-1/2 -translate-y-1/2 text-slate-400'
+													className='absolute left-3 top-1/2 -translate-y-1/2 text-white/40'
 													size={14}
 												/>
 												<input
@@ -530,7 +529,7 @@ export default function AuthModal({
 											</label>
 											<div className='relative'>
 												<Lock
-													className='absolute left-3 top-1/2 -translate-y-1/2 text-slate-400'
+													className='absolute left-3 top-1/2 -translate-y-1/2 text-white/40'
 													size={14}
 												/>
 												<input
@@ -552,19 +551,19 @@ export default function AuthModal({
 									<button
 										type='submit'
 										disabled={loading}
-										className='w-full bg-violet-600 hover:bg-violet-700 text-white py-3 rounded-xl font-semibold transition-colors disabled:opacity-70 shadow-md shadow-violet-600/20 mt-1'
+										className='w-full bg-white hover:bg-white/90 text-black py-3 rounded-xl font-medium glow-white-sm transition-all disabled:opacity-70 mt-1'
 									>
 										{loading ?
 											'Creating account...'
 										:	'Create Account'}
 									</button>
 
-									<p className='text-center text-sm text-slate-600 dark:text-slate-400'>
+									<p className='text-center text-sm text-white/50'>
 										Already have an account?{' '}
 										<button
 											type='button'
 											onClick={() => switchMode('signin')}
-											className='text-violet-600 dark:text-violet-400 font-semibold hover:underline'
+											className='text-white font-medium hover:underline'
 										>
 											Sign In
 										</button>

@@ -165,9 +165,9 @@ export default function AddEntryModal({
 	};
 
 	const inputCls =
-		'w-full px-4 py-3 text-base md:text-sm bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-violet-500 focus:bg-slate-50 dark:focus:bg-slate-800 shadow-sm transition-shadow outline-none text-slate-900 dark:text-white';
+		'w-full px-4 py-3 text-base md:text-sm bg-white/[0.06] border border-white/10 rounded-xl text-white placeholder-white/30 focus:border-white/30 focus:ring-2 focus:ring-white/10 focus:outline-none transition-shadow outline-none';
 	const labelCls =
-		'block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-1.5';
+		'block text-sm font-semibold text-white/80 mb-1.5';
 
 	return (
 		<AnimatePresence>
@@ -176,26 +176,26 @@ export default function AddEntryModal({
 					initial={{ opacity: 0 }}
 					animate={{ opacity: 1 }}
 					exit={{ opacity: 0 }}
-					className='fixed inset-0 bg-slate-900/60 backdrop-blur-md transform-gpu z-100 flex items-center justify-center min-h-dvh p-4 overflow-hidden'
+					className='fixed inset-0 bg-black/60 backdrop-blur-md transform-gpu z-100 flex items-center justify-center min-h-dvh p-4 overflow-hidden'
 				>
 					<motion.div
 						initial={{ scale: 0.95, opacity: 0, y: 20 }}
 						animate={{ scale: 1, opacity: 1, y: 0 }}
 						exit={{ scale: 0.95, opacity: 0, y: 20 }}
 						onClick={(e) => e.stopPropagation()}
-						className='bg-fuchsia-50/90 backdrop-blur-2xl transform-gpu dark:bg-fuchsia-950/30 w-full max-w-md border border-fuchsia-100 dark:border-fuchsia-800/30 overflow-hidden rounded-3xl shadow-2xl'
+						className='bg-[#101013]/95 backdrop-blur-2xl transform-gpu w-full max-w-md border border-white/10 overflow-hidden rounded-3xl shadow-2xl shadow-black/60'
 					>
-						<div className='p-4 sm:p-6 border-b border-fuchsia-100 dark:border-fuchsia-800/30 flex justify-between items-center bg-violet-50/50 dark:bg-violet-900/20'>
-							<h2 className='text-xl font-bold text-slate-900 dark:text-white flex items-center gap-2'>
+						<div className='p-4 sm:p-6 border-b border-white/10 flex justify-between items-center bg-white/[0.04]'>
+							<h2 className='text-xl font-semibold text-white flex items-center gap-2'>
 								<span
-									className={`w-3 h-3 rounded-full shadow-sm ${type === 'give' ? 'bg-rose-500' : 'bg-emerald-500'}`}
+									className={`w-3 h-3 rounded-full ${type === 'give' ? 'bg-red-400' : 'bg-emerald-400'}`}
 								/>
 								{isEdit ? 'Edit' : 'Add'} Entry for{' '}
 								{account.name}
 							</h2>
 							<button
 								onClick={onClose}
-								className='cursor-pointer p-2 text-slate-400 border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700 shadow-sm rounded-full transition-colors hover:-translate-y-0.5 active:translate-y-0'
+								className='cursor-pointer p-2 text-white/50 hover:text-white border border-white/10 bg-white/[0.08] hover:bg-white/[0.14] rounded-full transition-colors hover:-translate-y-0.5 active:translate-y-0'
 							>
 								<X
 									size={18}
@@ -217,8 +217,8 @@ export default function AddEntryModal({
 										onClick={() => setType('give')}
 										className={`cursor-pointer flex items-center justify-center gap-2 py-3 rounded-xl font-semibold text-sm border transition-all ${
 											type === 'give' ?
-												'bg-rose-500 text-white border-rose-500 shadow-md shadow-rose-500/20'
-											:	'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 border-slate-200 dark:border-slate-700 hover:bg-slate-200 dark:hover:bg-slate-700'
+												'bg-red-500/10 text-red-400 border-red-500/30'
+											:	'bg-white/[0.06] text-white/50 border-white/10 hover:bg-white/10'
 										}`}
 									>
 										<ArrowUpRight
@@ -232,8 +232,8 @@ export default function AddEntryModal({
 										onClick={() => setType('take')}
 										className={`cursor-pointer flex items-center justify-center gap-2 py-3 rounded-xl font-semibold text-sm border transition-all ${
 											type === 'take' ?
-												'bg-emerald-500 text-white border-emerald-500 shadow-md shadow-emerald-500/20'
-											:	'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 border-slate-200 dark:border-slate-700 hover:bg-slate-200 dark:hover:bg-slate-700'
+												'bg-emerald-500/10 text-emerald-400 border-emerald-500/30'
+											:	'bg-white/[0.06] text-white/50 border-white/10 hover:bg-white/10'
 										}`}
 									>
 										<ArrowDownLeft
@@ -249,7 +249,7 @@ export default function AddEntryModal({
 							<div>
 								<label className={labelCls}>Amount</label>
 								<div className='relative'>
-									<span className='absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 font-bold text-lg'>
+									<span className='absolute left-4 top-1/2 -translate-y-1/2 text-white/40 font-semibold text-lg'>
 										&#8377;
 									</span>
 									<input
@@ -260,7 +260,7 @@ export default function AddEntryModal({
 										onChange={(e) =>
 											setAmount(e.target.value)
 										}
-										className='w-full pl-9 pr-4 py-3 bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-violet-500 focus:bg-slate-50 dark:focus:bg-slate-800 shadow-sm font-semibold text-base md:text-lg transition-shadow outline-none text-slate-900 dark:text-white'
+										className='w-full pl-9 pr-4 py-3 bg-white/[0.06] border border-white/10 rounded-xl text-white placeholder-white/30 focus:border-white/30 focus:ring-2 focus:ring-white/10 focus:outline-none font-semibold text-base md:text-lg transition-shadow outline-none'
 										placeholder='e.g. 120+12'
 									/>
 								</div>
@@ -282,10 +282,10 @@ export default function AddEntryModal({
 												y: -5,
 												height: 0,
 											}}
-											className='mt-2 flex items-center justify-between bg-violet-50/50 dark:bg-violet-900/20 px-4 py-2.5 rounded-xl border border-violet-100 dark:border-violet-800/30 overflow-hidden'
+											className='mt-2 flex items-center justify-between bg-white/[0.06] px-4 py-2.5 rounded-xl border border-white/10 overflow-hidden'
 										>
-											<span className='text-sm text-slate-700 dark:text-slate-200 font-semibold flex items-center gap-2'>
-												<span className='text-violet-500 dark:text-violet-400 font-bold'>
+											<span className='text-sm text-white/80 font-semibold flex items-center gap-2'>
+												<span className='text-white/50 font-semibold'>
 													=
 												</span>
 												&#8377;{' '}
@@ -298,7 +298,7 @@ export default function AddEntryModal({
 														calculatedAmount.toString(),
 													)
 												}
-												className='cursor-pointer text-xs px-3 py-1.5 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-700 shadow-sm font-medium transition-all active:scale-95'
+												className='cursor-pointer text-xs px-3 py-1.5 bg-white/[0.08] border border-white/10 text-white/80 rounded-lg hover:bg-white/[0.14] font-medium transition-all active:scale-95'
 											>
 												Use Value
 											</button>
@@ -361,10 +361,10 @@ export default function AddEntryModal({
 									}
 									type='submit'
 									disabled={loading || isDisabled}
-									className={`w-full py-3 text-white rounded-xl font-medium text-lg flex items-center justify-center gap-2 shadow-sm transition-all hover:shadow-md ${
+									className={`w-full py-3 text-white rounded-xl font-medium text-lg flex items-center justify-center gap-2 transition-all ${
 										type === 'give' ?
-											'bg-rose-600 dark:bg-rose-500 hover:bg-rose-700'
-										:	'bg-emerald-600 dark:bg-emerald-500 hover:bg-emerald-700'
+											'bg-red-500 hover:bg-red-600'
+										:	'bg-emerald-500 hover:bg-emerald-600'
 									} ${
 										loading || isDisabled ?
 											'opacity-50 cursor-not-allowed'
@@ -372,7 +372,7 @@ export default function AddEntryModal({
 									}`}
 								>
 									{loading ?
-										<div className='h-5 w-5 border-2 border-slate-200 border-t-transparent rounded-full animate-spin' />
+										<div className='h-5 w-5 border-2 border-white/40 border-t-transparent rounded-full animate-spin' />
 									:	<>
 											<CheckCircle2
 												size={20}
