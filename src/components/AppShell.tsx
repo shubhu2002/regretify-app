@@ -24,7 +24,7 @@ const NAV_LINKS = [
 	{ href: '/regrets', label: 'Regrets', icon: Flame },
 	{ href: '/ledger', label: 'Ledger', icon: BookOpen },
 	{ href: '/notes', label: 'Notes', icon: StickyNote },
-	{ href: '/profile', label: 'Profile', icon: User },
+	// { href: '/profile', label: 'Profile', icon: User },
 ];
 
 export default function AppShell({
@@ -59,6 +59,52 @@ export default function AppShell({
 
 	const isLanding = pathname === '/';
 	const isApp = !isLanding && !!session;
+
+	/* Sidebar counts — share the pages' query caches so they stay in sync */
+	const userId = (session?.user as any)?.id || session?.user?.email || '';
+
+	const { data: txData } = useQuery({
+		queryKey: ['transactions-all', userId],
+		queryFn: async () => {
+			const res = await fetch('/api/transactions/?month=all');
+			if (!res.ok) return null;
+			return res.json() as Promise<{
+				incomes: unknown[];
+				expenses: unknown[];
+			}>;
+		},
+		enabled: isApp,
+		staleTime: 60 * 1000,
+	});
+
+	const { data: notesData } = useQuery({
+		queryKey: ['notes'],
+		queryFn: async () => {
+			const res = await fetch('/api/notes');
+			if (!res.ok) return null;
+			return res.json() as Promise<{ notes: unknown[] }>;
+		},
+		enabled: isApp,
+		staleTime: 60 * 1000,
+	});
+
+	const { data: ledgerData } = useQuery({
+		queryKey: ['ledger', null],
+		queryFn: async () => {
+			const res = await fetch('/api/ledger');
+			if (!res.ok) return null;
+			return res.json() as Promise<{ books: unknown[] }>;
+		},
+		enabled: isApp,
+		staleTime: 60 * 1000,
+	});
+
+	const navCounts: Record<string, number> = {
+		'/regrets':
+			(txData?.incomes?.length || 0) + (txData?.expenses?.length || 0),
+		'/ledger': ledgerData?.books?.length || 0,
+		'/notes': notesData?.notes?.length || 0,
+	};
 
 	/* ─── Marketing chrome (landing page / signed out) ─── */
 	if (!isApp) {
@@ -242,6 +288,11 @@ export default function AppShell({
 									/>
 									{link.label}
 								</span>
+								{navCounts[link.href] > 0 && (
+									<span className='relative z-10 ml-auto text-xs tabular-nums text-white/35'>
+										{navCounts[link.href]}
+									</span>
+								)}
 							</Link>
 						);
 					})}
