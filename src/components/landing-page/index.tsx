@@ -129,7 +129,8 @@ export default function LandingPage() {
 							<Image
 								width={9999}
 								height={9999}
-								src='/dashboard-preview.png'
+								src='/dashboard.png'
+								priority
 								alt='Regretify dashboard — Wall of Regret with live charts, categories and history'
 								className='w-full h-auto '
 							/>
@@ -360,7 +361,7 @@ export default function LandingPage() {
 								<div className='relative rounded-2xl border border-white/8 overflow-hidden bg-[#0b0b0d] shadow-2xl shadow-black/70'>
 									{/* eslint-disable-next-line @next/next/no-img-element */}
 									<img
-										src='/dashboard-preview.png'
+										src='/dashboard.png'
 										alt='Regretify dashboard — Wall of Regret with charts and history'
 										className='w-full h-auto'
 									/>
