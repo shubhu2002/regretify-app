@@ -3,7 +3,7 @@ import {
 	ShieldCheck,
 	Download,
 	Calculator,
-	Moon,
+	CalendarRange,
 	TrendingDown,
 	PiggyBank,
 	Zap,
@@ -39,9 +39,9 @@ export const PLATFORM_FEATURES = [
 		color: 'fuchsia',
 	},
 	{
-		icon: Moon,
-		title: 'Dark & Light Mode',
-		desc: 'Because your financial regret should look good in any lighting. Polished theme toggle, no system default hassle.',
+		icon: CalendarRange,
+		title: 'Annual Regret Timeline',
+		desc: 'A month-by-month breakdown of income vs. spending with a damage % bar for every month — plus a yearly aggregate that tells the whole painful story.',
 		color: 'indigo',
 	},
 	{

@@ -51,14 +51,14 @@ export default function LandingPage() {
 		<div className='flex-1 flex flex-col bg-transparent overflow-x-hidden'>
 			{/* Background — ultramail-style: white radial glow at top + faint pastel washes */}
 			<div className='fixed inset-0 overflow-hidden pointer-events-none z-0'>
-				<div className='absolute top-0 left-1/2 -translate-x-1/2 w-[200vw] max-w-[2000px] h-[60vh] opacity-[0.09] bg-[radial-gradient(40.9%_81.1%_at_50%_0%,#ffffff_0%,rgba(0,0,0,0)_100%)]' />
-				<div className='absolute bottom-[-15%] right-[-10%] w-[50%] h-[50%] bg-[#9294e5]/[0.02] blur-3xl rounded-full' />
-				<div className='absolute top-[45%] left-[-10%] w-[40%] h-[40%] bg-[#d39dbd]/[0.02] blur-3xl rounded-full' />
+				<div className='absolute top-0 left-1/2 -translate-x-1/2 w-[200vw] max-w-500 h-[60vh] opacity-[0.09] bg-[radial-gradient(40.9%_81.1%_at_50%_0%,#ffffff_0%,rgba(0,0,0,0)_100%)]' />
+				<div className='absolute bottom-[-15%] right-[-10%] w-[50%] h-[50%] bg-[#9294e5]/2 blur-3xl rounded-full' />
+				<div className='absolute top-[45%] left-[-10%] w-[40%] h-[40%] bg-[#d39dbd]/2 blur-3xl rounded-full' />
 			</div>
 
 			{/* ─── Hero ─── */}
 			<section className='relative z-10 flex flex-col items-center justify-center text-center px-6 pt-16 sm:pt-24 pb-32 min-h-screen overflow-hidden'>
-				<div className='inline-flex items-center gap-2 px-4 py-2 bg-white/[0.03] text-white/80 font-medium text-sm mb-8 border border-white/10 rounded-full'>
+				<div className='inline-flex items-center gap-2 px-4 py-2 bg-white/3 text-white/80 font-medium text-sm mb-8 border border-white/10 rounded-full'>
 					<span className='relative flex h-2 w-2'>
 						<span className='animate-ping absolute inline-flex h-full w-full bg-accent-gradient opacity-75 rounded-full' />
 						<span className='relative inline-flex h-2 w-2 bg-accent-gradient rounded-full' />
@@ -101,7 +101,7 @@ export default function LandingPage() {
 							whileTap={{ scale: 0.97 }}
 							href='#features'
 							onClick={(e) => handleSmooth(e, 'features')}
-							className='bg-white/[0.08] hover:bg-white/[0.14] text-white/80 border border-white/10 px-8 py-4 rounded-xl font-medium text-lg flex items-center gap-2 transition-all'
+							className='bg-white/8 hover:bg-white/[0.14] text-white/80 border border-white/10 px-8 py-4 rounded-xl font-medium text-lg flex items-center gap-2 transition-all'
 						>
 							See Features
 						</motion.a>
@@ -109,7 +109,7 @@ export default function LandingPage() {
 				</div>
 
 				{/* Floating ghost */}
-				<motion.div
+				{/* <motion.div
 					animate={{ y: [0, -12, 0] }}
 					transition={{
 						duration: 3,
@@ -122,10 +122,10 @@ export default function LandingPage() {
 						size={48}
 						strokeWidth={1.5}
 					/>
-				</motion.div>
+				</motion.div> */}
 
 				{/* Glowing horizon dome — ultramail's signature hero element */}
-				<div className='absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-[69%] w-[160%] sm:w-[110%] max-w-[1600px] h-[280px] pointer-events-none'>
+				<div className='absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-[69%] w-[160%] sm:w-[110%] max-w-400 h-70 pointer-events-none'>
 					<div className='w-full h-full rounded-[100%] bg-black shadow-[0_-90px_132px_0_rgba(255,255,255,0.15),inset_0_124px_250px_0_rgba(255,255,255,0.23),inset_0_20px_28px_0_#ffffff]' />
 				</div>
 			</section>
@@ -133,7 +133,7 @@ export default function LandingPage() {
 			{/* ─── Stats Bar ─── */}
 			<section
 				ref={statsRef}
-				className='relative z-10 bg-white/[0.03] backdrop-blur-xl border-y border-white/10 py-14'
+				className='relative z-10 bg-white/3 backdrop-blur-xl border-y border-white/10 py-14'
 			>
 				<div className='max-w-6xl mx-auto px-6 grid grid-cols-2 sm:grid-cols-4 gap-10 text-center'>
 					<StatItem
@@ -222,7 +222,7 @@ export default function LandingPage() {
 			</section>
 
 			{/* ─── How it works ─── */}
-			<section className='relative z-10 py-20 px-[4%] sm:px-6 bg-white/[0.03] backdrop-blur-xl border-y border-white/10'>
+			<section className='relative z-10 py-20 px-[4%] sm:px-6 bg-white/3 backdrop-blur-xl border-y border-white/10'>
 				<div className='max-w-6xl mx-auto text-center'>
 					<div className='mb-14'>
 						<span className='text-xs font-semibold tracking-[0.25em] uppercase text-accent-gradient'>
@@ -300,9 +300,9 @@ export default function LandingPage() {
 			<section className='relative z-10 py-20 px-4 sm:px-6'>
 				<div className='max-w-6xl mx-auto relative'>
 					{/* Faint hill silhouette behind the card */}
-					<div className='absolute -top-20 left-1/2 -translate-x-1/2 w-[120%] h-56 rounded-[100%] bg-white/[0.04] blur-3xl pointer-events-none' />
+					<div className='absolute -top-20 left-1/2 -translate-x-1/2 w-[120%] h-56 rounded-[100%] bg-white/4 blur-3xl pointer-events-none' />
 
-					<div className='relative bg-[#0b0b0d] border border-white/[0.07] rounded-[32px] overflow-hidden shadow-2xl shadow-black/60'>
+					<div className='relative bg-[#0b0b0d] border border-white/[0.07] rounded-4xl overflow-hidden shadow-2xl shadow-black/60'>
 						<div className='grid grid-cols-1 lg:grid-cols-2 gap-12 items-center p-8 sm:p-12 lg:p-16'>
 							{/* Left — copy + CTA */}
 							<div className='text-left'>
@@ -344,13 +344,13 @@ export default function LandingPage() {
 
 							{/* Right — mock app preview, bleeding off the card edge */}
 							<div className='relative hidden lg:block lg:translate-x-10 lg:translate-y-4'>
-								<div className='bg-[#101013] border border-white/[0.08] rounded-2xl overflow-hidden text-left shadow-2xl shadow-black/60'>
+								<div className='bg-[#101013] border border-white/8 rounded-2xl overflow-hidden text-left shadow-2xl shadow-black/60'>
 									{/* Top bar */}
-									<div className='flex items-center justify-between gap-4 px-4 py-3 border-b border-white/[0.06]'>
+									<div className='flex items-center justify-between gap-4 px-4 py-3 border-b border-white/6'>
 										<div className='bg-black border border-white/15 rounded-full p-1 text-white shrink-0'>
 											<Ghost size={14} />
 										</div>
-										<div className='flex items-center gap-2 bg-white/[0.06] border border-white/10 rounded-lg px-3 py-1.5 text-xs text-white/40 flex-1 max-w-xs'>
+										<div className='flex items-center gap-2 bg-white/6 border border-white/10 rounded-lg px-3 py-1.5 text-xs text-white/40 flex-1 max-w-xs'>
 											<Search size={12} />
 											Search your regrets…
 										</div>
@@ -358,7 +358,7 @@ export default function LandingPage() {
 
 									<div className='grid grid-cols-[120px_1fr]'>
 										{/* Sidebar */}
-										<div className='border-r border-white/[0.06] p-3'>
+										<div className='border-r border-white/6 p-3'>
 											<div className='flex items-center justify-center gap-1 bg-[#9294e5] text-black text-xs font-semibold rounded-lg px-2 py-2 mb-3'>
 												<Plus size={12} />
 												Add Regret
@@ -373,7 +373,7 @@ export default function LandingPage() {
 													key={item.label}
 													className={`flex items-center gap-2 px-2 py-1.5 rounded-lg text-xs mb-0.5 ${
 														item.active ?
-															'bg-white/[0.08] text-white'
+															'bg-white/8 text-white'
 														:	'text-white/50'
 													}`}
 												>
@@ -433,7 +433,7 @@ export default function LandingPage() {
 
 			{/* ─── Footer — ultramail-style pill bar ─── */}
 			<footer className='relative z-10 px-4 sm:px-6 pb-10'>
-				<div className='max-w-6xl mx-auto bg-[#0b0b0d] border border-white/[0.08] rounded-2xl px-6 sm:px-10 py-6 flex flex-col md:flex-row items-center justify-between gap-6'>
+				<div className='max-w-6xl mx-auto bg-[#0b0b0d] border border-white/8 rounded-2xl px-6 sm:px-10 py-6 flex flex-col md:flex-row items-center justify-between gap-6'>
 					<div className='flex items-center gap-2'>
 						<div className='bg-black p-2 border border-white/15 rounded-full text-white shadow-[0_0_16px_rgba(255,255,255,0.1)]'>
 							<Ghost size={18} />
@@ -526,9 +526,9 @@ function FeatureCard({
 	};
 	return (
 		<motion.div
-			initial={{ y: 30 }}
-			transition={{ duration: 0.5 }}
-			whileHover={{ y: -4 }}
+			initial={{ scale: 1 }}
+			transition={{ duration: 0.2, ease:"easeInOut" }}
+			whileHover={{ scale: 1.02 }}
 			className='card-ultra p-6 rounded-2xl group relative overflow-hidden'
 		>
 			<div className='absolute -inset-2 bg-linear-to-r from-transparent via-white/5 to-transparent skew-x-12 translate-x-[-150%] group-hover:translate-x-[150%] transition-transform duration-700 pointer-events-none' />
