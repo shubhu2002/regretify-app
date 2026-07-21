@@ -110,7 +110,7 @@ export default function LandingPage() {
 				</div>
 
 				{/* Glowing horizon dome — ultramail's signature hero element */}
-				<div className='fixed bottom-0 left-1/2 -translate-x-1/2 translate-y-[69%] w-[160%] sm:w-[110%] max-w-400 h-70 pointer-events-none'>
+				<div className='fixed -z-50 bottom-0 left-1/2 -translate-x-1/2 translate-y-[69%] w-[160%] sm:w-[110%] max-w-400 h-70 pointer-events-none'>
 					<div className='w-full h-full rounded-[100%] bg-black shadow-[0_-90px_132px_0_rgba(255,255,255,0.15),inset_0_124px_250px_0_rgba(255,255,255,0.23),inset_0_20px_28px_0_#ffffff]' />
 				</div>
 
