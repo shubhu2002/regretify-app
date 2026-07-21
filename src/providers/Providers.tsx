@@ -36,7 +36,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
 					toastOptions={{
 						duration: 4000,
 						className:
-							'!bg-[#101013]/90 !backdrop-blur-xl !text-white !border !border-white/10 !shadow-2xl !shadow-black/60 !py-2.5 !px-4',
+							'!bg-[#1a191e]/90 !backdrop-blur-xl !text-white !border !border-white/10 !shadow-2xl !shadow-black/60 !py-2.5 !px-4',
 						style: {
 							minWidth: '350px',
 							color: 'inherit',

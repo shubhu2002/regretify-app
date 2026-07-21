@@ -138,7 +138,7 @@ export default function PasscodeSetupModal({
 						animate={{ scale: 1, opacity: 1, y: 0 }}
 						exit={{ scale: 0.95, opacity: 0, y: 15 }}
 						onClick={(e) => e.stopPropagation()}
-						className='w-full max-w-sm bg-[#101013]/95 backdrop-blur-2xl border border-white/10 rounded-3xl overflow-hidden shadow-2xl shadow-black/60 p-6'
+						className='w-full max-w-sm bg-[#1a191e]/95 backdrop-blur-2xl border border-white/10 rounded-3xl max-h-[90dvh] overflow-y-auto shadow-2xl shadow-black/60 p-6'
 					>
 						{/* Header */}
 						<div className='flex items-center justify-between mb-5'>
@@ -164,7 +164,7 @@ export default function PasscodeSetupModal({
 							</div>
 							<button
 								onClick={handleClose}
-								className='p-2 rounded-xl hover:bg-white/[0.08] transition-colors'
+								className='p-2 rounded-xl hover:bg-white/8 transition-colors'
 							>
 								<X size={18} className='text-white/50' />
 							</button>
@@ -267,7 +267,7 @@ export default function PasscodeSetupModal({
 											className={`w-3 h-3 rounded-full transition-colors duration-150 ${
 												i < code.length
 													? 'bg-white'
-													: 'bg-white/[0.06] border border-white/10'
+													: 'bg-white/6 border border-white/10'
 											}`}
 										/>
 									))}
@@ -301,7 +301,7 @@ export default function PasscodeSetupModal({
 													key={i}
 													onClick={handleDelete}
 													disabled={saving || code.length === 0}
-													className='h-14 rounded-2xl flex items-center justify-center text-white/50 hover:text-white hover:bg-white/[0.08] active:bg-white/10 transition-colors disabled:opacity-30'
+													className='h-14 rounded-2xl flex items-center justify-center text-white/50 hover:text-white hover:bg-white/8 active:bg-white/10 transition-colors disabled:opacity-30'
 												>
 													<Delete size={20} />
 												</button>
@@ -313,7 +313,7 @@ export default function PasscodeSetupModal({
 												whileTap={{ scale: 0.92 }}
 												onClick={() => handlePress(key)}
 												disabled={saving || code.length >= length}
-												className='h-14 rounded-2xl bg-white/[0.06] border border-white/10 text-xl font-semibold text-white hover:bg-white/10 active:bg-white/[0.14] transition-colors disabled:opacity-40'
+												className='h-14 rounded-2xl bg-white/6 border border-white/10 text-xl font-semibold text-white hover:bg-white/10 active:bg-white/[0.14] transition-colors disabled:opacity-40'
 											>
 												{key}
 											</motion.button>

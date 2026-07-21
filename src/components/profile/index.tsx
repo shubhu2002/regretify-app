@@ -224,9 +224,9 @@ export default function Profile() {
 	const inputBase =
 		'w-full py-2.5 rounded-xl border outline-none transition-all text-sm';
 	const inputEditing =
-		'border-white/10 bg-white/[0.06] text-white focus:ring-2 focus:ring-white/10 focus:border-white/30';
+		'border-white/10 bg-white/6 text-white focus:ring-2 focus:ring-white/10 focus:border-white/30';
 	const inputReadonly =
-		'border-transparent bg-white/[0.04] text-white/60 cursor-default';
+		'border-transparent bg-white/4 text-white/60 cursor-default';
 
 	return (
 		<div className='relative flex-1 w-full min-h-[calc(100vh-64px)] overflow-hidden'>
@@ -292,7 +292,7 @@ export default function Profile() {
 							<button
 								type='button'
 								onClick={() => setIsEditing(true)}
-								className='shrink-0 flex items-center gap-1.5 px-4 py-2 text-sm font-medium text-white/80 bg-white/[0.08] hover:bg-white/[0.14] border border-white/10 rounded-xl transition-all backdrop-blur-sm'
+								className='shrink-0 flex items-center gap-1.5 px-4 py-2 text-sm font-medium text-white/80 bg-white/8 hover:bg-white/[0.14] border border-white/10 rounded-xl transition-all backdrop-blur-sm'
 							>
 								<Pencil size={14} />
 								<span className='hidden sm:inline'>Edit</span>
@@ -301,7 +301,7 @@ export default function Profile() {
 							<button
 								type='button'
 								onClick={handleCancelEdit}
-								className='shrink-0 flex items-center gap-1.5 px-4 py-2 text-sm font-medium text-white/80 bg-white/[0.08] hover:bg-white/[0.14] border border-white/10 rounded-xl transition-all backdrop-blur-sm'
+								className='shrink-0 flex items-center gap-1.5 px-4 py-2 text-sm font-medium text-white/80 bg-white/8 hover:bg-white/[0.14] border border-white/10 rounded-xl transition-all backdrop-blur-sm'
 							>
 								<X size={14} />
 								<span className='hidden sm:inline'>Cancel</span>
@@ -318,7 +318,7 @@ export default function Profile() {
 						transition={{ delay: 0.05 }}
 						className='lg:col-span-2'
 					>
-						<div className='bg-[#1a191e] border border-white/[0.06] rounded-2xl p-5 sm:p-6'>
+						<div className='bg-[#1a191e] border border-white/6 rounded-2xl p-5 sm:p-6'>
 							<h2 className='text-base font-semibold tracking-tight text-white mb-5'>
 								Personal Information
 							</h2>
@@ -360,7 +360,7 @@ export default function Profile() {
 												type='email'
 												value={formData.email}
 												readOnly
-												className={`${inputBase} pl-9 pr-3 border-transparent bg-white/[0.04] text-white/40 cursor-not-allowed`}
+												className={`${inputBase} pl-9 pr-3 border-transparent bg-white/4 text-white/40 cursor-not-allowed`}
 											/>
 										</div>
 									</div>
@@ -437,11 +437,11 @@ export default function Profile() {
 								</div>
 
 								{isEditing && (
-									<div className='pt-4 border-t border-white/[0.08] flex justify-end gap-3'>
+									<div className='pt-4 border-t border-white/8 flex justify-end gap-3'>
 										<button
 											type='button'
 											onClick={handleCancelEdit}
-											className='px-5 py-2.5 rounded-xl text-sm font-medium text-white/50 hover:text-white hover:bg-white/[0.08] transition-colors'
+											className='px-5 py-2.5 rounded-xl text-sm font-medium text-white/50 hover:text-white hover:bg-white/8 transition-colors'
 										>
 											Cancel
 										</button>
@@ -466,7 +466,7 @@ export default function Profile() {
 						className='flex flex-col gap-4'
 					>
 						{/* Security */}
-						<div className='bg-[#1a191e] border border-white/[0.06] rounded-2xl p-5'>
+						<div className='bg-[#1a191e] border border-white/6 rounded-2xl p-5'>
 							<div className='flex items-center gap-2.5 mb-3'>
 								<div className='p-2 rounded-lg bg-[#9294e5]/15'>
 									<ShieldCheck size={16} className='text-[#b9baf1]' />
@@ -490,7 +490,7 @@ export default function Profile() {
 								<div className='space-y-2'>
 									<button
 										onClick={() => setPasscodeModalOpen(true)}
-										className='w-full flex items-center justify-between px-4 py-2.5 rounded-xl text-sm font-medium text-white/80 bg-white/[0.08] hover:bg-white/[0.14] border border-white/10 transition-colors'
+										className='w-full flex items-center justify-between px-4 py-2.5 rounded-xl text-sm font-medium text-white/80 bg-white/8 hover:bg-white/[0.14] border border-white/10 transition-colors'
 									>
 										<span className='flex items-center gap-2'>
 											<Lock size={14} />
@@ -544,7 +544,7 @@ export default function Profile() {
 						{/* Sign Out */}
 						<button
 							onClick={() => signOut({ callbackUrl: '/' })}
-							className='w-full flex items-center justify-between px-5 py-3.5 rounded-2xl text-sm font-medium text-white/80 bg-[#1a191e] border border-white/[0.06] hover:bg-white/[0.06] transition-colors'
+							className='w-full flex items-center justify-between px-5 py-3.5 rounded-2xl text-sm font-medium text-white/80 bg-[#1a191e] border border-white/6 hover:bg-white/6 transition-colors'
 						>
 							<span className='flex items-center gap-2.5'>
 								<LogOut size={16} />

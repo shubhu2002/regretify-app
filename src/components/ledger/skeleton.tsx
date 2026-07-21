@@ -1,5 +1,5 @@
 export const LedgerSkeletonMainLoading = () => {
-	const shimmer = 'animate-pulse bg-white/[0.06] rounded-xl';
+	const shimmer = 'animate-pulse bg-white/6 rounded-xl';
 	return (
 		<div className='relative flex-1 w-full min-h-[calc(100vh-64px)] overflow-hidden'>
 			<div className='relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8'>
@@ -27,7 +27,7 @@ export const LedgerSkeletonMainLoading = () => {
 /* Skeleton matching the accounts + entries two-panel view, shown while a
    selected book's data loads (so the layout doesn't flash the books grid). */
 export const LedgerAccountsSkeletonLoading = () => {
-	const shimmer = 'animate-pulse bg-white/[0.06] rounded-xl';
+	const shimmer = 'animate-pulse bg-white/6 rounded-xl';
 	return (
 		<div className='relative flex-1 w-full min-h-[calc(100vh-64px)] overflow-hidden'>
 			<div className='relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8'>
@@ -55,7 +55,7 @@ export const LedgerAccountsSkeletonLoading = () => {
 							<div className={`${shimmer} h-4 w-28`} />
 							<div className={`${shimmer} h-7 w-7 rounded-lg`} />
 						</div>
-						<div className='bg-[#1a191e] border border-white/[0.06] rounded-2xl overflow-hidden divide-y divide-white/[0.05]'>
+						<div className='bg-[#1a191e] border border-white/6 rounded-2xl overflow-hidden divide-y divide-white/5'>
 							{[...Array(5)].map((_, i) => (
 								<div
 									key={i}
@@ -92,14 +92,14 @@ export const LedgerAccountsSkeletonLoading = () => {
 
 export const EntriesSkeletonLoading = () => {
 	return (
-		<div className='bg-[#1a191e] border border-white/[0.06] rounded-2xl overflow-hidden divide-y divide-white/[0.05]'>
+		<div className='bg-[#1a191e] border border-white/6 rounded-2xl overflow-hidden divide-y divide-white/5'>
 			{[...Array(5)].map((_, i) => (
 				<div key={i} className='flex items-center gap-4 px-4 py-3'>
-					<div className='animate-pulse bg-white/[0.06] rounded-lg h-6 w-20' />
-					<div className='animate-pulse bg-white/[0.06] rounded-xl h-4 w-28' />
+					<div className='animate-pulse bg-white/6 rounded-lg h-6 w-20' />
+					<div className='animate-pulse bg-white/6 rounded-xl h-4 w-28' />
 					<div className='flex-1' />
-					<div className='animate-pulse bg-white/[0.06] rounded-xl h-4 w-24' />
-					<div className='animate-pulse bg-white/[0.06] rounded-xl h-4 w-20' />
+					<div className='animate-pulse bg-white/6 rounded-xl h-4 w-24' />
+					<div className='animate-pulse bg-white/6 rounded-xl h-4 w-20' />
 				</div>
 			))}
 		</div>

@@ -3,7 +3,6 @@ import { Inter_Tight, Geist_Mono } from 'next/font/google';
 import './globals.css';
 import { Providers } from '@/providers/Providers';
 import AppShell from '@/components/AppShell';
-import Background from '@/components/background';
 
 const interTight = Inter_Tight({
 	variable: '--font-inter-tight',
@@ -47,7 +46,7 @@ export const metadata: Metadata = {
 				url: '/og-image.png',
 				width: 1200,
 				height: 630,
-				alt: 'Regretify — Track your poor decisions',
+				alt: 'Regretify — Track Every Terrible Financial Decision',
 			},
 		],
 	},
@@ -84,7 +83,6 @@ export default function RootLayout({
 		>
 			<body className='relative min-h-screen bg-black text-white flex flex-col mb-0'>
 				<Providers>
-					{/* <Background /> */}
 					<main className='flex-1 flex flex-col relative'>
 						<AppShell>{children}</AppShell>
 					</main>

@@ -194,7 +194,7 @@ export default function AuthModal({
 	};
 
 	const inputCls =
-		'w-full pl-9 pr-3 py-3 text-sm bg-white/[0.06] border border-white/10 rounded-xl text-white placeholder-white/30 focus:border-white/30 focus:ring-2 focus:ring-white/10 focus:outline-none transition-shadow outline-none';
+		'w-full pl-9 pr-3 py-3 text-sm bg-white/6 border border-white/10 rounded-xl text-white placeholder-white/30 focus:border-white/30 focus:ring-2 focus:ring-white/10 focus:outline-none transition-shadow outline-none';
 	const labelCls = 'block text-sm font-medium text-white/70 mb-1.5';
 
 	return (
@@ -211,13 +211,13 @@ export default function AuthModal({
 						initial={{ opacity: 0, scale: 0.95, y: 20 }}
 						animate={{ opacity: 1, scale: 1, y: 0 }}
 						exit={{ opacity: 0, scale: 0.95, y: 20 }}
-						className='relative w-full max-w-md my-4 bg-[#101013]/95 backdrop-blur-2xl rounded-3xl shadow-2xl shadow-black/60 border border-white/10 overflow-hidden'
+						className='relative w-full max-w-md my-4 bg-[#1a191e]/95 backdrop-blur-2xl rounded-3xl shadow-2xl shadow-black/60 border border-white/10 overflow-hidden'
 					>
 						{/* Header */}
 						<div className='p-6 text-center border-b border-white/10 relative'>
 							<button
 								onClick={onClose}
-								className='absolute right-4 top-4 p-2 text-white/50 hover:text-white transition-colors bg-white/[0.08] hover:bg-white/[0.14] rounded-full'
+								className='absolute right-4 top-4 p-2 text-white/50 hover:text-white transition-colors bg-white/8 hover:bg-white/[0.14] rounded-full'
 							>
 								<X size={18} />
 							</button>
@@ -247,7 +247,7 @@ export default function AuthModal({
 												callbackUrl: '/regrets',
 											})
 										}
-										className='w-full flex items-center justify-center gap-2 bg-white/[0.06] border border-white/10 text-white/80 px-4 py-2.5 rounded-xl hover:bg-white/10 transition-all font-medium text-sm'
+										className='w-full flex items-center justify-center gap-2 bg-white/6 border border-white/10 text-white/80 px-4 py-2.5 rounded-xl hover:bg-white/10 transition-all font-medium text-sm'
 									>
 										<svg
 											viewBox='0 0 24 24'
@@ -461,7 +461,7 @@ export default function AuthModal({
 										<label className={labelCls}>
 											Contact Number
 										</label>
-										<div className='w-full px-4 py-3 bg-white/[0.06] border border-white/10 rounded-xl focus-within:border-white/30 focus-within:ring-2 focus-within:ring-white/10 transition-shadow'>
+										<div className='w-full px-4 py-3 bg-white/6 border border-white/10 rounded-xl focus-within:border-white/30 focus-within:ring-2 focus-within:ring-white/10 transition-shadow'>
 											<PhoneInput
 												international
 												defaultCountry={

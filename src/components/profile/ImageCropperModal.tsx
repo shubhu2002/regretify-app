@@ -52,15 +52,15 @@ export default function ImageCropperModal({
 				initial={{ opacity: 0, scale: 0.95 }}
 				animate={{ opacity: 1, scale: 1 }}
 				exit={{ opacity: 0, scale: 0.95 }}
-				className='w-full max-w-md bg-[#101013]/95 backdrop-blur-2xl rounded-3xl shadow-2xl shadow-black/60 overflow-hidden border border-white/10 flex flex-col'
+				className='w-full max-w-md bg-[#1a191e]/95 backdrop-blur-2xl rounded-3xl shadow-2xl shadow-black/60 overflow-hidden border border-white/10 flex flex-col'
 			>
-				<div className='p-4 border-b border-white/10 flex justify-between items-center bg-white/[0.04]'>
+				<div className='p-4 border-b border-white/10 flex justify-between items-center bg-white/4'>
 					<h2 className='font-semibold tracking-tight text-white'>
 						Crop Profile Picture
 					</h2>
 					<button
 						onClick={onCancel}
-						className='p-1.5 text-white/50 hover:text-white rounded-full hover:bg-white/[0.08] transition'
+						className='p-1.5 text-white/50 hover:text-white rounded-full hover:bg-white/8 transition'
 					>
 						<X size={18} />
 					</button>
@@ -80,7 +80,7 @@ export default function ImageCropperModal({
 					/>
 				</div>
 
-				<div className='p-6 bg-white/[0.04] space-y-4'>
+				<div className='p-6 bg-white/4 space-y-4'>
 					<div>
 						<label className='text-xs font-medium text-white/50 uppercase tracking-wider mb-2 block'>
 							Zoom Slider

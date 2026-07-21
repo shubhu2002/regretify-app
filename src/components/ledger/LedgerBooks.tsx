@@ -66,7 +66,7 @@ export default function LedgerBooks({
 							<span className='text-xs font-semibold tracking-[0.25em] uppercase text-accent-gradient'>
 								Your money, organised
 							</span>
-							<h1 className='text-4xl font-semibold tracking-tight text-gradient mt-2'>
+							<h1 className='text-3xl sm:text-4xl font-semibold tracking-tight text-gradient mt-2'>
 								Ledger
 							</h1>
 							<p className='text-white/50 mt-1.5'>
@@ -76,7 +76,7 @@ export default function LedgerBooks({
 
 						<div className='flex items-center gap-3'>
 							{books.length > 0 && (
-								<span className='hidden sm:inline-flex items-center gap-1.5 bg-white/[0.06] border border-white/[0.08] rounded-lg px-3 py-1.5 text-xs text-white/50'>
+								<span className='hidden sm:inline-flex items-center gap-1.5 bg-white/6 border border-white/8 rounded-lg px-3 py-1.5 text-xs text-white/50'>
 									<BookOpen size={12} />
 									{books.length}{' '}
 									{books.length === 1 ? 'book' : 'books'}
@@ -166,7 +166,7 @@ export default function LedgerBooks({
 													onClick={(e) =>
 														onEdit(book, e)
 													}
-													className='p-2 text-white/40 hover:text-white bg-white/[0.06] hover:bg-white/10 rounded-lg transition-all opacity-0 group-hover:opacity-100 cursor-pointer'
+													className='p-2 text-white/40 hover:text-white bg-white/6 hover:bg-white/10 rounded-lg transition-all opacity-0 group-hover:opacity-100 cursor-pointer'
 												>
 													<Pencil size={13} />
 												</button>
@@ -175,7 +175,7 @@ export default function LedgerBooks({
 														e.stopPropagation();
 														onDelete(book, e);
 													}}
-													className='p-2 text-white/40 hover:text-red-400 bg-white/[0.06] hover:bg-red-500/10 rounded-lg transition-all opacity-0 group-hover:opacity-100 cursor-pointer'
+													className='p-2 text-white/40 hover:text-red-400 bg-white/6 hover:bg-red-500/10 rounded-lg transition-all opacity-0 group-hover:opacity-100 cursor-pointer'
 												>
 													<Trash2 size={13} />
 												</button>
@@ -191,7 +191,7 @@ export default function LedgerBooks({
 											</p>
 										)}
 
-										<div className='flex items-center justify-between mt-5 pt-4 border-t border-white/[0.06]'>
+										<div className='flex items-center justify-between mt-5 pt-4 border-t border-white/6'>
 											<span className='text-xs text-white/35'>
 												{new Date(
 													book.created_at,
