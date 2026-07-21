@@ -94,9 +94,30 @@ export default function AddEntryModal({
 
 	const isDisabled = isMissingFields || isUnchanged;
 
+	// Digits and calculator operators only (e.g. 120+50)
+	const AMOUNT_ALLOWED = /^[\d.+\-*/()\s]*$/;
+
+	const handleAmountChange = (val: string) => {
+		setAmount(val);
+		if (val && !AMOUNT_ALLOWED.test(val)) {
+			toast.error(
+				'Amounts take digits only — plus + - × ÷ for quick maths.',
+				{ id: 'amount-invalid' },
+			);
+		}
+	};
+
 	const handleSubmit = async (e: React.FormEvent) => {
 		e.preventDefault();
 		if (isDisabled) return;
+
+		if (!AMOUNT_ALLOWED.test(amount)) {
+			toast.error(
+				'Amount has letters or symbols in it — enter a number or an expression like 120+50.',
+				{ id: 'amount-invalid' },
+			);
+			return;
+		}
 
 		let finalAmount = parseFloat(amount);
 		if (Number.isNaN(finalAmount)) {
@@ -108,7 +129,17 @@ export default function AddEntryModal({
 			}
 		}
 
-		if (!finalAmount || finalAmount <= 0) return;
+		if (
+			!finalAmount ||
+			Number.isNaN(Number(finalAmount)) ||
+			finalAmount <= 0
+		) {
+			toast.error(
+				'That amount doesn’t add up — enter a value greater than 0.',
+				{ id: 'amount-invalid' },
+			);
+			return;
+		}
 
 		setLoading(true);
 		const toastId = toast.loading(
@@ -258,7 +289,7 @@ export default function AddEntryModal({
 										required
 										value={amount}
 										onChange={(e) =>
-											setAmount(e.target.value)
+											handleAmountChange(e.target.value)
 										}
 										className='w-full pl-9 pr-4 py-3 bg-white/[0.06] border border-white/10 rounded-xl text-white placeholder-white/30 focus:border-white/30 focus:ring-2 focus:ring-white/10 focus:outline-none font-semibold text-base md:text-lg transition-shadow outline-none'
 										placeholder='e.g. 120+12'
