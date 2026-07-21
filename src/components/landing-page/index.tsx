@@ -343,7 +343,7 @@ export default function LandingPage() {
 											router.push('/regrets')
 										:	setIsAuthOpen(true)
 									}
-									className='w-full sm:max-w-md cursor-pointer bg-[#9294e5] hover:bg-[#a3a5ec] text-black font-semibold px-6 py-4 sm:px-8 sm:py-5 rounded-2xl text-base sm:text-xl glow-periwinkle transition-all flex items-center justify-between gap-4'
+									className='w-full justify-self-center sm:max-w-md cursor-pointer bg-[#9294e5] hover:bg-[#a3a5ec] text-black font-semibold px-4 py-4 sm:px-8 sm:py-5 rounded-2xl text-base sm:text-xl glow-periwinkle transition-all flex items-center justify-center gap-2.5 sm:gap-4'
 								>
 									<span>
 										{session ?
