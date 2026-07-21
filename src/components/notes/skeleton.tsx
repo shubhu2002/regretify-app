@@ -1,5 +1,5 @@
 export const NotesSkeletonLoading = () => {
-	const shimmer = 'animate-pulse bg-white/[0.06] rounded-xl';
+	const shimmer = 'animate-pulse bg-white/6 rounded-xl';
 	return (
 		<div className='relative flex-1 w-full min-h-[calc(100vh-64px)] overflow-hidden'>
 			<div className='relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8'>
@@ -13,7 +13,7 @@ export const NotesSkeletonLoading = () => {
 				<div className='card-aurora rounded-3xl overflow-hidden flex h-[calc(100dvh-330px)] md:h-[calc(100dvh-250px)] min-h-105'>
 					<div className='w-full md:w-72 lg:w-80 shrink-0 md:border-r border-white/10 p-3 space-y-3'>
 						<div className={`${shimmer} h-9 w-full`} />
-						<div className='bg-[#1a191e] border border-white/[0.06] rounded-2xl overflow-hidden divide-y divide-white/[0.05]'>
+						<div className='bg-[#1a191e] border border-white/6 rounded-2xl overflow-hidden divide-y divide-white/5'>
 							{[...Array(5)].map((_, i) => (
 								<div key={i} className='px-4 py-3 space-y-2'>
 									<div className={`${shimmer} h-4 w-32`} />

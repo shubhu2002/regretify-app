@@ -43,7 +43,7 @@ export default function ConfirmModal({
 						>
 							<div className='flex items-start gap-4'>
 								<div
-									className={`p-3 rounded-2xl shrink-0 ${isDanger ? 'bg-red-500/10 text-red-400' : 'bg-white/[0.08] text-white/80'}`}
+									className={`p-3 rounded-2xl shrink-0 ${isDanger ? 'bg-red-500/10 text-red-400' : 'bg-white/8 text-white/80'}`}
 								>
 									<AlertTriangle size={24} />
 								</div>
@@ -61,7 +61,7 @@ export default function ConfirmModal({
 							<div className='mt-8 flex gap-3 w-full'>
 								<button
 									onClick={onClose}
-									className='flex-1 px-4 py-2.5 rounded-xl font-medium text-white/80 bg-white/[0.08] hover:bg-white/[0.14] border border-white/10 transition-colors'
+									className='flex-1 px-4 py-2.5 rounded-xl font-medium text-white/80 bg-white/8 hover:bg-white/[0.14] border border-white/10 transition-colors'
 								>
 									{cancelLabel}
 								</button>

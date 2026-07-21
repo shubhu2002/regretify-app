@@ -303,7 +303,7 @@ export default function TransactionsTable({
 								setSearchTerm(e.target.value);
 								setVisibleCount(itemsPerPage);
 							}}
-							className='w-full sm:w-64 pl-9 pr-3 py-2 rounded-xl border border-white/10 bg-white/[0.06] text-white placeholder-white/35 focus:border-white/30 focus:ring-2 focus:ring-white/10 outline-none text-base md:text-sm transition-all'
+							className='w-full sm:w-64 pl-9 pr-3 py-2 rounded-xl border border-white/10 bg-white/6 text-white placeholder-white/35 focus:border-white/30 focus:ring-2 focus:ring-white/10 outline-none text-base md:text-sm transition-all'
 						/>
 					</div>
 
@@ -335,7 +335,7 @@ export default function TransactionsTable({
 
 						<button
 							onClick={exportToPDF}
-							className='w-full flex-1 sm:w-auto flex items-center justify-center gap-2 group px-2 py-1.5 sm:px-3 sm:py-2 bg-white/[0.08] hover:bg-white/[0.14] text-white/80 border border-white/10 rounded-xl text-sm font-semibold transition-all active:scale-95'
+							className='w-full flex-1 sm:w-auto flex items-center justify-center gap-2 group px-2 py-1.5 sm:px-3 sm:py-2 bg-white/8 hover:bg-white/[0.14] text-white/80 border border-white/10 rounded-xl text-sm font-semibold transition-all active:scale-95'
 						>
 							<Download
 								size={16}
@@ -359,13 +359,13 @@ export default function TransactionsTable({
 						animate={{ opacity: 1, y: 0 }}
 						exit={{ opacity: 0, y: -5 }}
 						transition={{ duration: 0.15 }}
-						className='bg-[#1a191e] border border-white/[0.06] rounded-2xl overflow-hidden divide-y divide-white/[0.05]'
+						className='bg-[#1a191e] border border-white/6 rounded-2xl overflow-hidden divide-y divide-white/5'
 					>
 						{currentData.length > 0 ?
 							currentData.map((item) => (
 								<div
 									key={`${item.type}-${item.id}`}
-									className='px-4 py-3 transition-colors hover:bg-white/[0.03]'
+									className='px-4 py-3 transition-colors hover:bg-white/3'
 								>
 									{/* Row 1: dot + title + amount */}
 									<div className='flex items-center justify-between gap-2'>
@@ -388,12 +388,12 @@ export default function TransactionsTable({
 									{/* Row 2: badges + date + actions */}
 									<div className='mt-2 flex items-center justify-between gap-2'>
 										<div className='flex flex-wrap items-center gap-1.5 min-w-0'>
-											<span className='inline-flex items-center gap-1.5 bg-white/[0.06] border border-white/[0.08] rounded-lg px-2.5 py-1 text-xs text-white/50'>
+											<span className='inline-flex items-center gap-1.5 bg-white/6 border border-white/8 rounded-lg px-2.5 py-1 text-xs text-white/50'>
 												{item.category}
 											</span>
 											{item.type === 'expense' &&
 												item.payment_type && (
-													<span className='inline-flex items-center gap-1.5 bg-white/[0.06] border border-white/[0.08] rounded-lg px-2.5 py-1 text-xs text-white/50'>
+													<span className='inline-flex items-center gap-1.5 bg-white/6 border border-white/8 rounded-lg px-2.5 py-1 text-xs text-white/50'>
 														{item.payment_type}
 													</span>
 												)}
@@ -407,7 +407,7 @@ export default function TransactionsTable({
 										<div className='flex items-center gap-1 shrink-0'>
 											<button
 												onClick={() => onEdit(item)}
-												className='p-1.5 text-white/40 hover:text-white hover:bg-white/[0.08] rounded-lg transition-colors'
+												className='p-1.5 text-white/40 hover:text-white hover:bg-white/8 rounded-lg transition-colors'
 												title='Edit'
 											>
 												<Edit2 size={14} />
@@ -454,13 +454,13 @@ export default function TransactionsTable({
 			     the sentinel briefly intersect the scroll root, cascading batches ── */}
 			<div
 				ref={desktopScrollRef}
-				className='hidden md:block overflow-x-auto overflow-y-auto max-h-112 w-full rounded-2xl border border-white/[0.06] bg-[#1a191e]'
+				className='hidden md:block overflow-x-auto overflow-y-auto max-h-112 w-full rounded-2xl border border-white/6 bg-[#1a191e]'
 			>
 				<table className='w-full text-left text-sm whitespace-nowrap'>
 					<thead className='sticky top-0 z-10 bg-[#141317] text-white/40 uppercase text-xs font-semibold'>
 						<tr>
 							<th
-								className='px-4 py-3 cursor-pointer hover:bg-white/[0.08] transition-colors'
+								className='px-4 py-3 cursor-pointer hover:bg-white/8 transition-colors'
 								onClick={() => handleSort('date')}
 							>
 								<div className='flex items-center gap-1'>
@@ -468,7 +468,7 @@ export default function TransactionsTable({
 								</div>
 							</th>
 							<th
-								className='px-4 py-3 cursor-pointer hover:bg-white/[0.08] transition-colors'
+								className='px-4 py-3 cursor-pointer hover:bg-white/8 transition-colors'
 								onClick={() => handleSort('title')}
 							>
 								<div className='flex items-center gap-1'>
@@ -479,7 +479,7 @@ export default function TransactionsTable({
 							<th className='px-4 py-3'>Excuse</th>
 							<th className='px-4 py-3'>Method</th>
 							<th
-								className='px-4 py-3 cursor-pointer hover:bg-white/[0.08] transition-colors text-right'
+								className='px-4 py-3 cursor-pointer hover:bg-white/8 transition-colors text-right'
 								onClick={() => handleSort('amount')}
 							>
 								<div className='flex items-center justify-end gap-1'>
@@ -496,13 +496,13 @@ export default function TransactionsTable({
 							animate={{ opacity: 1, y: 0 }}
 							exit={{ opacity: 0, y: -5 }}
 							transition={{ duration: 0.15 }}
-							className='divide-y divide-white/[0.05]'
+							className='divide-y divide-white/5'
 						>
 							{currentData.length > 0 ?
 								currentData.map((item) => (
 									<tr
 										key={`${item.type}-${item.id}`}
-										className='hover:bg-white/[0.03] transition-colors group'
+										className='hover:bg-white/3 transition-colors group'
 									>
 										<td className='px-4 py-3 text-white/50'>
 											{format(
@@ -519,7 +519,7 @@ export default function TransactionsTable({
 											</div>
 										</td>
 										<td className='px-4 py-3'>
-											<span className='inline-flex items-center gap-1.5 bg-white/[0.06] border border-white/[0.08] rounded-lg px-2.5 py-1 text-xs text-white/50'>
+											<span className='inline-flex items-center gap-1.5 bg-white/6 border border-white/8 rounded-lg px-2.5 py-1 text-xs text-white/50'>
 												{item.category}
 											</span>
 										</td>
@@ -536,7 +536,7 @@ export default function TransactionsTable({
 											<div className='flex items-center justify-end gap-1'>
 												<button
 													onClick={() => onEdit(item)}
-													className='p-1.5 text-white/40 hover:text-white hover:bg-white/[0.08] rounded-lg transition-colors'
+													className='p-1.5 text-white/40 hover:text-white hover:bg-white/8 rounded-lg transition-colors'
 													title='Edit entry'
 												>
 													<Edit2 size={16} />

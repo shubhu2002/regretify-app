@@ -93,7 +93,7 @@ export default function AddLedgerModal({ isOpen, onClose, editLedger }: AddLedge
 	};
 
 	const inputCls =
-		'w-full px-4 py-3 text-base md:text-sm bg-white/[0.06] border border-white/10 rounded-xl text-white placeholder-white/30 focus:border-white/30 focus:ring-2 focus:ring-white/10 focus:outline-none transition-shadow outline-none';
+		'w-full px-4 py-3 text-base md:text-sm bg-white/6 border border-white/10 rounded-xl text-white placeholder-white/30 focus:border-white/30 focus:ring-2 focus:ring-white/10 focus:outline-none transition-shadow outline-none';
 	const labelCls =
 		'block text-sm font-semibold text-white/80 mb-1.5';
 
@@ -113,7 +113,7 @@ export default function AddLedgerModal({ isOpen, onClose, editLedger }: AddLedge
 						onClick={(e) => e.stopPropagation()}
 						className='bg-[#1a191e]/95 backdrop-blur-2xl w-full max-w-md border border-white/10 overflow-hidden rounded-3xl shadow-2xl shadow-black/60'
 					>
-						<div className='p-4 sm:p-6 border-b border-white/10 flex justify-between items-center bg-white/[0.04]'>
+						<div className='p-4 sm:p-6 border-b border-white/10 flex justify-between items-center bg-white/4'>
 							<h2 className='text-xl font-semibold text-white flex items-center gap-2'>
 								{isEdit ? (
 									<Pencil size={20} className='text-white/80' />
@@ -124,7 +124,7 @@ export default function AddLedgerModal({ isOpen, onClose, editLedger }: AddLedge
 							</h2>
 							<button
 								onClick={onClose}
-								className='cursor-pointer p-2 text-white/50 hover:text-white border border-white/10 bg-white/[0.08] hover:bg-white/[0.14] rounded-full transition-colors hover:-translate-y-0.5 active:translate-y-0'
+								className='cursor-pointer p-2 text-white/50 hover:text-white border border-white/10 bg-white/8 hover:bg-white/[0.14] rounded-full transition-colors hover:-translate-y-0.5 active:translate-y-0'
 							>
 								<X size={18} strokeWidth={2} />
 							</button>

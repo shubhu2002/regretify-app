@@ -60,10 +60,10 @@ export default function CustomSelect({
 				onClick={() => !disabled && setOpen(!open)}
 				className={`w-full flex items-center gap-2 px-3 py-2.5 rounded-xl border text-sm transition-all text-left ${
 					disabled
-						? 'border-transparent bg-white/[0.04] text-white/60 cursor-default'
+						? 'border-transparent bg-white/4 text-white/60 cursor-default'
 						: open
-							? 'border-white/30 ring-2 ring-white/10 bg-white/[0.06] text-white'
-							: 'border-white/10 bg-white/[0.06] text-white hover:border-white/20'
+							? 'border-white/30 ring-2 ring-white/10 bg-white/6 text-white'
+							: 'border-white/10 bg-white/6 text-white hover:border-white/20'
 				}`}
 			>
 				{icon && <span className='text-white/40 shrink-0'>{icon}</span>}
@@ -106,7 +106,7 @@ export default function CustomSelect({
 												? 'text-white/30 cursor-default'
 												: isActive
 													? 'bg-white/10 text-white'
-													: 'text-white/70 hover:bg-white/[0.06]'
+													: 'text-white/70 hover:bg-white/6'
 										}`}
 									>
 										<span className='flex-1 text-left truncate'>{opt.label}</span>

@@ -1,5 +1,5 @@
 export const ProfilePageSkeletonLoading = () => {
-	const shimmer = 'animate-pulse bg-white/[0.06] rounded-xl';
+	const shimmer = 'animate-pulse bg-white/6 rounded-xl';
 	return (
 		<div className='relative flex-1 w-full min-h-[calc(100vh-64px)] overflow-hidden'>
 			<div className='relative z-10 w-full max-w-5xl mx-auto px-4 sm:px-6 py-6 sm:py-8'>
@@ -24,7 +24,7 @@ export const ProfilePageSkeletonLoading = () => {
 				<div className='grid grid-cols-1 lg:grid-cols-3 gap-6'>
 					{/* Personal information */}
 					<div className='lg:col-span-2'>
-						<div className='bg-[#1a191e] border border-white/[0.06] rounded-2xl p-5 sm:p-6'>
+						<div className='bg-[#1a191e] border border-white/6 rounded-2xl p-5 sm:p-6'>
 							<div className={`${shimmer} h-5 w-44 mb-6`} />
 							<div className='grid grid-cols-1 sm:grid-cols-2 gap-4'>
 								{[...Array(4)].map((_, i) => (
@@ -49,7 +49,7 @@ export const ProfilePageSkeletonLoading = () => {
 
 					{/* Right column — app lock, danger zone, sign out */}
 					<div className='flex flex-col gap-4'>
-						<div className='bg-[#1a191e] border border-white/[0.06] rounded-2xl p-5'>
+						<div className='bg-[#1a191e] border border-white/6 rounded-2xl p-5'>
 							<div className='flex items-center gap-2.5 mb-3'>
 								<div
 									className={`${shimmer} w-8 h-8 rounded-lg shrink-0`}
@@ -73,7 +73,7 @@ export const ProfilePageSkeletonLoading = () => {
 							<div className={`${shimmer} h-10 w-full`} />
 						</div>
 
-						<div className='bg-[#1a191e] border border-white/[0.06] rounded-2xl px-5 py-3.5 flex items-center gap-2.5'>
+						<div className='bg-[#1a191e] border border-white/6 rounded-2xl px-5 py-3.5 flex items-center gap-2.5'>
 							<div
 								className={`${shimmer} w-5 h-5 rounded-md shrink-0`}
 							/>

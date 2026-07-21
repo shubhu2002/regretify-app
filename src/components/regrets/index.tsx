@@ -212,7 +212,7 @@ export default function Regrets({ session }: { session: Session }) {
 									setEditItem(null);
 									setModalOpen(true);
 								}}
-								className='bg-white/[0.08] hover:bg-white/[0.14] border border-white/10 px-4 py-2.5 rounded-xl font-medium text-white/80 flex items-center gap-2 transition-colors cursor-pointer'
+								className='bg-white/8 hover:bg-white/[0.14] border border-white/10 px-4 py-2.5 rounded-xl font-medium text-white/80 flex items-center gap-2 transition-colors cursor-pointer'
 							>
 								<Plus
 									size={18}
@@ -258,7 +258,7 @@ export default function Regrets({ session }: { session: Session }) {
 									},
 								},
 							}}
-							className='bg-[#0b0b0d] border border-white/[0.08] rounded-2xl px-2 sm:px-4 py-5 mb-8 relative z-10 grid grid-cols-2 lg:grid-cols-4 gap-y-6 lg:gap-y-0 lg:divide-x divide-white/[0.06]'
+							className='bg-[#0b0b0d] border border-white/8 rounded-2xl px-2 sm:px-4 py-5 mb-8 relative z-10 grid grid-cols-2 lg:grid-cols-4 gap-y-6 lg:gap-y-0 lg:divide-x divide-white/6'
 						>
 							<StatCard
 								title='Brief Joy (Income)'
@@ -316,7 +316,7 @@ export default function Regrets({ session }: { session: Session }) {
 									<h3 className='text-lg font-semibold tracking-tight text-white'>
 										Categories
 									</h3>
-									<div className='flex items-center gap-0.5 bg-white/[0.06] border border-white/[0.08] rounded-lg p-1'>
+									<div className='flex items-center gap-0.5 bg-white/6 border border-white/8 rounded-lg p-1'>
 										<button
 											onClick={() => setCatView('donut')}
 											title='Donut view'
@@ -443,11 +443,11 @@ function StatCard({
 }
 
 function RegretsSkeleton() {
-	const shimmer = 'animate-pulse bg-white/[0.06] rounded-xl';
+	const shimmer = 'animate-pulse bg-white/6 rounded-xl';
 	return (
 		<div className='space-y-8'>
 			{/* Stats Bar Skeleton */}
-			<div className='bg-[#0b0b0d] border border-white/[0.08] rounded-2xl px-2 sm:px-4 py-5 grid grid-cols-2 lg:grid-cols-4 gap-y-6 lg:gap-y-0 lg:divide-x divide-white/[0.06]'>
+			<div className='bg-[#0b0b0d] border border-white/8 rounded-2xl px-2 sm:px-4 py-5 grid grid-cols-2 lg:grid-cols-4 gap-y-6 lg:gap-y-0 lg:divide-x divide-white/6'>
 				{[...Array(4)].map((_, i) => (
 					<div
 						key={i}
@@ -476,7 +476,7 @@ function RegretsSkeleton() {
 						{/* Grid lines */}
 						<div className='absolute left-12 right-0 top-0 bottom-6 flex flex-col justify-between'>
 							{[...Array(5)].map((_, i) => (
-								<div key={i} className='h-px bg-white/[0.08]' />
+								<div key={i} className='h-px bg-white/8' />
 							))}
 						</div>
 						{/* Area curve */}
@@ -539,7 +539,7 @@ function RegretsSkeleton() {
 					{[...Array(5)].map((_, i) => (
 						<div
 							key={i}
-							className='flex items-center gap-4 p-4 bg-white/[0.04] rounded-2xl'
+							className='flex items-center gap-4 p-4 bg-white/4 rounded-2xl'
 						>
 							<div className={`${shimmer} h-8 w-16 rounded-lg`} />
 							<div className={`${shimmer} h-4 w-32`} />
@@ -558,7 +558,7 @@ function RegretsSkeleton() {
 					{[...Array(4)].map((_, i) => (
 						<div
 							key={i}
-							className='flex items-center gap-4 p-4 bg-white/[0.04] rounded-2xl'
+							className='flex items-center gap-4 p-4 bg-white/4 rounded-2xl'
 						>
 							<div className={`${shimmer} h-4 w-28`} />
 							<div className='flex-1' />
@@ -638,12 +638,12 @@ function MonthlyBreakdown({ data }: { data: MonthRow[] }) {
 
 			{/* Mobile cards */}
 			<div className='md:hidden flex flex-col gap-3'>
-				<div className='order-2 max-h-120 overflow-y-auto bg-[#1a191e] border border-white/[0.06] rounded-2xl divide-y divide-white/[0.05]'>
+				<div className='order-2 max-h-120 overflow-y-auto bg-[#1a191e] border border-white/6 rounded-2xl divide-y divide-white/5'>
 				{data.map((row) => {
 					return (
 						<div
 							key={row.key}
-							className='px-4 py-3 transition-colors hover:bg-white/[0.03]'
+							className='px-4 py-3 transition-colors hover:bg-white/3'
 						>
 							<div className='flex items-center justify-between mb-3'>
 								<span className='font-semibold text-sm text-white'>
@@ -693,7 +693,7 @@ function MonthlyBreakdown({ data }: { data: MonthRow[] }) {
 				</div>
 
 				{/* Summary card — rendered on top via order */}
-				<div className='order-1 bg-white/[0.08] rounded-2xl p-4 border border-white/10 transition-all group overflow-hidden'>
+				<div className='order-1 bg-white/8 rounded-2xl p-4 border border-white/10 transition-all group overflow-hidden'>
 					<h4 className='text-xs font-semibold text-white/50 uppercase mb-3 tracking-widest text-center'>
 						Annual Summary ({currentYear})
 					</h4>
@@ -741,7 +741,7 @@ function MonthlyBreakdown({ data }: { data: MonthRow[] }) {
 			</div>
 
 			{/* Desktop table — fixed height, scrollable, header + aggregate pinned */}
-			<div className='hidden md:block overflow-x-auto overflow-y-auto max-h-92 rounded-2xl border border-white/[0.06] bg-[#1a191e]'>
+			<div className='hidden md:block overflow-x-auto overflow-y-auto max-h-92 rounded-2xl border border-white/6 bg-[#1a191e]'>
 				<table className='w-full text-sm text-left table-auto'>
 					<thead className='sticky top-0 z-20 bg-[#141317] text-white/40 uppercase text-xs font-semibold'>
 						<tr>
@@ -786,12 +786,12 @@ function MonthlyBreakdown({ data }: { data: MonthRow[] }) {
 							</td>
 						</tr>
 					</tbody>
-					<tbody className='divide-y divide-white/[0.05]'>
+					<tbody className='divide-y divide-white/5'>
 						{data.map((row) => {
 							return (
 								<tr
 									key={row.key}
-									className='hover:bg-white/[0.03] transition-colors'
+									className='hover:bg-white/3 transition-colors'
 								>
 									<td className='px-6 py-4 font-semibold text-white/80'>
 										{row.month}

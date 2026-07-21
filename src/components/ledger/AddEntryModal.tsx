@@ -196,7 +196,7 @@ export default function AddEntryModal({
 	};
 
 	const inputCls =
-		'w-full px-4 py-3 text-base md:text-sm bg-white/[0.06] border border-white/10 rounded-xl text-white placeholder-white/30 focus:border-white/30 focus:ring-2 focus:ring-white/10 focus:outline-none transition-shadow outline-none';
+		'w-full px-4 py-3 text-base md:text-sm bg-white/6 border border-white/10 rounded-xl text-white placeholder-white/30 focus:border-white/30 focus:ring-2 focus:ring-white/10 focus:outline-none transition-shadow outline-none';
 	const labelCls =
 		'block text-sm font-semibold text-white/80 mb-1.5';
 
@@ -216,7 +216,7 @@ export default function AddEntryModal({
 						onClick={(e) => e.stopPropagation()}
 						className='bg-[#1a191e]/95 backdrop-blur-2xl transform-gpu w-full max-w-md border border-white/10 overflow-hidden rounded-3xl shadow-2xl shadow-black/60'
 					>
-						<div className='p-4 sm:p-6 border-b border-white/10 flex justify-between items-center bg-white/[0.04]'>
+						<div className='p-4 sm:p-6 border-b border-white/10 flex justify-between items-center bg-white/8'>
 							<h2 className='text-xl font-semibold text-white flex items-center gap-2'>
 								<span
 									className={`w-3 h-3 rounded-full ${type === 'give' ? 'bg-red-400' : 'bg-emerald-400'}`}
@@ -226,7 +226,7 @@ export default function AddEntryModal({
 							</h2>
 							<button
 								onClick={onClose}
-								className='cursor-pointer p-2 text-white/50 hover:text-white border border-white/10 bg-white/[0.08] hover:bg-white/[0.14] rounded-full transition-colors hover:-translate-y-0.5 active:translate-y-0'
+								className='cursor-pointer p-2 text-white/50 hover:text-white border border-white/10 bg-white/8 hover:bg-white/[0.14] rounded-full transition-colors hover:-translate-y-0.5 active:translate-y-0'
 							>
 								<X
 									size={18}
@@ -249,7 +249,7 @@ export default function AddEntryModal({
 										className={`cursor-pointer flex items-center justify-center gap-2 py-3 rounded-xl font-semibold text-sm border transition-all ${
 											type === 'give' ?
 												'bg-red-500/10 text-red-400 border-red-500/30'
-											:	'bg-white/[0.06] text-white/50 border-white/10 hover:bg-white/10'
+											:	'bg-white/6 text-white/50 border-white/10 hover:bg-white/10'
 										}`}
 									>
 										<ArrowUpRight
@@ -264,7 +264,7 @@ export default function AddEntryModal({
 										className={`cursor-pointer flex items-center justify-center gap-2 py-3 rounded-xl font-semibold text-sm border transition-all ${
 											type === 'take' ?
 												'bg-emerald-500/10 text-emerald-400 border-emerald-500/30'
-											:	'bg-white/[0.06] text-white/50 border-white/10 hover:bg-white/10'
+											:	'bg-white/6 text-white/50 border-white/10 hover:bg-white/10'
 										}`}
 									>
 										<ArrowDownLeft
@@ -291,7 +291,7 @@ export default function AddEntryModal({
 										onChange={(e) =>
 											handleAmountChange(e.target.value)
 										}
-										className='w-full pl-9 pr-4 py-3 bg-white/[0.06] border border-white/10 rounded-xl text-white placeholder-white/30 focus:border-white/30 focus:ring-2 focus:ring-white/10 focus:outline-none font-semibold text-base md:text-lg transition-shadow outline-none'
+										className='w-full pl-9 pr-4 py-3 bg-white/6 border border-white/10 rounded-xl text-white placeholder-white/30 focus:border-white/30 focus:ring-2 focus:ring-white/10 focus:outline-none font-semibold text-base md:text-lg transition-shadow outline-none'
 										placeholder='e.g. 120+12'
 									/>
 								</div>
@@ -313,7 +313,7 @@ export default function AddEntryModal({
 												y: -5,
 												height: 0,
 											}}
-											className='mt-2 flex items-center justify-between bg-white/[0.06] px-4 py-2.5 rounded-xl border border-white/10 overflow-hidden'
+											className='mt-2 flex items-center justify-between bg-white/6 px-4 py-2.5 rounded-xl border border-white/10 overflow-hidden'
 										>
 											<span className='text-sm text-white/80 font-semibold flex items-center gap-2'>
 												<span className='text-white/50 font-semibold'>
@@ -329,7 +329,7 @@ export default function AddEntryModal({
 														calculatedAmount.toString(),
 													)
 												}
-												className='cursor-pointer text-xs px-3 py-1.5 bg-white/[0.08] border border-white/10 text-white/80 rounded-lg hover:bg-white/[0.14] font-medium transition-all active:scale-95'
+												className='cursor-pointer text-xs px-3 py-1.5 bg-white/8 border border-white/10 text-white/80 rounded-lg hover:bg-white/[0.14] font-medium transition-all active:scale-95'
 											>
 												Use Value
 											</button>

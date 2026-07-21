@@ -10,7 +10,6 @@ import {
 	BookOpen,
 	Flame,
 	StickyNote,
-	User,
 	Search,
 	Plus,
 } from 'lucide-react';
@@ -24,7 +23,6 @@ const NAV_LINKS = [
 	{ href: '/regrets', label: 'Regrets', icon: Flame },
 	{ href: '/ledger', label: 'Ledger', icon: BookOpen },
 	{ href: '/notes', label: 'Notes', icon: StickyNote },
-	// { href: '/profile', label: 'Profile', icon: User },
 ];
 
 export default function AppShell({
@@ -113,7 +111,7 @@ export default function AppShell({
 	if (!isApp) {
 		return (
 			<>
-				<nav className='fixed top-0 z-50 w-full bg-black/70 backdrop-blur-xl border-b border-white/[0.08]'>
+				<nav className='fixed top-0 z-50 w-full bg-black/70 backdrop-blur-xl border-b border-white/8'>
 					<div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8'>
 						<div className='flex justify-between items-center h-14 sm:h-16'>
 							<Link
@@ -141,7 +139,7 @@ export default function AppShell({
 								) : session ? (
 									<Link
 										href='/profile'
-										className='flex items-center gap-2 p-1 sm:p-1.5 sm:pr-4 bg-white/[0.06] border border-white/10 rounded-full hover:bg-white/10 transition-all'
+										className='flex items-center gap-2 p-1 sm:p-1.5 sm:pr-4 bg-white/6 border border-white/10 rounded-full hover:bg-white/10 transition-all'
 									>
 										{/* eslint-disable-next-line @next/next/no-img-element */}
 										<img
@@ -182,11 +180,11 @@ export default function AppShell({
 		<>
 			{/* Soft white radial glow at the top, like the landing hero */}
 			<div className='fixed inset-0 pointer-events-none z-0 overflow-hidden'>
-				<div className='absolute top-0 left-1/2 -translate-x-1/2 w-[200vw] max-w-[2000px] h-[50vh] opacity-[0.07] bg-[radial-gradient(40.9%_81.1%_at_50%_0%,#ffffff_0%,rgba(0,0,0,0)_100%)]' />
+				<div className='absolute top-0 left-1/2 -translate-x-1/2 w-[200vw] max-w-500 h-[50vh] opacity-[0.07] bg-[radial-gradient(40.9%_81.1%_at_50%_0%,#ffffff_0%,rgba(0,0,0,0)_100%)]' />
 			</div>
 
 			{/* Top bar: logo badge + global search + profile pill */}
-			<header className='fixed top-0 inset-x-0 z-50 bg-black/70 backdrop-blur-xl border-b border-white/[0.08]'>
+			<header className='fixed top-0 inset-x-0 z-50 bg-black/70 backdrop-blur-xl border-b border-white/8'>
 				<div className='flex items-center gap-3 sm:gap-6 h-14 sm:h-16 px-4 sm:px-6'>
 					<Link
 						href='/'
@@ -219,7 +217,7 @@ export default function AppShell({
 							);
 						}}
 					>
-						<div className='flex items-center gap-2.5 bg-white/[0.06] border border-white/10 rounded-xl px-3.5 py-2 sm:py-2.5 transition-all focus-within:border-white/30 focus-within:ring-2 focus-within:ring-white/10'>
+						<div className='flex items-center gap-2.5 bg-white/6 border border-white/10 rounded-xl px-3.5 py-2 sm:py-2.5 transition-all focus-within:border-white/30 focus-within:ring-2 focus-within:ring-white/10'>
 							<Search
 								size={16}
 								className='text-white/40 shrink-0'
@@ -235,7 +233,7 @@ export default function AppShell({
 
 					<Link
 						href='/profile'
-						className='hidden md:flex shrink-0 items-center gap-2 p-1 pr-3.5 bg-white/[0.06] border border-white/10 rounded-full hover:bg-white/10 transition-all ml-auto'
+						className='hidden md:flex shrink-0 items-center gap-2 p-1 pr-3.5 bg-white/6 border border-white/10 rounded-full hover:bg-white/10 transition-all ml-auto'
 					>
 						{/* eslint-disable-next-line @next/next/no-img-element */}
 						<img
@@ -251,7 +249,7 @@ export default function AppShell({
 			</header>
 
 			{/* Desktop sidebar */}
-			<aside className='hidden md:flex flex-col fixed left-0 top-14 sm:top-16 bottom-0 w-60 z-40 border-r border-white/[0.08] bg-black/40 backdrop-blur-xl p-4'>
+			<aside className='hidden md:flex flex-col fixed left-0 top-14 sm:top-16 bottom-0 w-60 z-40 border-r border-white/8 bg-black/40 backdrop-blur-xl p-4'>
 				<button
 					onClick={() => setTransactionOpen(true)}
 					className='w-full flex items-center justify-center gap-2 bg-[#9294e5] hover:bg-[#a3a5ec] text-black font-semibold rounded-xl px-4 py-3 mb-5 shadow-[0_2px_24px_rgba(146,148,229,0.35)] transition-colors cursor-pointer'
@@ -270,13 +268,13 @@ export default function AppShell({
 								className={`relative flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm font-medium transition-all ${
 									isActive ?
 										'text-white'
-									:	'text-white/50 hover:text-white/80 hover:bg-white/[0.04]'
+									:	'text-white/50 hover:text-white/80 hover:bg-white/4'
 								}`}
 							>
 								{isActive && (
 									<motion.div
 										layoutId='activeSidebarNav'
-										className='absolute inset-0 bg-white/[0.08] rounded-xl'
+										className='absolute inset-0 bg-white/8 rounded-xl'
 										transition={{
 											type: 'spring',
 											bounce: 0.2,
@@ -308,7 +306,7 @@ export default function AppShell({
 			</div>
 
 			{/* Mobile bottom navigation */}
-			<div className='md:hidden fixed bottom-0 left-0 right-0 z-50 bg-black/80 backdrop-blur-xl border-t border-white/[0.08] px-2 pb-[env(safe-area-inset-bottom)]'>
+			<div className='md:hidden fixed bottom-0 left-0 right-0 z-50 bg-black/80 backdrop-blur-xl border-t border-white/8 px-2 pb-[env(safe-area-inset-bottom)]'>
 				<div className='flex items-center justify-around h-14'>
 					{NAV_LINKS.map((link) => {
 						const isActive = pathname === link.href;

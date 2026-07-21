@@ -129,7 +129,7 @@ export default function AppLockScreen({ onUnlock, passcodeLength }: AppLockScree
 							className={`w-3.5 h-3.5 rounded-full transition-colors duration-150 ${
 								i < code.length ?
 									'bg-white'
-								:	'bg-white/[0.06] border border-white/10'
+								:	'bg-white/6 border border-white/10'
 							}`}
 						/>
 					))}
@@ -161,7 +161,7 @@ export default function AppLockScreen({ onUnlock, passcodeLength }: AppLockScree
 									key={i}
 									onClick={handleDelete}
 									disabled={verifying || code.length === 0}
-									className='h-16 rounded-2xl flex items-center justify-center text-white/50 hover:text-white hover:bg-white/[0.08] active:bg-white/10 transition-colors disabled:opacity-30'
+									className='h-16 rounded-2xl flex items-center justify-center text-white/50 hover:text-white hover:bg-white/8 active:bg-white/10 transition-colors disabled:opacity-30'
 								>
 									<Delete size={22} />
 								</button>
@@ -173,7 +173,7 @@ export default function AppLockScreen({ onUnlock, passcodeLength }: AppLockScree
 								whileTap={{ scale: 0.92 }}
 								onClick={() => handlePress(key)}
 								disabled={verifying || code.length >= passcodeLength}
-								className='h-16 rounded-2xl bg-white/[0.06] border border-white/10 text-2xl font-semibold text-white hover:bg-white/10 active:bg-white/[0.14] transition-colors disabled:opacity-40'
+								className='h-16 rounded-2xl bg-white/6 border border-white/10 text-2xl font-semibold text-white hover:bg-white/10 active:bg-white/[0.14] transition-colors disabled:opacity-40'
 							>
 								{key}
 							</motion.button>

@@ -322,7 +322,7 @@ export default function Notes() {
 				whileTap={{ scale: 0.98 }}
 				onClick={() => selectNote(note)}
 				className={`relative w-full text-left px-4 py-3 transition-colors cursor-pointer group ${
-					isSelected ? 'bg-white/[0.06]' : 'hover:bg-white/[0.03]'
+					isSelected ? 'bg-white/6' : 'hover:bg-white/3'
 				}`}
 			>
 				{isSelected && (
@@ -404,7 +404,7 @@ export default function Notes() {
 						</div>
 						<div className='flex items-center gap-3'>
 							{allNotes.length > 0 && (
-								<span className='hidden sm:inline-flex items-center gap-1.5 bg-white/[0.06] border border-white/[0.08] rounded-lg px-3 py-1.5 text-xs text-white/50'>
+								<span className='hidden sm:inline-flex items-center gap-1.5 bg-white/6 border border-white/8 rounded-lg px-3 py-1.5 text-xs text-white/50'>
 									<StickyNote size={12} />
 									{allNotes.length}{' '}
 									{allNotes.length === 1 ? 'note' : 'notes'}
@@ -444,7 +444,7 @@ export default function Notes() {
 										type='text'
 										value={search}
 										onChange={(e) => setSearch(e.target.value)}
-										className='w-full pl-9 pr-4 py-2 text-base md:text-sm bg-white/[0.06] border border-white/10 rounded-xl placeholder-white/35 focus:outline-none focus:ring-2 focus:ring-white/10 focus:border-white/30 transition-shadow outline-none text-white'
+										className='w-full pl-9 pr-4 py-2 text-base md:text-sm bg-white/6 border border-white/10 rounded-xl placeholder-white/35 focus:outline-none focus:ring-2 focus:ring-white/10 focus:border-white/30 transition-shadow outline-none text-white'
 										placeholder='Search notes...'
 									/>
 								</div>
@@ -494,7 +494,7 @@ export default function Notes() {
 													<Pin size={11} />
 													Pinned
 												</p>
-												<div className='bg-[#1a191e] border border-white/[0.06] rounded-2xl overflow-hidden divide-y divide-white/[0.05]'>
+												<div className='bg-[#1a191e] border border-white/6 rounded-2xl overflow-hidden divide-y divide-white/5'>
 													{pinnedNotes.map((note) => (
 														<NoteListItem key={note.id} note={note} />
 													))}
@@ -506,7 +506,7 @@ export default function Notes() {
 												{pinnedNotes.length > 0 && (
 													<p className={sectionLabelCls}>Notes</p>
 												)}
-												<div className='bg-[#1a191e] border border-white/[0.06] rounded-2xl overflow-hidden divide-y divide-white/[0.05]'>
+												<div className='bg-[#1a191e] border border-white/6 rounded-2xl overflow-hidden divide-y divide-white/5'>
 													{otherNotes.map((note) => (
 														<NoteListItem key={note.id} note={note} />
 													))}
@@ -533,7 +533,7 @@ export default function Notes() {
 												flushSave();
 												setSelectedId(null);
 											}}
-											className='md:hidden p-2 text-white/50 hover:text-white hover:bg-white/[0.08] bg-white/[0.06] border border-white/10 rounded-xl transition-colors cursor-pointer'
+											className='md:hidden p-2 text-white/50 hover:text-white hover:bg-white/8 bg-white/6 border border-white/10 rounded-xl transition-colors cursor-pointer'
 										>
 											<ChevronLeft size={16} />
 										</button>
@@ -568,7 +568,7 @@ export default function Notes() {
 													className={`p-2 rounded-lg transition-colors cursor-pointer ${
 														btn.isActive
 															? 'bg-white/10 text-white'
-															: 'text-white/50 hover:text-white hover:bg-white/[0.08]'
+															: 'text-white/50 hover:text-white hover:bg-white/8'
 													}`}
 												>
 													<btn.icon size={15} />
@@ -583,7 +583,7 @@ export default function Notes() {
 												className={`p-2 rounded-lg transition-colors cursor-pointer ${
 													selectedNote.pinned
 														? 'bg-white/10 text-white'
-														: 'text-white/50 hover:text-white hover:bg-white/[0.08]'
+														: 'text-white/50 hover:text-white hover:bg-white/8'
 												}`}
 											>
 												<Pin

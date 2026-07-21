@@ -45,7 +45,7 @@ export default function LandingPage() {
 	const saved = useCounter(94, 1000, statsInView);
 
 	return (
-		<div className='flex-1 flex flex-col bg-transparent overflow-x-hidden'>
+		<div className='flex-1 flex flex-col bg-transparent overflow-x-hidden font-mono'>
 			{/* Background — ultramail-style: white radial glow at top + faint pastel washes */}
 			<div className='fixed inset-0 overflow-hidden pointer-events-none z-0'>
 				<div className='absolute top-0 left-1/2 -translate-x-1/2 w-[200vw] max-w-500 h-[60vh] opacity-[0.09] bg-[radial-gradient(40.9%_81.1%_at_50%_0%,#ffffff_0%,rgba(0,0,0,0)_100%)]' />

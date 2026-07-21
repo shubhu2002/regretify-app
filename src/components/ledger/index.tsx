@@ -275,7 +275,7 @@ export default function Ledger() {
 						</div>
 						<div className='flex items-center gap-3'>
 							{accounts.length > 0 && (
-								<span className='hidden sm:inline-flex items-center gap-1.5 bg-white/[0.06] border border-white/[0.08] rounded-lg px-3 py-1.5 text-xs text-white/50'>
+								<span className='hidden sm:inline-flex items-center gap-1.5 bg-white/6 border border-white/8 rounded-lg px-3 py-1.5 text-xs text-white/50'>
 									<Users size={12} />
 									{accounts.length}{' '}
 									{accounts.length === 1 ?
@@ -350,14 +350,14 @@ export default function Ledger() {
 											setEditAccount(null);
 											setAccountModalOpen(true);
 										}}
-										className='p-1.5 text-white/40 hover:text-white bg-white/[0.06] hover:bg-white/10 rounded-lg transition-colors cursor-pointer'
+										className='p-1.5 text-white/40 hover:text-white bg-white/6 hover:bg-white/10 rounded-lg transition-colors cursor-pointer'
 										title='Add account'
 									>
 										<Plus size={14} />
 									</button>
 								</div>
 								<div className='overflow-y-auto flex-1 pr-1'>
-									<div className='bg-[#1a191e] border border-white/[0.06] rounded-2xl overflow-hidden divide-y divide-white/[0.05]'>
+									<div className='bg-[#1a191e] border border-white/6 rounded-2xl overflow-hidden divide-y divide-white/5'>
 										{accounts.map((account) => {
 											const isSelected =
 												selectedAccount?.id ===
@@ -373,8 +373,8 @@ export default function Ledger() {
 													}
 													className={`relative px-4 py-3 cursor-pointer transition-colors ${
 														isSelected ?
-															'bg-white/[0.06] text-white'
-														:	'hover:bg-white/[0.03]'
+															'bg-white/6 text-white'
+														:	'hover:bg-white/3'
 													}`}
 												>
 													{isSelected && (
@@ -452,7 +452,7 @@ export default function Ledger() {
 													onClick={() =>
 														setSelectedAccount(null)
 													}
-													className='lg:hidden p-2 text-white/50 hover:text-white bg-white/[0.08] hover:bg-white/[0.14] border border-white/10 rounded-xl transition-colors'
+													className='lg:hidden p-2 text-white/50 hover:text-white bg-white/8 hover:bg-white/[0.14] border border-white/10 rounded-xl transition-colors'
 												>
 													<ChevronLeft size={18} />
 												</button>
@@ -501,7 +501,7 @@ export default function Ledger() {
 															true,
 														);
 													}}
-													className='p-2 text-white/50 hover:text-white bg-white/[0.08] border border-white/10 rounded-xl hover:bg-white/[0.14] transition-colors'
+													className='p-2 text-white/50 hover:text-white bg-white/8 border border-white/10 rounded-xl hover:bg-white/[0.14] transition-colors'
 												>
 													<Pencil size={16} />
 												</button>
@@ -513,7 +513,7 @@ export default function Ledger() {
 															type: 'account',
 														})
 													}
-													className='p-2 text-red-400 hover:text-red-300 bg-white/[0.08] border border-white/10 rounded-xl hover:bg-red-500/10 transition-colors'
+													className='p-2 text-red-400 hover:text-red-300 bg-white/8 border border-white/10 rounded-xl hover:bg-red-500/10 transition-colors'
 												>
 													<Trash2 size={16} />
 												</button>
@@ -563,7 +563,7 @@ export default function Ledger() {
 															'text-emerald-400 bg-emerald-500/10 border-emerald-500/20'
 														: balance < 0 ?
 															'text-red-400 bg-red-500/10 border-red-500/20'
-														:	'text-white/50 bg-white/[0.06] border-white/10'
+														:	'text-white/50 bg-white/6 border-white/10'
 													}`}
 												>
 													{balance > 0 ?
@@ -609,10 +609,10 @@ export default function Ledger() {
 													{/* Desktop Table */}
 													<div
 														ref={desktopScrollRef}
-														className='hidden md:block overflow-x-auto overflow-y-auto flex-1 min-h-0 rounded-2xl border border-white/[0.06] bg-[#1a191e]'
+														className='hidden md:block overflow-x-auto overflow-y-auto flex-1 min-h-0 rounded-2xl border border-white/6 bg-[#1a191e]'
 													>
 														<table className='w-full text-sm text-left table-auto'>
-															<thead className='bg-[#141317] border-b border-white/[0.05] text-white/40 uppercase text-xs font-semibold'>
+															<thead className='bg-[#141317] border-b border-white/5 text-white/40 uppercase text-xs font-semibold'>
 																<tr>
 																	<th className='px-5 py-3.5'>
 																		Type
@@ -632,14 +632,14 @@ export default function Ledger() {
 																	</th>
 																</tr>
 															</thead>
-															<tbody className='divide-y divide-white/[0.05]'>
+															<tbody className='divide-y divide-white/5'>
 																{entries.map(
 																	(entry) => (
 																		<tr
 																			key={
 																				entry.id
 																			}
-																			className='hover:bg-white/[0.03] transition-colors group/row'
+																			className='hover:bg-white/3 transition-colors group/row'
 																		>
 																			<td className='px-5 py-3.5'>
 																				<div
@@ -827,7 +827,7 @@ export default function Ledger() {
 															ref={
 																mobileSentinelRef
 															}
-															className='bg-[#1a191e] border border-white/[0.06] rounded-2xl overflow-hidden divide-y divide-white/[0.05]'
+															className='bg-[#1a191e] border border-white/6 rounded-2xl overflow-hidden divide-y divide-white/5'
 														>
 															{entries.map(
 																(entry) => (
@@ -843,7 +843,7 @@ export default function Ledger() {
 																			opacity: 1,
 																			y: 0,
 																		}}
-																		className='px-4 py-3 transition-colors hover:bg-white/[0.03]'
+																		className='px-4 py-3 transition-colors hover:bg-white/3'
 																	>
 																		<div className='flex items-center justify-between mb-2'>
 																			<div
