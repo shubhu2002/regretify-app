@@ -63,10 +63,13 @@ export default function AppShell({
 	/* Sidebar counts — share the pages' query caches so they stay in sync */
 	const userId = (session?.user as any)?.id || session?.user?.email || '';
 
+	// Current month's regrets — same key + endpoint as the regrets page's
+	// default view, so both share one cache entry.
+	const currentMonth = new Date().getMonth().toString();
 	const { data: txData } = useQuery({
-		queryKey: ['transactions-all', userId],
+		queryKey: ['transactions', userId, currentMonth],
 		queryFn: async () => {
-			const res = await fetch('/api/transactions/?month=all');
+			const res = await fetch(`/api/transactions/?month=${currentMonth}`);
 			if (!res.ok) return null;
 			return res.json() as Promise<{
 				incomes: unknown[];
