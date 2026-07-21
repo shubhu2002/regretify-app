@@ -88,7 +88,7 @@ export default function LandingPage() {
 								:	setIsAuthOpen(true)
 							}
 							disabled={status === 'loading'}
-							className='bg-[#9294e5] hover:bg-[#a3a5ec] text-black glow-periwinkle px-6 py-3 sm:px-8 sm:py-4 rounded-xl font-semibold text-base sm:text-lg flex items-center gap-2 transition-all disabled:opacity-70 disabled:cursor-not-allowed'
+							className='bg-[#9294e5] hover:bg-[#a3a5ec] text-black glow-periwinkle px-4 py-3 sm:px-8 sm:py-4 rounded-xl font-semibold text-base sm:text-lg flex items-center gap-2 transition-all disabled:opacity-70 disabled:cursor-not-allowed'
 						>
 							{session ?
 								'View My Regrets'
@@ -102,7 +102,7 @@ export default function LandingPage() {
 							whileTap={{ scale: 0.97 }}
 							href='#features'
 							onClick={(e) => handleSmooth(e, 'features')}
-							className='bg-white/8 hover:bg-white/[0.14] text-white/80 border border-white/10 px-6 py-3 sm:px-8 sm:py-4 rounded-xl font-medium text-base sm:text-lg flex items-center gap-2 transition-all'
+							className='bg-white/8 hover:bg-white/[0.14] text-white/80 border border-white/10 px-4 py-3 sm:px-8 sm:py-4 rounded-xl font-medium text-base sm:text-lg flex items-center gap-2 transition-all'
 						>
 							See Features
 						</motion.a>
