@@ -54,7 +54,7 @@ export default function LandingPage() {
 			</div>
 
 			{/* ─── Hero ─── */}
-			<section className='relative z-10 flex flex-col items-center justify-center text-center px-6 pt-32 sm:pt-48 pb-32 min-h-screen h-full overflow-'>
+			<section className='relative z-10 flex flex-col items-center justify-center text-center px-6 pt-32 sm:pt-48 pb-32 min-h-screen'>
 				<div className='inline-flex items-center gap-2 px-4 py-2 bg-white/3 text-white/80 font-medium text-sm mb-6 sm:mb-8 border border-white/10 rounded-full'>
 					<span className='relative flex h-2 w-2'>
 						<span className='animate-ping absolute inline-flex h-full w-full bg-accent-gradient opacity-75 rounded-full' />
@@ -64,7 +64,7 @@ export default function LandingPage() {
 				</div>
 
 				<div className='max-w-4xl mx-auto'>
-					<h1 className='text-4xl sm:text-6xl md:text-7xl font-medium tracking-tight mb-4 sm:mb-6 text-white text-gradient leading-[1.1]'>
+					<h1 className='text-4xl md:text-7xl font-medium tracking-tight mb-4 sm:mb-6 text-white text-gradient leading-[1.1]'>
 						Track Every Terrible <br className='hidden md:block' />
 						<span className='text-accent-gradient'>
 							Financial Decision
@@ -122,7 +122,7 @@ export default function LandingPage() {
 						duration: 0.8,
 						ease: 'easeOut',
 					}}
-					className='relative z-10 w-full mx-auto mt-14 sm:mt-28 flex justify-center'
+					className='relative z-10 w-full mx-auto mt-12 sm:mt-28 flex justify-center'
 				>
 					<div className='relative rounded-2xl max-w-310 sm:rounded-[40px] border border-white/6 overflow-hidden bg-[#050506]'>
 						<div className='flex items-center justify-center'>
