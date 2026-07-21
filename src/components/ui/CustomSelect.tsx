@@ -85,7 +85,7 @@ export default function CustomSelect({
 						animate={{ opacity: 1, y: 0, scale: 1 }}
 						exit={{ opacity: 0, y: -4, scale: 0.98 }}
 						transition={{ duration: 0.15 }}
-						className='absolute z-50 mt-1.5 w-full min-w-40 bg-[#101013] border border-white/10 rounded-xl shadow-xl shadow-black/60 overflow-hidden'
+						className='absolute z-50 mt-1.5 w-full min-w-40 bg-[#1a191e] border border-white/10 rounded-xl shadow-xl shadow-black/60 overflow-hidden'
 					>
 						<div className='max-h-56 overflow-y-auto py-1 scrollbar-thin'>
 							{options.map((opt) => {

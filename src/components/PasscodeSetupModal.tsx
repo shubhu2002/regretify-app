@@ -138,7 +138,7 @@ export default function PasscodeSetupModal({
 						animate={{ scale: 1, opacity: 1, y: 0 }}
 						exit={{ scale: 0.95, opacity: 0, y: 15 }}
 						onClick={(e) => e.stopPropagation()}
-						className='w-full max-w-sm bg-[#101013]/95 backdrop-blur-2xl border border-white/10 rounded-3xl overflow-hidden shadow-2xl shadow-black/60 p-6'
+						className='w-full max-w-sm bg-[#1a191e]/95 backdrop-blur-2xl border border-white/10 rounded-3xl overflow-hidden shadow-2xl shadow-black/60 p-6'
 					>
 						{/* Header */}
 						<div className='flex items-center justify-between mb-5'>

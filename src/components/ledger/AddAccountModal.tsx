@@ -116,7 +116,7 @@ export default function AddAccountModal({ isOpen, onClose, editAccount, ledgerBo
 						animate={{ scale: 1, opacity: 1, y: 0 }}
 						exit={{ scale: 0.95, opacity: 0, y: 20 }}
 						onClick={(e) => e.stopPropagation()}
-						className='bg-[#101013]/95 backdrop-blur-2xl w-full max-w-md border border-white/10 overflow-hidden rounded-3xl shadow-2xl shadow-black/60'
+						className='bg-[#1a191e]/95 backdrop-blur-2xl w-full max-w-md border border-white/10 overflow-hidden rounded-3xl shadow-2xl shadow-black/60'
 					>
 						<div className='p-4 sm:p-6 border-b border-white/10 flex justify-between items-center bg-white/[0.04]'>
 							<h2 className='text-xl font-semibold text-white flex items-center gap-2'>

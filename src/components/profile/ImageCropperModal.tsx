@@ -52,7 +52,7 @@ export default function ImageCropperModal({
 				initial={{ opacity: 0, scale: 0.95 }}
 				animate={{ opacity: 1, scale: 1 }}
 				exit={{ opacity: 0, scale: 0.95 }}
-				className='w-full max-w-md bg-[#101013]/95 backdrop-blur-2xl rounded-3xl shadow-2xl shadow-black/60 overflow-hidden border border-white/10 flex flex-col'
+				className='w-full max-w-md bg-[#1a191e]/95 backdrop-blur-2xl rounded-3xl shadow-2xl shadow-black/60 overflow-hidden border border-white/10 flex flex-col'
 			>
 				<div className='p-4 border-b border-white/10 flex justify-between items-center bg-white/[0.04]'>
 					<h2 className='font-semibold tracking-tight text-white'>

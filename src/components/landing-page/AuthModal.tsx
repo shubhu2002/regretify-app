@@ -211,7 +211,7 @@ export default function AuthModal({
 						initial={{ opacity: 0, scale: 0.95, y: 20 }}
 						animate={{ opacity: 1, scale: 1, y: 0 }}
 						exit={{ opacity: 0, scale: 0.95, y: 20 }}
-						className='relative w-full max-w-md my-4 bg-[#101013]/95 backdrop-blur-2xl rounded-3xl shadow-2xl shadow-black/60 border border-white/10 overflow-hidden'
+						className='relative w-full max-w-md my-4 bg-[#1a191e]/95 backdrop-blur-2xl rounded-3xl shadow-2xl shadow-black/60 border border-white/10 overflow-hidden'
 					>
 						{/* Header */}
 						<div className='p-6 text-center border-b border-white/10 relative'>
