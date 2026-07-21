@@ -340,7 +340,11 @@ export default function Ledger() {
 						</motion.div>
 					:	<div className='grid grid-cols-1 lg:grid-cols-3 gap-6 relative z-10'>
 							{/* Accounts Panel */}
-							<div className='lg:col-span-1 card-aurora rounded-3xl p-4 sm:p-5 h-[42vh] sm:h-[70vh] flex flex-col'>
+							<div
+							className={`lg:col-span-1 card-aurora rounded-3xl p-4 sm:p-5 h-[60vh] lg:h-[70vh] flex-col ${
+								selectedAccount ? 'hidden lg:flex' : 'flex'
+							}`}
+						>
 								<div className='flex items-center justify-between mb-4 px-1 shrink-0'>
 									<h3 className='text-sm font-semibold text-white/50 uppercase tracking-wide'>
 										Accounts ({accounts.length})
@@ -442,7 +446,11 @@ export default function Ledger() {
 							</div>
 
 							{/* Entries Panel */}
-							<div className='lg:col-span-2 card-aurora rounded-3xl p-4 sm:p-6 h-[70vh] flex flex-col'>
+							<div
+							className={`lg:col-span-2 card-aurora rounded-3xl p-4 sm:p-6 h-[70vh] flex-col ${
+								selectedAccount ? 'flex' : 'hidden lg:flex'
+							}`}
+						>
 								{selectedAccount ?
 									<div className='flex flex-col h-full'>
 										{/* Account header */}

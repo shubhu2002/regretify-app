@@ -54,8 +54,8 @@ export default function LandingPage() {
 			</div>
 
 			{/* ─── Hero ─── */}
-			<section className='relative z-10 flex flex-col items-center justify-center text-center px-6 pt-16 sm:pt-48 pb-32 min-h-screen h-full overflow-'>
-				<div className='inline-flex items-center gap-2 px-4 py-2 bg-white/3 text-white/80 font-medium text-sm mb-8 border border-white/10 rounded-full'>
+			<section className='relative z-10 flex flex-col items-center justify-center text-center px-6 pt-32 sm:pt-48 pb-32 min-h-screen h-full overflow-'>
+				<div className='inline-flex items-center gap-2 px-4 py-2 bg-white/3 text-white/80 font-medium text-sm mb-6 sm:mb-8 border border-white/10 rounded-full'>
 					<span className='relative flex h-2 w-2'>
 						<span className='animate-ping absolute inline-flex h-full w-full bg-accent-gradient opacity-75 rounded-full' />
 						<span className='relative inline-flex h-2 w-2 bg-accent-gradient rounded-full' />
@@ -64,14 +64,14 @@ export default function LandingPage() {
 				</div>
 
 				<div className='max-w-4xl mx-auto'>
-					<h1 className='text-5xl sm:text-310 md:text-310 font-medium tracking-tight mb-6 text-white text-gradient leading-[1.1]'>
+					<h1 className='text-4xl sm:text-6xl md:text-7xl font-medium tracking-tight mb-4 sm:mb-6 text-white text-gradient leading-[1.1]'>
 						Track Every Terrible <br className='hidden md:block' />
 						<span className='text-accent-gradient'>
 							Financial Decision
 						</span>
 					</h1>
 
-					<p className='text-lg md:text-xl text-white/70 mb-10 max-w-2xl mx-auto leading-relaxed'>
+					<p className='text-base sm:text-lg md:text-xl text-white/70 mb-8 sm:mb-10 max-w-2xl mx-auto'>
 						Log your regrets, track who owes you (and who you owe),
 						scribble notes & checklists, visualize your despair, and
 						export your financial trauma — all in one beautifully
@@ -88,7 +88,7 @@ export default function LandingPage() {
 								:	setIsAuthOpen(true)
 							}
 							disabled={status === 'loading'}
-							className='bg-[#9294e5] hover:bg-[#a3a5ec] text-black glow-periwinkle px-8 py-4 rounded-xl font-semibold text-lg flex items-center gap-2 transition-all disabled:opacity-70 disabled:cursor-not-allowed'
+							className='bg-[#9294e5] hover:bg-[#a3a5ec] text-black glow-periwinkle px-6 py-3 sm:px-8 sm:py-4 rounded-xl font-semibold text-base sm:text-lg flex items-center gap-2 transition-all disabled:opacity-70 disabled:cursor-not-allowed'
 						>
 							{session ?
 								'View My Regrets'
@@ -102,7 +102,7 @@ export default function LandingPage() {
 							whileTap={{ scale: 0.97 }}
 							href='#features'
 							onClick={(e) => handleSmooth(e, 'features')}
-							className='bg-white/8 hover:bg-white/[0.14] text-white/80 border border-white/10 px-8 py-4 rounded-xl font-medium text-lg flex items-center gap-2 transition-all'
+							className='bg-white/8 hover:bg-white/[0.14] text-white/80 border border-white/10 px-6 py-3 sm:px-8 sm:py-4 rounded-xl font-medium text-base sm:text-lg flex items-center gap-2 transition-all'
 						>
 							See Features
 						</motion.a>
@@ -122,7 +122,7 @@ export default function LandingPage() {
 						duration: 0.8,
 						ease: 'easeOut',
 					}}
-					className='relative z-10 w-full mx-auto mt-28 flex justify-center'
+					className='relative z-10 w-full mx-auto mt-14 sm:mt-28 flex justify-center'
 				>
 					<div className='relative rounded-2xl max-w-310 sm:rounded-[40px] border border-white/6 overflow-hidden bg-[#050506]'>
 						<div className='flex items-center justify-center'>
@@ -203,11 +203,11 @@ export default function LandingPage() {
 						<span className='text-xs font-semibold tracking-[0.25em] uppercase text-accent-gradient'>
 							Platform Features
 						</span>
-						<h2 className='text-4xl md:text-5xl font-medium tracking-tight mt-4 mb-4 text-white'>
+						<h2 className='text-3xl sm:text-4xl md:text-5xl font-medium tracking-tight mt-4 mb-4 text-white'>
 							Everything You Need to{' '}
 							<span className='text-gradient'>Feel Horrible</span>
 						</h2>
-						<p className='text-white/60 text-lg max-w-xl mx-auto'>
+						<p className='text-white/60 text-base sm:text-lg max-w-xl mx-auto'>
 							A full financial regrets dashboard, personal ledger,
 							and notes app — packed with every tool to track,
 							visualize, and settle your greatest money mistakes.
@@ -236,7 +236,7 @@ export default function LandingPage() {
 						<span className='text-xs font-semibold tracking-[0.25em] uppercase text-accent-gradient'>
 							How It Works
 						</span>
-						<h2 className='text-4xl font-medium tracking-tight mt-4 text-white'>
+						<h2 className='text-3xl sm:text-4xl font-medium tracking-tight mt-4 text-white'>
 							4 Steps to Financial{' '}
 							<span className='text-gradient'>
 								Self-Awareness
@@ -253,13 +253,13 @@ export default function LandingPage() {
 									ease: 'easeInOut',
 								}}
 								whileHover={{ scale: 1.02 }}
-								className='relative card-ultra rounded-2xl p-8 text-left'
+								className='relative card-ultra rounded-2xl p-4 sm:p-6 text-left'
 							>
 								<span className='absolute top-5 right-6 text-310 font-semibold text-white/5 select-none'>
 									{s.step}
 								</span>
 								<div
-									className={`w-12 h-12 rounded-xl flex items-center justify-center mb-5 ${
+									className={`w-12 h-12 rounded-xl flex items-center justify-center mb-4 sm:mb-5 ${
 										[
 											'bg-[#f0f8e8]/10 text-[#f0f8e8]',
 											'bg-[#d39dbd]/15 text-[#e7c1d8]',
@@ -270,10 +270,10 @@ export default function LandingPage() {
 								>
 									<s.icon size={22} />
 								</div>
-								<h3 className='text-xl font-semibold text-white mb-2'>
+								<h3 className='text-lg sm:text-xl font-semibold text-white mb-2'>
 									{s.title}
 								</h3>
-								<p className='text-white/60'>{s.desc}</p>
+								<p className='text-sm text-white/60'>{s.desc}</p>
 							</motion.div>
 						))}
 					</div>
@@ -281,13 +281,13 @@ export default function LandingPage() {
 			</section>
 
 			{/* ─── Testimonials ─── */}
-			<section className='relative z-10 py-24 px-[4%] sm:px-6'>
+			<section className='relative z-10 pb-14 sm:py-20 px-[4%] sm:px-6'>
 				<div className='max-w-310 mx-auto'>
 					<div className='text-center mb-14'>
 						<span className='text-xs font-semibold tracking-[0.25em] uppercase text-accent-gradient'>
 							Testimonials
 						</span>
-						<h2 className='text-4xl font-medium tracking-tight mt-4 text-white'>
+						<h2 className='text-3xl sm:text-4xl font-medium tracking-tight mt-4 text-white'>
 							Loved by{' '}
 							<span className='text-gradient'>Overspenders</span>{' '}
 							Everywhere
@@ -307,7 +307,7 @@ export default function LandingPage() {
 			</section>
 
 			{/* ─── CTA Banner — ultramail-style closing card ─── */}
-			<section className='relative z-10 py-20 px-4 sm:px-6'>
+			<section className='relative z-10 pb-14 sm:py-20 px-4 sm:px-6'>
 				<div className='max-w-310 mx-auto relative'>
 					{/* Faint hill silhouette behind the card */}
 					<div className='absolute -top-20 left-1/2 -translate-x-1/2 w-[120%] h-56 rounded-[100%] bg-white/4 blur-3xl pointer-events-none' />
@@ -316,20 +316,20 @@ export default function LandingPage() {
 						<div className='grid grid-cols-1 lg:grid-cols-2 gap-12 items-center p-8 sm:p-12 lg:p-16'>
 							{/* Left — copy + CTA */}
 							<div className='text-left'>
-								<div className='w-16 h-16 rounded-full border border-white/15 bg-black flex items-center justify-center mb-10 shadow-[0_0_44px_rgba(255,255,255,0.1)]'>
+								<div className='w-16 h-16 rounded-full border border-white/15 bg-black flex items-center justify-center mb-6 sm:mb-10 shadow-[0_0_44px_rgba(255,255,255,0.1)]'>
 									<Ghost
 										size={28}
 										className='text-white'
 									/>
 								</div>
-								<h2 className='text-4xl sm:text-5xl font-medium tracking-tight text-gradient mb-5 leading-[1.12]'>
+								<h2 className='text-3xl sm:text-5xl font-medium tracking-tight text-gradient mb-5 leading-[1.12]'>
 									Track it. Settle it.
 									<br />
 									<span className='text-accent-gradient'>
 										Regret it beautifully.
 									</span>
 								</h2>
-								<p className='text-white/60 text-lg mb-10 max-w-md leading-relaxed'>
+								<p className='text-white/60 text-base sm:text-lg mb-7 sm:mb-10 max-w-md'>
 									Log the splurges, settle the debts, pin the
 									promises — regrets, ledger &amp; notes in
 									one painfully honest app. Your wallet has
@@ -343,7 +343,7 @@ export default function LandingPage() {
 											router.push('/regrets')
 										:	setIsAuthOpen(true)
 									}
-									className='w-full sm:max-w-md cursor-pointer bg-[#9294e5] hover:bg-[#a3a5ec] text-black font-semibold px-8 py-5 rounded-2xl text-xl glow-periwinkle transition-all flex items-center justify-between gap-4'
+									className='w-full sm:max-w-md cursor-pointer bg-[#9294e5] hover:bg-[#a3a5ec] text-black font-semibold px-6 py-4 sm:px-8 sm:py-5 rounded-2xl text-base sm:text-xl glow-periwinkle transition-all flex items-center justify-between gap-4'
 								>
 									<span>
 										{session ?
@@ -515,12 +515,12 @@ function StatItem({
 }) {
 	return (
 		<div className='flex flex-col items-center gap-2'>
-			<div className='mb-1'>{icon}</div>
-			<div className='text-4xl md:text-5xl font-semibold tracking-tight text-white tabular-nums'>
+			<div className='sm:mb-1'>{icon}</div>
+			<div className='text-[28px] sm:text-4xl md:text-5xl font-semibold tracking-tight text-white tabular-nums'>
 				{value.toLocaleString()}
 				{suffix}
 			</div>
-			<div className='text-white/50 font-medium text-sm uppercase tracking-wider'>
+			<div className='text-white/50 font-medium text-xs -mt-1 sm:mt-0 sm:text-sm uppercase tracking-wider'>
 				{label}
 			</div>
 		</div>
@@ -551,7 +551,7 @@ function FeatureCard({
 			initial={{ scale: 1 }}
 			transition={{ duration: 0.2, ease: 'easeInOut' }}
 			whileHover={{ scale: 1.02 }}
-			className='card-ultra p-6 rounded-2xl group relative overflow-hidden'
+			className='card-ultra p-4 sm:p-6 rounded-2xl group relative overflow-hidden'
 		>
 			<div className='absolute -inset-2 bg-linear-to-r from-transparent via-white/5 to-transparent skew-x-12 translate-x-[-150%] group-hover:translate-x-[150%] transition-transform duration-700 pointer-events-none' />
 			<div
@@ -584,7 +584,7 @@ function TestimonialCard({
 			initial={{ scale: 1 }}
 			transition={{ duration: 0.2, ease: 'easeInOut' }}
 			whileHover={{ scale: 1.02 }}
-			className='card-ultra rounded-2xl p-6 flex flex-col gap-4'
+			className='card-ultra rounded-2xl p-4 sm:p-6 flex flex-col gap-4'
 		>
 			<div className='flex items-center gap-1'>
 				{Array.from({ length: stars }).map((_, i) => (

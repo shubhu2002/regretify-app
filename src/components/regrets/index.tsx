@@ -183,7 +183,7 @@ export default function Regrets({ session }: { session: Session }) {
 						<span className='text-xs font-semibold tracking-[0.25em] uppercase text-accent-gradient'>
 							Every rupee, remembered
 						</span>
-						<h1 className='text-4xl font-semibold tracking-tight text-gradient mt-2'>
+						<h1 className='text-3xl sm:text-4xl font-semibold tracking-tight text-gradient mt-2'>
 							Wall of Regret
 						</h1>
 						<p className='text-white/50 mt-1.5'>

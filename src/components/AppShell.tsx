@@ -233,15 +233,15 @@ export default function AppShell({
 
 					<Link
 						href='/profile'
-						className='hidden md:flex shrink-0 items-center gap-2 p-1 pr-3.5 bg-white/6 border border-white/10 rounded-full hover:bg-white/10 transition-all ml-auto'
+						className='flex shrink-0 items-center gap-2 p-1 md:pr-3.5 bg-white/6 border border-white/10 rounded-full hover:bg-white/10 transition-all ml-auto'
 					>
 						{/* eslint-disable-next-line @next/next/no-img-element */}
 						<img
 							src={displayImage}
-							alt=''
+							alt='Profile'
 							className='w-7 h-7 rounded-full object-cover bg-white/10'
 						/>
-						<span className='text-sm font-medium text-white/80'>
+						<span className='hidden md:block text-sm font-medium text-white/80'>
 							{displayName}
 						</span>
 					</Link>
@@ -301,7 +301,7 @@ export default function AppShell({
 			</aside>
 
 			{/* Content, offset for top bar + sidebar */}
-			<div className='pt-14 sm:pt-16 md:pl-60 flex-1 flex flex-col'>
+			<div className='pt-14 sm:pt-16 md:pl-60 pb-[calc(3.5rem+env(safe-area-inset-bottom))] md:pb-0 flex-1 flex flex-col'>
 				{children}
 			</div>
 
