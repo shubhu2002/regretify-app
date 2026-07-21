@@ -32,6 +32,7 @@ import AuthModal from './AuthModal';
 import { HOW_IT_WORKS, PLATFORM_FEATURES, TESTIMONIALS } from '@/constants';
 import { useCounter } from '@/hooks/useCounter';
 import { handleSmooth } from '@/utils';
+import Image from 'next/image';
 
 export default function LandingPage() {
 	const [isAuthOpen, setIsAuthOpen] = useState(false);
@@ -57,7 +58,7 @@ export default function LandingPage() {
 			</div>
 
 			{/* ─── Hero ─── */}
-			<section className='relative z-10 flex flex-col items-center justify-center text-center px-6 pt-16 sm:pt-24 pb-32 min-h-screen overflow-hidden'>
+			<section className='relative z-10 flex flex-col items-center justify-center text-center px-6 pt-16 sm:pt-48 pb-32 min-h-screen h-full overflow-'>
 				<div className='inline-flex items-center gap-2 px-4 py-2 bg-white/3 text-white/80 font-medium text-sm mb-8 border border-white/10 rounded-full'>
 					<span className='relative flex h-2 w-2'>
 						<span className='animate-ping absolute inline-flex h-full w-full bg-accent-gradient opacity-75 rounded-full' />
@@ -67,7 +68,7 @@ export default function LandingPage() {
 				</div>
 
 				<div className='max-w-4xl mx-auto'>
-					<h1 className='text-5xl sm:text-6xl md:text-7xl font-medium tracking-tight mb-6 text-white text-gradient leading-[1.1]'>
+					<h1 className='text-5xl sm:text-7xl md:text-7xl font-medium tracking-tight mb-6 text-white text-gradient leading-[1.1]'>
 						Track Every Terrible <br className='hidden md:block' />
 						<span className='text-accent-gradient'>
 							Financial Decision
@@ -86,14 +87,18 @@ export default function LandingPage() {
 							whileHover={{ scale: 1.03 }}
 							whileTap={{ scale: 0.97 }}
 							onClick={() =>
-								session  ?
+								session ?
 									router.push('/regrets')
 								:	setIsAuthOpen(true)
 							}
-							disabled={status === "loading"}
+							disabled={status === 'loading'}
 							className='bg-[#9294e5] hover:bg-[#a3a5ec] text-black glow-periwinkle px-8 py-4 rounded-xl font-semibold text-lg flex items-center gap-2 transition-all disabled:opacity-70 disabled:cursor-not-allowed'
 						>
-							{session ? 'View My Regrets' : status=== "loading" ? "Loading...." :  'Start Regretting'}{' '}
+							{session ?
+								'View My Regrets'
+							: status === 'loading' ?
+								'Loading....'
+							:	'Start Regretting'}{' '}
 							<ArrowRight size={20} />
 						</motion.button>
 						<motion.a
@@ -108,26 +113,36 @@ export default function LandingPage() {
 					</div>
 				</div>
 
-				{/* Floating ghost */}
-				{/* <motion.div
-					animate={{ y: [0, -12, 0] }}
-					transition={{
-						duration: 3,
-						repeat: Infinity,
-						ease: 'easeInOut',
-					}}
-					className='mt-16 bg-black p-6 rounded-full border border-white/15 shadow-[0_0_50px_rgba(255,255,255,0.15)] text-white'
-				>
-					<Ghost
-						size={48}
-						strokeWidth={1.5}
-					/>
-				</motion.div> */}
 
 				{/* Glowing horizon dome — ultramail's signature hero element */}
-				<div className='absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-[69%] w-[160%] sm:w-[110%] max-w-400 h-70 pointer-events-none'>
+				<div className='fixed bottom-0 left-1/2 -translate-x-1/2 translate-y-[69%] w-[160%] sm:w-[110%] max-w-400 h-70 pointer-events-none'>
 					<div className='w-full h-full rounded-[100%] bg-black shadow-[0_-90px_132px_0_rgba(255,255,255,0.15),inset_0_124px_250px_0_rgba(255,255,255,0.23),inset_0_20px_28px_0_#ffffff]' />
 				</div>
+
+				<motion.div
+					initial={{ opacity: 0, y: 48 }}
+					animate={{ opacity: 1, y: 0 }}
+					transition={{
+						delay: 0.25,
+						duration: 0.8,
+						ease: 'easeOut',
+					}}
+					className='relative z-10 w-full mx-auto mt-16 flex justify-center'
+				>
+					<div className='relative rounded-2xl max-w-7xl sm:rounded-[40px] border border-white/6 overflow-hidden bg-[#050506]'>
+						<div className='flex items-center justify-center'>
+							<Image
+								width={9999}
+								height={9999}
+								src='/dashboard-preview.png'
+								alt='Regretify dashboard — Wall of Regret with live charts, categories and history'
+								className='w-full h-auto '
+							/>
+						</div>
+						{/* Gentle overall dim so it sits back into the canvas */}
+						<div className='absolute inset-0 bg-linear-180 from-transparent via-black/10 to-black/80 pointer-events-none mix' />
+					</div>
+				</motion.div>
 			</section>
 
 			{/* ─── Stats Bar ─── */}
@@ -135,7 +150,7 @@ export default function LandingPage() {
 				ref={statsRef}
 				className='relative z-10 bg-white/3 backdrop-blur-xl border-y border-white/10 py-14'
 			>
-				<div className='max-w-6xl mx-auto px-6 grid grid-cols-2 sm:grid-cols-4 gap-10 text-center'>
+				<div className='max-w-7xl mx-auto px-6 grid grid-cols-2 sm:grid-cols-4 gap-10 text-center'>
 					<StatItem
 						value={users}
 						suffix='+'
@@ -188,16 +203,14 @@ export default function LandingPage() {
 				id='features'
 				className='relative z-10 py-24 px-[4%] sm:px-6'
 			>
-				<div className='max-w-6xl mx-auto'>
+				<div className='max-w-7xl mx-auto'>
 					<div className='text-center mb-14'>
 						<span className='text-xs font-semibold tracking-[0.25em] uppercase text-accent-gradient'>
 							Platform Features
 						</span>
 						<h2 className='text-4xl md:text-5xl font-medium tracking-tight mt-4 mb-4 text-white'>
 							Everything You Need to{' '}
-							<span className='text-gradient'>
-								Feel Horrible
-							</span>
+							<span className='text-gradient'>Feel Horrible</span>
 						</h2>
 						<p className='text-white/60 text-lg max-w-xl mx-auto'>
 							A full financial regrets dashboard, personal ledger,
@@ -223,7 +236,7 @@ export default function LandingPage() {
 
 			{/* ─── How it works ─── */}
 			<section className='relative z-10 py-20 px-[4%] sm:px-6 bg-white/3 backdrop-blur-xl border-y border-white/10'>
-				<div className='max-w-6xl mx-auto text-center'>
+				<div className='max-w-7xl mx-auto text-center'>
 					<div className='mb-14'>
 						<span className='text-xs font-semibold tracking-[0.25em] uppercase text-accent-gradient'>
 							How It Works
@@ -241,7 +254,7 @@ export default function LandingPage() {
 								key={i}
 								className='relative card-ultra rounded-2xl p-8 text-left group hover:-translate-y-1'
 							>
-								<span className='absolute top-5 right-6 text-6xl font-semibold text-white/5 select-none'>
+								<span className='absolute top-5 right-6 text-7xl font-semibold text-white/5 select-none'>
 									{s.step}
 								</span>
 								<div
@@ -259,9 +272,7 @@ export default function LandingPage() {
 								<h3 className='text-xl font-semibold text-white mb-2'>
 									{s.title}
 								</h3>
-								<p className='text-white/60'>
-									{s.desc}
-								</p>
+								<p className='text-white/60'>{s.desc}</p>
 							</div>
 						))}
 					</div>
@@ -270,16 +281,14 @@ export default function LandingPage() {
 
 			{/* ─── Testimonials ─── */}
 			<section className='relative z-10 py-24 px-[4%] sm:px-6'>
-				<div className='max-w-6xl mx-auto'>
+				<div className='max-w-7xl mx-auto'>
 					<div className='text-center mb-14'>
 						<span className='text-xs font-semibold tracking-[0.25em] uppercase text-accent-gradient'>
 							Testimonials
 						</span>
 						<h2 className='text-4xl font-medium tracking-tight mt-4 text-white'>
 							Loved by{' '}
-							<span className='text-gradient'>
-								Overspenders
-							</span>{' '}
+							<span className='text-gradient'>Overspenders</span>{' '}
 							Everywhere
 						</h2>
 					</div>
@@ -298,7 +307,7 @@ export default function LandingPage() {
 
 			{/* ─── CTA Banner — ultramail-style closing card ─── */}
 			<section className='relative z-10 py-20 px-4 sm:px-6'>
-				<div className='max-w-6xl mx-auto relative'>
+				<div className='max-w-7xl mx-auto relative'>
 					{/* Faint hill silhouette behind the card */}
 					<div className='absolute -top-20 left-1/2 -translate-x-1/2 w-[120%] h-56 rounded-[100%] bg-white/4 blur-3xl pointer-events-none' />
 
@@ -364,10 +373,30 @@ export default function LandingPage() {
 												Add Regret
 											</div>
 											{[
-												{ icon: Flame, label: 'Regrets', count: '3', active: true },
-												{ icon: BookOpen, label: 'Ledger', count: '', active: false },
-												{ icon: StickyNote, label: 'Notes', count: '1', active: false },
-												{ icon: User, label: 'Profile', count: '', active: false },
+												{
+													icon: Flame,
+													label: 'Regrets',
+													count: '3',
+													active: true,
+												},
+												{
+													icon: BookOpen,
+													label: 'Ledger',
+													count: '',
+													active: false,
+												},
+												{
+													icon: StickyNote,
+													label: 'Notes',
+													count: '1',
+													active: false,
+												},
+												{
+													icon: User,
+													label: 'Profile',
+													count: '',
+													active: false,
+												},
 											].map((item) => (
 												<div
 													key={item.label}
@@ -400,9 +429,18 @@ export default function LandingPage() {
 												Latest regrets
 											</div>
 											{[
-												{ title: 'Swiggy — ₹450', sub: 'midnight biryani, again' },
-												{ title: 'Amazon — ₹2,199', sub: '3rd mechanical keyboard' },
-												{ title: 'Zomato — ₹320', sub: '“last time, I swear”' },
+												{
+													title: 'Swiggy — ₹450',
+													sub: 'midnight biryani, again',
+												},
+												{
+													title: 'Amazon — ₹2,199',
+													sub: '3rd mechanical keyboard',
+												},
+												{
+													title: 'Zomato — ₹320',
+													sub: '“last time, I swear”',
+												},
 											].map((row) => (
 												<div
 													key={row.title}
@@ -433,7 +471,7 @@ export default function LandingPage() {
 
 			{/* ─── Footer — ultramail-style pill bar ─── */}
 			<footer className='relative z-10 px-4 sm:px-6 pb-10'>
-				<div className='max-w-6xl mx-auto bg-[#0b0b0d] border border-white/8 rounded-2xl px-6 sm:px-10 py-6 flex flex-col md:flex-row items-center justify-between gap-6'>
+				<div className='max-w-7xl mx-auto bg-[#0b0b0d] border border-white/8 rounded-2xl px-6 sm:px-10 py-6 flex flex-col md:flex-row items-center justify-between gap-6'>
 					<div className='flex items-center gap-2'>
 						<div className='bg-black p-2 border border-white/15 rounded-full text-white shadow-[0_0_16px_rgba(255,255,255,0.1)]'>
 							<Ghost size={18} />
@@ -527,7 +565,7 @@ function FeatureCard({
 	return (
 		<motion.div
 			initial={{ scale: 1 }}
-			transition={{ duration: 0.2, ease:"easeInOut" }}
+			transition={{ duration: 0.2, ease: 'easeInOut' }}
 			whileHover={{ scale: 1.02 }}
 			className='card-ultra p-6 rounded-2xl group relative overflow-hidden'
 		>
@@ -537,12 +575,8 @@ function FeatureCard({
 			>
 				<Icon size={22} />
 			</div>
-			<h3 className='text-lg font-semibold text-white mb-2'>
-				{title}
-			</h3>
-			<p className='text-white/60 text-sm leading-relaxed'>
-				{desc}
-			</p>
+			<h3 className='text-lg font-semibold text-white mb-2'>{title}</h3>
+			<p className='text-white/60 text-sm leading-relaxed'>{desc}</p>
 		</motion.div>
 	);
 }
@@ -584,12 +618,8 @@ function TestimonialCard({
 					className='w-10 h-10 rounded-full bg-white/10 object-cover'
 				/>
 				<div>
-					<p className='text-sm font-semibold text-white'>
-						{name}
-					</p>
-					<p className='text-xs text-white/40'>
-						{role}
-					</p>
+					<p className='text-sm font-semibold text-white'>{name}</p>
+					<p className='text-xs text-white/40'>{role}</p>
 				</div>
 			</div>
 		</div>
