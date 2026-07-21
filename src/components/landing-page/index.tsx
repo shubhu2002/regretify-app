@@ -17,12 +17,7 @@ import {
 	Receipt,
 	HeartCrack,
 	BookOpen,
-	Flame,
 	StickyNote,
-	User,
-	Search,
-	Zap,
-	Plus,
 	LucideProps,
 } from 'lucide-react';
 import { FaGithub, FaTwitter, FaLinkedin } from 'react-icons/fa';
@@ -33,6 +28,7 @@ import { HOW_IT_WORKS, PLATFORM_FEATURES, TESTIMONIALS } from '@/constants';
 import { useCounter } from '@/hooks/useCounter';
 import { handleSmooth } from '@/utils';
 import Image from 'next/image';
+import Link from 'next/link';
 
 export default function LandingPage() {
 	const [isAuthOpen, setIsAuthOpen] = useState(false);
@@ -68,7 +64,7 @@ export default function LandingPage() {
 				</div>
 
 				<div className='max-w-4xl mx-auto'>
-					<h1 className='text-5xl sm:text-7xl md:text-7xl font-medium tracking-tight mb-6 text-white text-gradient leading-[1.1]'>
+					<h1 className='text-5xl sm:text-310 md:text-310 font-medium tracking-tight mb-6 text-white text-gradient leading-[1.1]'>
 						Track Every Terrible <br className='hidden md:block' />
 						<span className='text-accent-gradient'>
 							Financial Decision
@@ -113,7 +109,6 @@ export default function LandingPage() {
 					</div>
 				</div>
 
-
 				{/* Glowing horizon dome — ultramail's signature hero element */}
 				<div className='fixed bottom-0 left-1/2 -translate-x-1/2 translate-y-[69%] w-[160%] sm:w-[110%] max-w-400 h-70 pointer-events-none'>
 					<div className='w-full h-full rounded-[100%] bg-black shadow-[0_-90px_132px_0_rgba(255,255,255,0.15),inset_0_124px_250px_0_rgba(255,255,255,0.23),inset_0_20px_28px_0_#ffffff]' />
@@ -127,9 +122,9 @@ export default function LandingPage() {
 						duration: 0.8,
 						ease: 'easeOut',
 					}}
-					className='relative z-10 w-full mx-auto mt-16 flex justify-center'
+					className='relative z-10 w-full mx-auto mt-28 flex justify-center'
 				>
-					<div className='relative rounded-2xl max-w-7xl sm:rounded-[40px] border border-white/6 overflow-hidden bg-[#050506]'>
+					<div className='relative rounded-2xl max-w-310 sm:rounded-[40px] border border-white/6 overflow-hidden bg-[#050506]'>
 						<div className='flex items-center justify-center'>
 							<Image
 								width={9999}
@@ -150,7 +145,7 @@ export default function LandingPage() {
 				ref={statsRef}
 				className='relative z-10 bg-white/3 backdrop-blur-xl border-y border-white/10 py-14'
 			>
-				<div className='max-w-7xl mx-auto px-6 grid grid-cols-2 sm:grid-cols-4 gap-10 text-center'>
+				<div className='max-w-310 mx-auto px-6 grid grid-cols-2 sm:grid-cols-4 gap-10 text-center'>
 					<StatItem
 						value={users}
 						suffix='+'
@@ -203,7 +198,7 @@ export default function LandingPage() {
 				id='features'
 				className='relative z-10 py-24 px-[4%] sm:px-6'
 			>
-				<div className='max-w-7xl mx-auto'>
+				<div className='max-w-310 mx-auto'>
 					<div className='text-center mb-14'>
 						<span className='text-xs font-semibold tracking-[0.25em] uppercase text-accent-gradient'>
 							Platform Features
@@ -236,7 +231,7 @@ export default function LandingPage() {
 
 			{/* ─── How it works ─── */}
 			<section className='relative z-10 py-20 px-[4%] sm:px-6 bg-white/3 backdrop-blur-xl border-y border-white/10'>
-				<div className='max-w-7xl mx-auto text-center'>
+				<div className='max-w-310 mx-auto text-center'>
 					<div className='mb-14'>
 						<span className='text-xs font-semibold tracking-[0.25em] uppercase text-accent-gradient'>
 							How It Works
@@ -250,11 +245,17 @@ export default function LandingPage() {
 					</div>
 					<div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6'>
 						{HOW_IT_WORKS.map((s, i) => (
-							<div
+							<motion.div
 								key={i}
-								className='relative card-ultra rounded-2xl p-8 text-left group hover:-translate-y-1'
+								initial={{ scale: 1 }}
+								transition={{
+									duration: 0.2,
+									ease: 'easeInOut',
+								}}
+								whileHover={{ scale: 1.02 }}
+								className='relative card-ultra rounded-2xl p-8 text-left'
 							>
-								<span className='absolute top-5 right-6 text-7xl font-semibold text-white/5 select-none'>
+								<span className='absolute top-5 right-6 text-310 font-semibold text-white/5 select-none'>
 									{s.step}
 								</span>
 								<div
@@ -273,7 +274,7 @@ export default function LandingPage() {
 									{s.title}
 								</h3>
 								<p className='text-white/60'>{s.desc}</p>
-							</div>
+							</motion.div>
 						))}
 					</div>
 				</div>
@@ -281,7 +282,7 @@ export default function LandingPage() {
 
 			{/* ─── Testimonials ─── */}
 			<section className='relative z-10 py-24 px-[4%] sm:px-6'>
-				<div className='max-w-7xl mx-auto'>
+				<div className='max-w-310 mx-auto'>
 					<div className='text-center mb-14'>
 						<span className='text-xs font-semibold tracking-[0.25em] uppercase text-accent-gradient'>
 							Testimonials
@@ -307,7 +308,7 @@ export default function LandingPage() {
 
 			{/* ─── CTA Banner — ultramail-style closing card ─── */}
 			<section className='relative z-10 py-20 px-4 sm:px-6'>
-				<div className='max-w-7xl mx-auto relative'>
+				<div className='max-w-310 mx-auto relative'>
 					{/* Faint hill silhouette behind the card */}
 					<div className='absolute -top-20 left-1/2 -translate-x-1/2 w-[120%] h-56 rounded-[100%] bg-white/4 blur-3xl pointer-events-none' />
 
@@ -322,15 +323,17 @@ export default function LandingPage() {
 									/>
 								</div>
 								<h2 className='text-4xl sm:text-5xl font-medium tracking-tight text-gradient mb-5 leading-[1.12]'>
-									Ready to Face Your
+									Track it. Settle it.
 									<br />
-									Financial Regrets?
+									<span className='text-accent-gradient'>
+										Regret it beautifully.
+									</span>
 								</h2>
 								<p className='text-white/60 text-lg mb-10 max-w-md leading-relaxed'>
-									Join thousands of users who track every
-									questionable purchase and settle debts with
-									style. Your wallet has feelings. Document
-									them.
+									Log the splurges, settle the debts, pin the
+									promises — regrets, ledger &amp; notes in
+									one painfully honest app. Your wallet has
+									feelings. Document them.
 								</p>
 								<motion.button
 									whileHover={{ scale: 1.02 }}
@@ -340,7 +343,7 @@ export default function LandingPage() {
 											router.push('/regrets')
 										:	setIsAuthOpen(true)
 									}
-									className='w-full sm:max-w-md bg-[#9294e5] hover:bg-[#a3a5ec] text-black font-semibold px-8 py-5 rounded-2xl text-xl glow-periwinkle transition-all flex items-center justify-between gap-4'
+									className='w-full sm:max-w-md cursor-pointer bg-[#9294e5] hover:bg-[#a3a5ec] text-black font-semibold px-8 py-5 rounded-2xl text-xl glow-periwinkle transition-all flex items-center justify-between gap-4'
 								>
 									<span>
 										{session ?
@@ -351,118 +354,99 @@ export default function LandingPage() {
 								</motion.button>
 							</div>
 
-							{/* Right — mock app preview, bleeding off the card edge */}
-							<div className='relative hidden lg:block lg:translate-x-10 lg:translate-y-4'>
-								<div className='bg-[#101013] border border-white/8 rounded-2xl overflow-hidden text-left shadow-2xl shadow-black/60'>
-									{/* Top bar */}
-									<div className='flex items-center justify-between gap-4 px-4 py-3 border-b border-white/6'>
-										<div className='bg-black border border-white/15 rounded-full p-1 text-white shrink-0'>
-											<Ghost size={14} />
-										</div>
-										<div className='flex items-center gap-2 bg-white/6 border border-white/10 rounded-lg px-3 py-1.5 text-xs text-white/40 flex-1 max-w-xs'>
-											<Search size={12} />
-											Search your regrets…
-										</div>
-									</div>
-
-									<div className='grid grid-cols-[120px_1fr]'>
-										{/* Sidebar */}
-										<div className='border-r border-white/6 p-3'>
-											<div className='flex items-center justify-center gap-1 bg-[#9294e5] text-black text-xs font-semibold rounded-lg px-2 py-2 mb-3'>
-												<Plus size={12} />
-												Add Regret
-											</div>
-											{[
-												{
-													icon: Flame,
-													label: 'Regrets',
-													count: '3',
-													active: true,
-												},
-												{
-													icon: BookOpen,
-													label: 'Ledger',
-													count: '',
-													active: false,
-												},
-												{
-													icon: StickyNote,
-													label: 'Notes',
-													count: '1',
-													active: false,
-												},
-												{
-													icon: User,
-													label: 'Profile',
-													count: '',
-													active: false,
-												},
-											].map((item) => (
-												<div
-													key={item.label}
-													className={`flex items-center gap-2 px-2 py-1.5 rounded-lg text-xs mb-0.5 ${
-														item.active ?
-															'bg-white/8 text-white'
-														:	'text-white/50'
-													}`}
-												>
-													<item.icon size={12} />
-													<span className='flex-1'>
-														{item.label}
-													</span>
-													{item.count && (
-														<span className='text-white/40 text-[10px]'>
-															{item.count}
-														</span>
-													)}
-												</div>
-											))}
-										</div>
-
-										{/* Main list */}
-										<div className='p-4'>
-											<div className='text-sm text-white font-medium mb-3'>
-												☀️ Good Morning, Regretter.
-											</div>
-											<div className='flex items-center gap-1.5 text-xs text-white/50 mb-2'>
-												<Zap size={11} />
-												Latest regrets
-											</div>
-											{[
-												{
-													title: 'Swiggy — ₹450',
-													sub: 'midnight biryani, again',
-												},
-												{
-													title: 'Amazon — ₹2,199',
-													sub: '3rd mechanical keyboard',
-												},
-												{
-													title: 'Zomato — ₹320',
-													sub: '“last time, I swear”',
-												},
-											].map((row) => (
-												<div
-													key={row.title}
-													className='card-lavender rounded-lg px-3 py-2 mb-2'
-												>
-													<div className='text-xs text-white/90 font-medium'>
-														{row.title}
-													</div>
-													<div className='text-[10px] text-white/40 mt-0.5'>
-														{row.sub} · 2m ago
-													</div>
-												</div>
-											))}
-											<div className='flex items-center gap-2 px-3 py-2 text-[10px] text-white/40'>
-												<span className='text-[#b9baf1]'>
-													Draft
-												</span>
-												note to future self…
-											</div>
-										</div>
-									</div>
+							{/* Right — layered app showcase: real dashboard + floating ledger & notes cards */}
+							<div className='relative hidden lg:block lg:translate-x-6 lg:translate-y-2'>
+								{/* Real dashboard screenshot (Regrets) */}
+								<div className='relative rounded-2xl border border-white/8 overflow-hidden bg-[#0b0b0d] shadow-2xl shadow-black/70'>
+									{/* eslint-disable-next-line @next/next/no-img-element */}
+									<img
+										src='/dashboard-preview.png'
+										alt='Regretify dashboard — Wall of Regret with charts and history'
+										className='w-full h-auto'
+									/>
+									<div className='absolute inset-0 bg-linear-to-t from-black/50 via-transparent to-black/20 pointer-events-none' />
 								</div>
+
+								{/* Floating ledger mini-card */}
+								<motion.div
+									animate={{ y: [0, -7, 0] }}
+									transition={{
+										duration: 4,
+										repeat: Infinity,
+										ease: 'easeInOut',
+									}}
+									className='absolute -left-12 -bottom-8 w-60 bg-[#101013] border border-white/8 rounded-xl p-3.5 shadow-2xl shadow-black/80 text-left'
+								>
+									<div className='flex items-center gap-2 mb-2.5'>
+										<div className='w-7 h-7 rounded-lg bg-[#9294e5]/15 text-[#b9baf1] flex items-center justify-center shrink-0'>
+											<BookOpen size={13} />
+										</div>
+										<span className='text-xs font-semibold text-white'>
+											Ledger · Sara
+										</span>
+									</div>
+									<div className='space-y-1.5'>
+										<div className='flex items-center justify-between text-[11px]'>
+											<span className='px-1.5 py-0.5 rounded bg-emerald-500/10 text-emerald-400 font-semibold'>
+												You Got
+											</span>
+											<span className='text-emerald-400 font-semibold tabular-nums'>
+												+₹2,000
+											</span>
+										</div>
+										<div className='flex items-center justify-between text-[11px]'>
+											<span className='px-1.5 py-0.5 rounded bg-red-500/10 text-red-400 font-semibold'>
+												You Gave
+											</span>
+											<span className='text-red-400 font-semibold tabular-nums'>
+												-₹10,048
+											</span>
+										</div>
+									</div>
+									<div className='mt-2.5 pt-2 border-t border-white/6 flex items-center justify-between text-[11px]'>
+										<span className='text-white/40'>
+											Balance
+										</span>
+										<span className='text-red-400 font-semibold tabular-nums'>
+											-₹8,048
+										</span>
+									</div>
+								</motion.div>
+
+								{/* Floating notes mini-card */}
+								<motion.div
+									animate={{ y: [0, -6, 0] }}
+									transition={{
+										duration: 3.2,
+										repeat: Infinity,
+										ease: 'easeInOut',
+										delay: 0.6,
+									}}
+									className='absolute -right-8 -top-8 w-52 bg-[#101013] border border-white/8 rounded-xl p-3.5 shadow-2xl shadow-black/80 text-left'
+								>
+									<div className='flex items-center gap-2 mb-2'>
+										<div className='w-7 h-7 rounded-lg bg-[#f0f8e8]/10 text-[#f0f8e8] flex items-center justify-center shrink-0'>
+											<StickyNote size={13} />
+										</div>
+										<span className='text-xs font-semibold text-white flex-1'>
+											Movies To Watch
+										</span>
+										<Star
+											size={11}
+											className='text-amber-400 fill-amber-400 shrink-0'
+										/>
+									</div>
+									<div className='space-y-1 text-[11px] text-white/60'>
+										<p>
+											☑{' '}
+											<span className='line-through text-white/35'>
+												I want to eat your pancreas
+											</span>
+										</p>
+										<p>☐ Young Sheldon S2</p>
+										<p>☐ Interstellar</p>
+									</div>
+								</motion.div>
 							</div>
 						</div>
 					</div>
@@ -471,7 +455,7 @@ export default function LandingPage() {
 
 			{/* ─── Footer — ultramail-style pill bar ─── */}
 			<footer className='relative z-10 px-4 sm:px-6 pb-10'>
-				<div className='max-w-7xl mx-auto bg-[#0b0b0d] border border-white/8 rounded-2xl px-6 sm:px-10 py-6 flex flex-col md:flex-row items-center justify-between gap-6'>
+				<div className='max-w-310 mx-auto bg-[#0b0b0d] border border-white/8 rounded-2xl px-6 sm:px-10 py-6 flex flex-col md:flex-row items-center justify-between gap-6'>
 					<div className='flex items-center gap-2'>
 						<div className='bg-black p-2 border border-white/15 rounded-full text-white shadow-[0_0_16px_rgba(255,255,255,0.1)]'>
 							<Ghost size={18} />
@@ -502,9 +486,9 @@ export default function LandingPage() {
 				<p className='text-center text-white/40 text-xs mt-4'>
 					Track regrets. Settle debts. Learn nothing. Repeat. —
 					Designed &amp; Developed with 💜 by{' '}
-					<span className='font-semibold text-white/70'>
+					<Link suppressHydrationWarning href={"https://github.com/shubhu2002"} target='_blank' className='font-semibold text-white/70 hover:underline'>
 						Shubhanshu Saxena
-					</span>
+					</Link>
 				</p>
 			</footer>
 
@@ -596,7 +580,12 @@ function TestimonialCard({
 	index: number;
 }) {
 	return (
-		<div className='card-ultra rounded-2xl p-6 flex flex-col gap-4 hover:-translate-y-1'>
+		<motion.div
+			initial={{ scale: 1 }}
+			transition={{ duration: 0.2, ease: 'easeInOut' }}
+			whileHover={{ scale: 1.02 }}
+			className='card-ultra rounded-2xl p-6 flex flex-col gap-4'
+		>
 			<div className='flex items-center gap-1'>
 				{Array.from({ length: stars }).map((_, i) => (
 					<Star
@@ -622,6 +611,6 @@ function TestimonialCard({
 					<p className='text-xs text-white/40'>{role}</p>
 				</div>
 			</div>
-		</div>
+		</motion.div>
 	);
 }
