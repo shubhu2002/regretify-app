@@ -19,22 +19,22 @@ export const authOptions: NextAuthOptions = {
 			},
 
 			async authorize(credentials) {
+				// One generic error for every failure mode — specific messages
+				// let attackers probe which emails have accounts.
+				const GENERIC = 'Invalid email or password';
+
 				if (!credentials?.email || !credentials?.password) {
-					throw new Error('Invalid credentials');
+					throw new Error(GENERIC);
 				}
 
 				const { data: user, error } = await supabase
 					.from('regretify-users')
 					.select('*')
-					.eq('email', credentials.email)
+					.eq('email', credentials.email.trim().toLowerCase())
 					.single();
 
-				if (error || !user) {
-					throw new Error('User not found');
-				}
-
-				if (!user.password) {
-					throw new Error('User uses OAuth provider');
+				if (error || !user || !user.password) {
+					throw new Error(GENERIC);
 				}
 
 				const isValid = await bcrypt.compare(
@@ -43,7 +43,7 @@ export const authOptions: NextAuthOptions = {
 				);
 
 				if (!isValid) {
-					throw new Error('Invalid password');
+					throw new Error(GENERIC);
 				}
 
 				// ✅ RETURN FULL USER

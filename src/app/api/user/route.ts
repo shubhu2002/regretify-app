@@ -38,14 +38,35 @@ export async function PUT(req: Request) {
 
     const { name, age, gender, profile, contact_number } = await req.json();
 
+    // Validate before writing — only profile fields, with sane caps
+    if (typeof name !== 'string' || !name.trim() || name.length > 100) {
+      return NextResponse.json({ message: 'Invalid name' }, { status: 400 });
+    }
+    const parsedAge = age ? parseInt(age, 10) : null;
+    if (parsedAge !== null && (Number.isNaN(parsedAge) || parsedAge < 1 || parsedAge > 120)) {
+      return NextResponse.json({ message: 'Invalid age' }, { status: 400 });
+    }
+    if (gender != null && (typeof gender !== 'string' || gender.length > 20)) {
+      return NextResponse.json({ message: 'Invalid gender' }, { status: 400 });
+    }
+    if (profile != null && (typeof profile !== 'string' || profile.length > 500)) {
+      return NextResponse.json({ message: 'Invalid profile URL' }, { status: 400 });
+    }
+    if (
+      contact_number != null &&
+      (typeof contact_number !== 'string' || contact_number.length > 20)
+    ) {
+      return NextResponse.json({ message: 'Invalid contact number' }, { status: 400 });
+    }
+
     const { error } = await supabase
       .from('regretify-users')
       .update({
-        name,
-        age: age ? parseInt(age) : null,
-        gender,
-        profile,
-        contact_number
+        name: name.trim(),
+        age: parsedAge,
+        gender: gender ?? null,
+        profile: profile ?? null,
+        contact_number: contact_number ?? null
       })
       .eq('email', session.user.email);
 

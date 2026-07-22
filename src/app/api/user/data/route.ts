@@ -6,12 +6,21 @@ import { authOptions } from '@/lib/auth';
 export async function DELETE(req: Request) {
   try {
     const session = await getServerSession(authOptions);
-    
-    const userId = (session?.user as { id?: string; email?: string })?.id || session?.user?.email;
-
-    if (!userId) {
+    if (!session?.user?.email) {
       return NextResponse.json({ message: 'Unauthorized' }, { status: 401 });
     }
+
+    // Resolve the canonical user id from the DB — never trust a fallback value
+    const { data: user, error: userErr } = await supabase
+      .from('regretify-users')
+      .select('id')
+      .eq('email', session.user.email)
+      .single();
+
+    if (userErr || !user) {
+      return NextResponse.json({ message: 'Unauthorized' }, { status: 401 });
+    }
+    const userId = user.id as string;
 
     const { error: incError } = await supabase
       .from('regretify-incomes')

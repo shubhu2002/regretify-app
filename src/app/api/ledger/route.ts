@@ -124,6 +124,17 @@ export async function POST(req: NextRequest) {
 				return NextResponse.json({ message: 'Ledger book is required' }, { status: 400 });
 			}
 
+			// The target book must belong to the caller
+			const { data: book, error: bookErr } = await supabase
+				.from('regretify-ledger-books')
+				.select('id')
+				.eq('id', ledger_book_id)
+				.eq('user_id', userId)
+				.single();
+			if (bookErr || !book) {
+				return NextResponse.json({ message: 'Ledger book not found' }, { status: 404 });
+			}
+
 			const { data, error } = await supabase
 				.from('regretify-ledger')
 				.insert({ user_id: userId, name, contact_number: contact_number || null, ledger_book_id })
@@ -141,6 +152,20 @@ export async function POST(req: NextRequest) {
 			}
 			if (!['give', 'take'].includes(type)) {
 				return NextResponse.json({ message: 'Type must be give or take' }, { status: 400 });
+			}
+			if (typeof amount !== 'number' || !Number.isFinite(amount) || amount <= 0) {
+				return NextResponse.json({ message: 'Invalid amount' }, { status: 400 });
+			}
+
+			// The target account must belong to the caller
+			const { data: account, error: accErr } = await supabase
+				.from('regretify-ledger')
+				.select('id')
+				.eq('id', ledger_id)
+				.eq('user_id', userId)
+				.single();
+			if (accErr || !account) {
+				return NextResponse.json({ message: 'Account not found' }, { status: 404 });
 			}
 
 			const { data, error } = await supabase
@@ -260,6 +285,9 @@ export async function PATCH(req: NextRequest) {
 			}
 			if (!['give', 'take'].includes(type)) {
 				return NextResponse.json({ message: 'Type must be give or take' }, { status: 400 });
+			}
+			if (typeof amount !== 'number' || !Number.isFinite(amount) || amount <= 0) {
+				return NextResponse.json({ message: 'Invalid amount' }, { status: 400 });
 			}
 
 			const { error } = await supabase

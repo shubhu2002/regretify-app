@@ -108,37 +108,12 @@ export default function AuthModal({
 		const toastId = toast.loading('Creating your account...');
 
 		try {
-			let profileUrl = '';
-
-			// Step 1: Upload avatar — if it fails, abort everything
-			if (avatarFile) {
-				toast.loading('Uploading your avatar...', { id: toastId });
-				const uploadForm = new FormData();
-				uploadForm.append('file', avatarFile);
-
-				const upRes = await fetch('/api/upload-avatar', {
-					method: 'POST',
-					body: uploadForm,
-				});
-				const upData = await upRes.json();
-
-				if (!upRes.ok) {
-					// Hard stop — don't register if avatar failed
-					throw new Error(
-						upData.message ||
-							'Avatar upload failed. Account not created.',
-					);
-				}
-
-				profileUrl = upData.url || '';
-			}
-
-			// Step 2: Register user
+			// Step 1: Register user (avatar comes later — uploads require auth)
 			toast.loading('Registering account...', { id: toastId });
 			const res = await fetch('/api/auth/register', {
 				method: 'POST',
 				headers: { 'Content-Type': 'application/json' },
-				body: JSON.stringify({ ...formData, profile: profileUrl }),
+				body: JSON.stringify({ ...formData, profile: '' }),
 			});
 
 			const data = await res.json();
@@ -148,7 +123,7 @@ export default function AuthModal({
 				);
 			}
 
-			// Step 3: Auto sign-in
+			// Step 2: Auto sign-in
 			toast.loading('Account created! Signing you in...', {
 				id: toastId,
 			});
@@ -164,11 +139,41 @@ export default function AuthModal({
 					'Account created but sign-in failed. Please sign in manually.',
 					{ id: toastId },
 				);
-			} else {
-				toast.success('Welcome to Regretify! 🎉', { id: toastId });
-				onClose();
-				window.location.href = '/regrets';
+				return;
 			}
+
+			// Step 3: Now signed in — upload the avatar and attach it
+			if (avatarFile) {
+				toast.loading('Uploading your avatar...', { id: toastId });
+				try {
+					const uploadForm = new FormData();
+					uploadForm.append('file', avatarFile);
+					const upRes = await fetch('/api/upload-avatar', {
+						method: 'POST',
+						body: uploadForm,
+					});
+					const upData = await upRes.json();
+					if (upRes.ok && upData.url) {
+						await fetch('/api/user', {
+							method: 'PUT',
+							headers: { 'Content-Type': 'application/json' },
+							body: JSON.stringify({
+								name: formData.name,
+								age: formData.age,
+								gender: formData.gender,
+								contact_number: formData.contact_number,
+								profile: upData.url,
+							}),
+						});
+					}
+				} catch {
+					// Avatar is optional — the account itself is fine
+				}
+			}
+
+			toast.success('Welcome to Regretify! 🎉', { id: toastId });
+			onClose();
+			window.location.href = '/regrets';
 		} catch (err: unknown) {
 			toast.error(
 				err instanceof Error ?
