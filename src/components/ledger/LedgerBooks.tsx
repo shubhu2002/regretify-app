@@ -74,27 +74,18 @@ export default function LedgerBooks({
 							</p>
 						</div>
 
-						<div className='flex items-center gap-3'>
-							{books.length > 0 && (
-								<span className='hidden sm:inline-flex items-center gap-1.5 bg-white/6 border border-white/8 rounded-lg px-3 py-1.5 text-xs text-white/50'>
-									<BookOpen size={12} />
-									{books.length}{' '}
-									{books.length === 1 ? 'book' : 'books'}
-								</span>
-							)}
-							<motion.button
-								whileHover={{ scale: 1.03 }}
-								whileTap={{ scale: 0.97 }}
-								onClick={onCreate}
-								className='w-fit bg-[#9294e5] hover:bg-[#a3a5ec] text-black shadow-[0_2px_24px_rgba(146,148,229,0.35)] px-5 py-2.5 rounded-xl font-semibold flex items-center gap-2 transition-colors group/new cursor-pointer'
-							>
-								<Plus
-									size={18}
-									className='transition-transform duration-300 group-hover/new:rotate-90'
-								/>
-								<span>New Ledger</span>
-							</motion.button>
-						</div>
+						<motion.button
+							whileHover={{ scale: 1.03 }}
+							whileTap={{ scale: 0.97 }}
+							onClick={onCreate}
+							className='w-fit bg-[#9294e5] hover:bg-[#a3a5ec] text-black shadow-[0_2px_24px_rgba(146,148,229,0.35)] px-5 py-2.5 rounded-xl font-semibold flex items-center gap-2 transition-colors group/new cursor-pointer'
+						>
+							<Plus
+								size={18}
+								className='transition-transform duration-300 group-hover/new:rotate-90'
+							/>
+							<span>New Ledger</span>
+						</motion.button>
 					</motion.header>
 
 					{books.length === 0 ?
