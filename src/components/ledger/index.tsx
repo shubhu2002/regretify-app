@@ -273,16 +273,6 @@ export default function Ledger() {
 								)}
 							</div>
 						</div>
-						<div className='flex items-center gap-3'>
-							{accounts.length > 0 && (
-								<span className='hidden sm:inline-flex items-center gap-1.5 bg-white/6 border border-white/8 rounded-lg px-3 py-1.5 text-xs text-white/50'>
-									<Users size={12} />
-									{accounts.length}{' '}
-									{accounts.length === 1 ?
-										'account'
-									:	'accounts'}
-								</span>
-							)}
 							<motion.button
 								whileHover={{ scale: 1.03 }}
 								whileTap={{ scale: 0.97 }}
@@ -290,7 +280,7 @@ export default function Ledger() {
 									setEditAccount(null);
 									setAccountModalOpen(true);
 								}}
-								className='cursor-pointer bg-[#9294e5] hover:bg-[#a3a5ec] text-black shadow-[0_2px_24px_rgba(146,148,229,0.35)] px-5 py-2.5 rounded-xl font-semibold flex items-center gap-2 transition-colors group/new'
+								className='w-fit cursor-pointer bg-[#9294e5] hover:bg-[#a3a5ec] text-black shadow-[0_2px_24px_rgba(146,148,229,0.35)] px-5 py-2.5 rounded-xl font-semibold flex items-center gap-2 transition-colors group/new'
 							>
 								<Plus
 									size={18}
@@ -298,7 +288,6 @@ export default function Ledger() {
 								/>
 								<span>Add Account</span>
 							</motion.button>
-						</div>
 					</motion.header>
 
 					{accounts.length === 0 ?
@@ -565,21 +554,6 @@ export default function Ledger() {
 														).toLocaleString()}
 													</motion.p>
 												</div>
-												<span
-													className={`text-xs font-medium px-3 py-1.5 rounded-full border ${
-														balance > 0 ?
-															'text-emerald-400 bg-emerald-500/10 border-emerald-500/20'
-														: balance < 0 ?
-															'text-red-400 bg-red-500/10 border-red-500/20'
-														:	'text-white/50 bg-white/6 border-white/10'
-													}`}
-												>
-													{balance > 0 ?
-														`${selectedAccount.name} owes you`
-													: balance < 0 ?
-														`You owe ${selectedAccount.name}`
-													:	'All settled up!'}
-												</span>
 											</div>
 										</div>
 

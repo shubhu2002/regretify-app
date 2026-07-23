@@ -385,7 +385,7 @@ export default function Notes() {
 	return (
 		<>
 			<div className='relative flex-1 w-full min-h-[calc(100dvh-24px)] sm:min-h-[calc(100dvh-64px)] overflow-hidden'>
-				<div className='relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 pb-24 md:pb-8'>
+				<div className='relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:pb-8'>
 					<motion.header
 						initial={{ opacity: 0, y: 14 }}
 						animate={{ opacity: 1, y: 0 }}
@@ -403,13 +403,6 @@ export default function Notes() {
 							</p>
 						</div>
 						<div className='flex items-center gap-3'>
-							{allNotes.length > 0 && (
-								<span className='hidden sm:inline-flex items-center gap-1.5 bg-white/6 border border-white/8 rounded-lg px-3 py-1.5 text-xs text-white/50'>
-									<StickyNote size={12} />
-									{allNotes.length}{' '}
-									{allNotes.length === 1 ? 'note' : 'notes'}
-								</span>
-							)}
 							<motion.button
 								whileHover={{ scale: 1.03 }}
 								whileTap={{ scale: 0.97 }}
@@ -427,30 +420,16 @@ export default function Notes() {
 					</motion.header>
 
 					{/* Apple Notes style split panel */}
-					<div className='card-aurora rounded-3xl overflow-hidden flex h-[calc(100dvh-330px)] md:h-[calc(100dvh-250px)] min-h-105'>
+					<div className='card-aurora rounded-3xl overflow-hidden flex h-[calc(100dvh-210px)] md:h-[calc(100dvh-250px)] min-h-105'>
 						{/* Sidebar — note list */}
 						<div
 							className={`${
 								selectedId !== null ? 'hidden md:flex' : 'flex'
 							} w-full md:w-72 lg:w-80 shrink-0 md:border-r border-white/10 flex-col`}
 						>
-							<div className='p-3 pb-2'>
-								<div className='relative'>
-									<Search
-										size={15}
-										className='absolute left-3 top-1/2 -translate-y-1/2 text-white/40 pointer-events-none'
-									/>
-									<input
-										type='text'
-										value={search}
-										onChange={(e) => setSearch(e.target.value)}
-										className='w-full pl-9 pr-4 py-2 text-base md:text-sm bg-white/6 border border-white/10 rounded-xl placeholder-white/35 focus:outline-none focus:ring-2 focus:ring-white/10 focus:border-white/30 transition-shadow outline-none text-white'
-										placeholder='Search notes...'
-									/>
-								</div>
-							</div>
+							
 
-							<div className='flex-1 overflow-y-auto px-3 pb-3 space-y-2'>
+							<div className='flex-1 overflow-y-auto pt-2 px-2 pb-2 space-y-2'>
 								{filteredNotes.length === 0 ?
 									<div className='text-center pt-12 px-4'>
 										{allNotes.length === 0 ?

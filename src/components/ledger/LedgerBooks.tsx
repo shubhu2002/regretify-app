@@ -156,10 +156,22 @@ export default function LedgerBooks({
 
 									<div className='relative z-10'>
 										<div className='flex items-start justify-between mb-3'>
-											<div
-												className={`w-11 h-11 rounded-xl flex items-center justify-center shrink-0 ${chipTints[i % chipTints.length]}`}
-											>
-												<BookOpen size={20} />
+											<div className='flex gap-3'>
+												<div
+													className={`w-13 h-13 rounded-xl flex items-center justify-center shrink-0 ${chipTints[i % chipTints.length]}`}
+												>
+													<BookOpen size={22} />
+												</div>
+												<div>
+													<h3 className='font-semibold text-white text-lg tracking-tight'>
+														{book.name}
+													</h3>
+													{book.description && (
+														<p className='text-sm text-white/40 line-clamp-2 leading-relaxed'>
+															{book.description}
+														</p>
+													)}
+												</div>
 											</div>
 											<div className='flex items-center gap-1'>
 												<button
@@ -181,15 +193,6 @@ export default function LedgerBooks({
 												</button>
 											</div>
 										</div>
-
-										<h3 className='font-semibold text-white text-lg tracking-tight'>
-											{book.name}
-										</h3>
-										{book.description && (
-											<p className='text-sm text-white/40 mt-1 line-clamp-2 leading-relaxed'>
-												{book.description}
-											</p>
-										)}
 
 										<div className='flex items-center justify-between mt-5 pt-4 border-t border-white/6'>
 											<span className='text-xs text-white/35'>

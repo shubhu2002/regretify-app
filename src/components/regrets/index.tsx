@@ -419,11 +419,11 @@ function StatCard({
 					},
 				},
 			}}
-			className='flex items-center gap-3.5 sm:gap-4 px-4 sm:px-6'
+			className='flex items-center gap-3.5 sm:gap-4 px-2 sm:px-6'
 		>
 			{icon && (
 				<div
-					className={`w-11 h-11 sm:w-12 sm:h-12 rounded-xl flex items-center justify-center shrink-0 ${chipClass}`}
+					className={`w-10.5 h-10.5 sm:w-12 sm:h-12 rounded-xl flex items-center justify-center shrink-0 ${chipClass}`}
 				>
 					{icon}
 				</div>
