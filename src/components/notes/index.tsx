@@ -63,7 +63,6 @@ const stripHtml = (html: string) => {
 export default function Notes() {
 	const queryClient = useQueryClient();
 
-	const [search, setSearch] = useState('');
 	const [selectedId, setSelectedId] = useState<number | null>(null);
 	const [creating, setCreating] = useState(false);
 
@@ -110,18 +109,9 @@ export default function Notes() {
 		[data],
 	);
 
-	const filteredNotes = useMemo(() => {
-		if (!search.trim()) return allNotes;
-		const q = search.trim().toLowerCase();
-		return allNotes.filter(
-			(n) =>
-				n.title.toLowerCase().includes(q) ||
-				stripHtml(n.content || '').toLowerCase().includes(q),
-		);
-	}, [allNotes, search]);
 
-	const pinnedNotes = filteredNotes.filter((n) => n.pinned);
-	const otherNotes = filteredNotes.filter((n) => !n.pinned);
+	const pinnedNotes = allNotes.filter((n) => n.pinned);
+	const otherNotes = allNotes.filter((n) => !n.pinned);
 
 	const selectedNote = allNotes.find((n) => n.id === selectedId) || null;
 
@@ -251,7 +241,6 @@ export default function Notes() {
 			const { note } = (await res.json()) as { note: Note };
 			toast.success('Note created!', { id: toastId });
 			queryClient.invalidateQueries({ queryKey: ['notes'] });
-			setSearch('');
 			loadIntoEditor(note);
 			setDraftTitle('');
 			draftRef.current.title = '';
@@ -427,10 +416,8 @@ export default function Notes() {
 								selectedId !== null ? 'hidden md:flex' : 'flex'
 							} w-full md:w-72 lg:w-80 shrink-0 md:border-r border-white/10 flex-col`}
 						>
-							
-
 							<div className='flex-1 overflow-y-auto pt-2 px-2 pb-2 space-y-2'>
-								{filteredNotes.length === 0 ?
+								{allNotes.length === 0 ?
 									<div className='text-center pt-12 px-4'>
 										{allNotes.length === 0 ?
 											<>
@@ -501,7 +488,7 @@ export default function Notes() {
 						<div
 							className={`${
 								selectedId !== null ? 'flex' : 'hidden md:flex'
-							} flex-1 min-w-0 flex-col bg-white/[0.02]`}
+							} flex-1 min-w-0 flex-col bg-white/2`}
 						>
 							{selectedNote && (
 								<>

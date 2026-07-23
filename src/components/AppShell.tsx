@@ -3,14 +3,13 @@
 import { useState } from 'react';
 import { useSession } from 'next-auth/react';
 import Link from 'next/link';
-import { usePathname, useRouter } from 'next/navigation';
+import { usePathname } from 'next/navigation';
 import {
 	Ghost,
 	LogIn,
 	BookOpen,
 	Flame,
 	StickyNote,
-	Search,
 	Plus,
 } from 'lucide-react';
 import { motion } from 'framer-motion';
@@ -32,7 +31,6 @@ export default function AppShell({
 }) {
 	const { data: session, status } = useSession();
 	const pathname = usePathname();
-	const router = useRouter();
 	const [isAuthOpen, setIsAuthOpen] = useState(false);
 	const [transactionOpen, setTransactionOpen] = useState(false);
 
@@ -188,52 +186,25 @@ export default function AppShell({
 				<div className='flex items-center gap-3 sm:gap-6 h-14 sm:h-16 px-4 sm:px-6'>
 					<Link
 						href='/'
-						className='shrink-0'
+						className='flex items-center gap-2 group'
 					>
 						<motion.div
 							whileHover={{ rotate: 15 }}
 							whileTap={{ scale: 0.9 }}
-							className='bg-black p-2 border border-white/15 rounded-full text-white shadow-[0_0_20px_rgba(255,255,255,0.12)] w-fit'
+							className='bg-black p-1.5 sm:p-2 border border-white/15 rounded-full text-white shadow-[0_0_20px_rgba(255,255,255,0.12)]'
 						>
 							<Ghost
 								strokeWidth={2}
 								className='size-4 sm:size-5'
 							/>
 						</motion.div>
+						<span className='text-lg sm:text-xl font-semibold text-white tracking-tight'>
+							Regretify
+						</span>
 					</Link>
-
-					<form
-						className='flex-1 max-w-xl'
-						onSubmit={(e) => {
-							e.preventDefault();
-							const q = new FormData(e.currentTarget)
-								.get('q')
-								?.toString()
-								.trim();
-							router.push(
-								q ?
-									`/regrets?q=${encodeURIComponent(q)}`
-								:	'/regrets',
-							);
-						}}
-					>
-						<div className='flex items-center gap-2.5 bg-white/6 border border-white/10 rounded-xl px-3.5 py-2 sm:py-2.5 transition-all focus-within:border-white/30 focus-within:ring-2 focus-within:ring-white/10'>
-							<Search
-								size={16}
-								className='text-white/40 shrink-0'
-							/>
-							<input
-								name='q'
-								placeholder='Search your regrets...'
-								autoComplete='off'
-								className='flex-1 bg-transparent outline-none text-sm text-white placeholder-white/35'
-							/>
-						</div>
-					</form>
-
 					<Link
 						href='/profile'
-						className='flex shrink-0 items-center gap-2 p-1 md:pr-3.5 bg-white/6 border border-white/10 rounded-full hover:bg-white/10 transition-all ml-auto'
+						className='flex shrink-0 items-center gap-2 p-1 pr-2 md:pr-3.5 bg-white/6 border border-white/10 rounded-full hover:bg-white/10 transition-all ml-auto'
 					>
 						{/* eslint-disable-next-line @next/next/no-img-element */}
 						<img
@@ -241,7 +212,7 @@ export default function AppShell({
 							alt='Profile'
 							className='w-7 h-7 rounded-full object-cover bg-white/10'
 						/>
-						<span className='hidden md:block text-sm font-medium text-white/80'>
+						<span className='block text-sm font-medium text-white/80'>
 							{displayName}
 						</span>
 					</Link>
@@ -254,7 +225,10 @@ export default function AppShell({
 					onClick={() => setTransactionOpen(true)}
 					className='w-full flex items-center justify-center gap-2 bg-[#9294e5] hover:bg-[#a3a5ec] text-black font-semibold rounded-xl px-4 py-3 mb-5 shadow-[0_2px_24px_rgba(146,148,229,0.35)] transition-colors cursor-pointer'
 				>
-					<Plus size={16} strokeWidth={2.5} />
+					<Plus
+						size={16}
+						strokeWidth={2.5}
+					/>
 					Add Regret
 				</button>
 
@@ -266,9 +240,9 @@ export default function AppShell({
 								key={link.href}
 								href={link.href}
 								className={`relative flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm font-medium transition-all ${
-									isActive ?
-										'text-white'
-									:	'text-white/50 hover:text-white/80 hover:bg-white/4'
+									isActive ? 'text-white' : (
+										'text-white/50 hover:text-white/80 hover:bg-white/4'
+									)
 								}`}
 							>
 								{isActive && (
